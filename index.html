@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VJ Forever - Page Transitions Demo</title>
+    <title>VJ Forever - Love Letter Book</title>
     <style>
         * {
             margin: 0;
@@ -12,537 +12,529 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Georgia', 'Garamond', serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            padding: 20px;
             overflow: hidden;
         }
 
         .container {
-            width: 90%;
-            max-width: 900px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            perspective: 1200px;
+            width: 100%;
+            max-width: 1000px;
         }
 
-        /* Page Container */
-        .pages-wrapper {
+        .book {
             position: relative;
             width: 100%;
-            height: 500px;
-            perspective: 1000px;
+            aspect-ratio: 16 / 10;
+            background: #f5f1e8;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            transform-style: preserve-3d;
         }
 
-        .page {
+        .book-spine {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(90deg, #e8dcc8 0%, #d4c5b0 50%, #e8dcc8 100%);
+            transform: translateX(-50%) rotateY(0deg);
+            z-index: 50;
+            box-shadow: 
+                inset -2px 0 5px rgba(0, 0, 0, 0.1),
+                inset 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-spine::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             pointer-events: none;
         }
 
-        .page.active {
-            opacity: 1;
-            pointer-events: auto;
+        .pages-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
 
-        /* Animation: Slide */
-        .slide-enter {
-            animation: slideInRight 0.6s ease-out forwards;
-        }
-
-        .slide-exit {
-            animation: slideOutLeft 0.6s ease-in forwards;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutLeft {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-        }
-
-        /* Animation: Zoom */
-        .zoom-enter {
-            animation: zoomIn 0.6s ease-out forwards;
-        }
-
-        .zoom-exit {
-            animation: zoomOut 0.6s ease-in forwards;
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes zoomOut {
-            from {
-                transform: scale(1);
-                opacity: 1;
-            }
-            to {
-                transform: scale(0);
-                opacity: 0;
-            }
-        }
-
-        /* Animation: Flip */
-        .flip-enter {
-            animation: flipInY 0.6s ease-out forwards;
-        }
-
-        .flip-exit {
-            animation: flipOutY 0.6s ease-in forwards;
-        }
-
-        @keyframes flipInY {
-            from {
-                transform: perspective(400px) rotateY(90deg);
-                opacity: 0;
-            }
-            to {
-                transform: perspective(400px) rotateY(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes flipOutY {
-            from {
-                transform: perspective(400px) rotateY(0deg);
-                opacity: 1;
-            }
-            to {
-                transform: perspective(400px) rotateY(-90deg);
-                opacity: 0;
-            }
-        }
-
-        /* Animation: Rotate */
-        .rotate-enter {
-            animation: rotateIn 0.6s ease-out forwards;
-        }
-
-        .rotate-exit {
-            animation: rotateOut 0.6s ease-in forwards;
-        }
-
-        @keyframes rotateIn {
-            from {
-                transform: rotate(-180deg);
-                opacity: 0;
-            }
-            to {
-                transform: rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes rotateOut {
-            from {
-                transform: rotate(0deg);
-                opacity: 1;
-            }
-            to {
-                transform: rotate(180deg);
-                opacity: 0;
-            }
-        }
-
-        /* Animation: Fade */
-        .fade-enter {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        .fade-exit {
-            animation: fadeOut 0.6s ease-in forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Page Content Styling */
-        .page-content {
-            text-align: center;
+        .left-page, .right-page {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(90deg, #f9f7f3 0%, #f5f1e8 50%, #f0ebe2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             padding: 40px 30px;
+            line-height: 1.8;
+            color: #2c2416;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .page-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
+        .left-page {
+            text-align: right;
+            border-right: none;
+            border-left: 1px solid rgba(0, 0, 0, 0.05);
+            transform-origin: right center;
+        }
+
+        .right-page {
+            text-align: left;
+            border-left: none;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            transform-origin: left center;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            font-size: 12px;
+            color: #a89968;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .left-page .page-number {
+            left: 30px;
+        }
+
+        .right-page .page-number {
+            right: 30px;
+        }
+
+        .page-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
         .page-title {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #764ba2;
+            letter-spacing: 1px;
+        }
+
+        .page-text {
+            font-size: 14px;
+            line-height: 1.8;
+            text-justify: justify;
+            word-spacing: 2px;
+        }
+
+        .book.flipped-left .left-page {
+            animation: pageFlipLeft 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        .book.flipped-right .right-page {
+            animation: pageFlipRight 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes pageFlipLeft {
+            0% {
+                transform: rotateY(0deg);
+                z-index: 20;
+            }
+            100% {
+                transform: rotateY(-180deg);
+                z-index: 10;
+            }
+        }
+
+        @keyframes pageFlipRight {
+            0% {
+                transform: rotateY(0deg);
+                z-index: 20;
+            }
+            100% {
+                transform: rotateY(180deg);
+                z-index: 10;
+            }
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        button {
+            background: rgba(118, 75, 162, 0.9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
             font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
         }
 
-        .page-description {
+        button:hover {
+            background: rgba(118, 75, 162, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .page-indicator {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 14px;
+            color: #764ba2;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .cover {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 30;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+        }
+
+        .cover.hidden {
+            transform: rotateY(180deg);
+            pointer-events: none;
+        }
+
+        .cover h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: titleFade 0.8s ease-out;
+        }
+
+        .cover p {
             font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
+            letter-spacing: 2px;
+            animation: subtitleFade 0.8s ease-out 0.2s both;
+            margin-top: 10px;
         }
 
-        .page-color {
+        @keyframes titleFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes subtitleFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .decorative-element {
+            position: absolute;
             width: 100px;
             height: 100px;
-            border-radius: 10px;
-            margin: 20px auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0.1;
         }
 
-        /* Page 1 - Slide */
-        .page-1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .decorative-element.top-left {
+            top: 20px;
+            left: 20px;
+            border: 2px solid white;
+            border-right: none;
+            border-bottom: none;
         }
 
-        .page-1 .page-color {
-            background: #667eea;
+        .decorative-element.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border: 2px solid white;
+            border-left: none;
+            border-top: none;
         }
 
-        /* Page 2 - Zoom */
-        .page-2 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
+        @media (max-width: 768px) {
+            .left-page, .right-page {
+                padding: 30px 20px;
+                font-size: 13px;
+            }
 
-        .page-2 .page-color {
-            background: #f5576c;
-        }
+            .page-title {
+                font-size: 20px;
+            }
 
-        /* Page 3 - Flip */
-        .page-3 {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
+            .page-text {
+                font-size: 13px;
+            }
 
-        .page-3 .page-color {
-            background: #00f2fe;
-        }
+            .cover h1 {
+                font-size: 36px;
+            }
 
-        /* Page 4 - Rotate */
-        .page-4 {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
+            .cover p {
+                font-size: 16px;
+            }
 
-        .page-4 .page-color {
-            background: #43e97b;
-        }
-
-        .page-content-white {
-            color: white;
-        }
-
-        .page-content-white .page-title {
-            color: white;
-        }
-
-        .page-content-white .page-description {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Navigation */
-        .nav-container {
-            display: flex;
-            gap: 10px;
-            padding: 20px;
-            background: #f8f9fa;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .nav-button {
-            padding: 10px 20px;
-            border: none;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .nav-button.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .animation-selector {
-            display: flex;
-            gap: 8px;
-            padding: 15px;
-            background: #f0f0f0;
-            justify-content: center;
-            flex-wrap: wrap;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .anim-label {
-            font-weight: 500;
-            color: #333;
-            align-self: center;
-            margin-right: 10px;
-        }
-
-        .anim-button {
-            padding: 8px 16px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            color: #666;
-            transition: all 0.3s ease;
-        }
-
-        .anim-button:hover {
-            border-color: #667eea;
-            color: #667eea;
-        }
-
-        .anim-button.active {
-            background: #667eea;
-            border-color: #667eea;
-            color: white;
-        }
-
-        /* Page indicator */
-        .page-indicator {
-            text-align: center;
-            color: #999;
-            font-size: 14px;
-            padding: 10px 0;
-            background: white;
-        }
-
-        .page-indicator span {
-            font-weight: 600;
-            color: #667eea;
+            button {
+                padding: 10px 18px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Animation Selector -->
-        <div class="animation-selector">
-            <span class="anim-label">Select Animation:</span>
-            <button class="anim-button active" data-animation="slide">Slide</button>
-            <button class="anim-button" data-animation="zoom">Zoom</button>
-            <button class="anim-button" data-animation="flip">Flip</button>
-            <button class="anim-button" data-animation="rotate">Rotate</button>
-            <button class="anim-button" data-animation="fade">Fade</button>
-        </div>
+        <div class="book">
+            <div class="cover">
+                <div class="decorative-element top-left"></div>
+                <div class="decorative-element bottom-right"></div>
+                <h1>VJ Forever</h1>
+                <p>A Love Letter Book</p>
+                <p style="font-size: 14px; margin-top: 40px; opacity: 0.8;">~ Click Open to Begin ~</p>
+            </div>
 
-        <!-- Pages Wrapper -->
-        <div class="pages-wrapper">
-            <!-- Page 1 - Slide Animation -->
-            <div class="page page-1 active" data-page="1">
-                <div class="page-content page-content-white">
-                    <div class="page-icon">🚀</div>
-                    <h1 class="page-title">Slide Animation</h1>
-                    <p class="page-description">Welcome to Page 1! This page uses a smooth slide transition effect.</p>
-                    <div class="page-color"></div>
-                    <p class="page-description">Pages slide in from right and out to the left.</p>
+            <div class="book-spine"></div>
+
+            <div class="pages-container">
+                <!-- Page 1 & 2 -->
+                <div class="left-page" id="page-1">
+                    <div class="page-content">
+                        <div class="page-title">Dear VJ</div>
+                        <div class="page-text">
+                            From the moment our eyes first met, I knew my life would never be the same. There's something magical about the way you laugh, the warmth in your smile, and the gentle kindness in your heart. Every day with you feels like a beautiful dream I'm afraid to wake up from.
+                            <br><br>
+                            You've brought colors to my world I never knew existed. In a room full of people, my eyes can't help but find you. Your presence is my calm, my joy, my everything.
+                        </div>
+                    </div>
+                    <div class="page-number">1</div>
+                </div>
+
+                <div class="right-page" id="page-2">
+                    <div class="page-content">
+                        <div class="page-title">A Moment in Time</div>
+                        <div class="page-text">
+                            I still remember that day like it was yesterday. The way you tilted your head when you smiled, the sound of your laughter echoing through the air. You weren't trying to impress me, yet you stole my heart with the simplest of gestures.
+                            <br><br>
+                            What started as a simple conversation has blossomed into the most beautiful love story. Thank you for seeing me, truly seeing me, and choosing to stay by my side.
+                        </div>
+                    </div>
+                    <div class="page-number">2</div>
+                </div>
+
+                <!-- Page 3 & 4 -->
+                <div class="left-page" id="page-3">
+                    <div class="page-content">
+                        <div class="page-title">In Your Eyes</div>
+                        <div class="page-text">
+                            There's an entire universe in your eyes. When I look into them, I see our future, our dreams, our forever. I see a love that transcends time and space, a connection that feels written in the stars.
+                            <br><br>
+                            You make me want to be a better person every single day. Your love is my strength, my inspiration, and my greatest blessing. I promise to cherish this precious gift for eternity.
+                        </div>
+                    </div>
+                    <div class="page-number">3</div>
+                </div>
+
+                <div class="right-page" id="page-4">
+                    <div class="page-content">
+                        <div class="page-title">Together Forever</div>
+                        <div class="page-text">
+                            Life with you is like living in a fairytale. Every mundane moment becomes extraordinary when you're by my side. From lazy Sunday mornings to midnight adventures, every second is precious because I'm sharing it with you.
+                            <br><br>
+                            You are my greatest love story, my happily ever after. I want to build a lifetime of memories with you, hand in hand, heart to heart.
+                        </div>
+                    </div>
+                    <div class="page-number">4</div>
+                </div>
+
+                <!-- Page 5 & 6 -->
+                <div class="left-page" id="page-5">
+                    <div class="page-content">
+                        <div class="page-title">Your Love Changes Me</div>
+                        <div class="page-text">
+                            Before you, I didn't know what real love meant. I didn't understand how two souls could fit so perfectly together. You've taught me that love is not just a feeling—it's a choice we make every single day.
+                            <br><br>
+                            Thank you for believing in me, for holding my hand through the tough times, and for celebrating my joys as your own. Your love has healed parts of me I didn't know were broken.
+                        </div>
+                    </div>
+                    <div class="page-number">5</div>
+                </div>
+
+                <div class="right-page" id="page-6">
+                    <div class="page-content">
+                        <div class="page-title">Forever Grateful</div>
+                        <div class="page-text">
+                            In a world of chaos and uncertainty, you are my constant. You are my anchor, my safe harbor, my home. Not a place, but a feeling I get whenever I'm with you.
+                            <br><br>
+                            I fall in love with you all over again with each passing day. Your kindness, your strength, your beautiful soul—these are the things that make me the luckiest person alive. Forever and always, you are my greatest blessing.
+                        </div>
+                    </div>
+                    <div class="page-number">6</div>
+                </div>
+
+                <!-- Page 7 & 8 -->
+                <div class="left-page" id="page-7">
+                    <div class="page-content">
+                        <div class="page-title">Promises to Keep</div>
+                        <div class="page-text">
+                            I promise to love you on your best days and your worst days. I promise to hold your dreams as sacred as my own. I promise to be your rock, your comfort, your refuge in any storm.
+                            <br><br>
+                            I promise to never stop pursuing you, to keep the spark alive, and to build a love that grows deeper with each passing year. You deserve nothing less than my whole heart, forever devoted to your happiness.
+                        </div>
+                    </div>
+                    <div class="page-number">7</div>
+                </div>
+
+                <div class="right-page" id="page-8">
+                    <div class="page-content">
+                        <div class="page-title">Till the End of Time</div>
+                        <div class="page-text">
+                            As I close this letter, know that these words are merely a fraction of what I feel for you. My love cannot be confined to pages or contained in words. It's infinite, boundless, eternal.
+                            <br><br>
+                            You are my yesterday, my today, and all of my tomorrows. In this lifetime and every lifetime beyond, I will choose you. You complete me, VJ. You make me whole.
+                            <br><br>
+                            Forever yours,<br>
+                            With all my love
+                        </div>
+                    </div>
+                    <div class="page-number">8</div>
                 </div>
             </div>
 
-            <!-- Page 2 - Zoom Animation -->
-            <div class="page page-2" data-page="2">
-                <div class="page-content page-content-white">
-                    <div class="page-icon">⭐</div>
-                    <h1 class="page-title">Zoom Animation</h1>
-                    <p class="page-description">You've reached Page 2! This page uses a zoom transition effect.</p>
-                    <div class="page-color"></div>
-                    <p class="page-description">Pages zoom in and out with scale transform.</p>
-                </div>
+            <div class="page-indicator">
+                <span id="current-page">Cover</span>
             </div>
 
-            <!-- Page 3 - Flip Animation -->
-            <div class="page page-3" data-page="3">
-                <div class="page-content page-content-white">
-                    <div class="page-icon">💎</div>
-                    <h1 class="page-title">Flip Animation</h1>
-                    <p class="page-description">Welcome to Page 3! This page uses a flip transition effect.</p>
-                    <div class="page-color"></div>
-                    <p class="page-description">Pages flip in Y-axis with 3D perspective.</p>
-                </div>
+            <div class="controls">
+                <button id="prev-btn" onclick="previousPage()">← Previous</button>
+                <button id="next-btn" onclick="nextPage()">Next →</button>
             </div>
-
-            <!-- Page 4 - Rotate Animation -->
-            <div class="page page-4" data-page="4">
-                <div class="page-content page-content-white">
-                    <div class="page-icon">🎨</div>
-                    <h1 class="page-title">Rotate Animation</h1>
-                    <p class="page-description">You've reached Page 4! This page uses a rotate transition effect.</p>
-                    <div class="page-color"></div>
-                    <p class="page-description">Pages rotate 180 degrees during transitions.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Page Indicator -->
-        <div class="page-indicator">
-            Page <span id="current-page">1</span> of <span>4</span>
-        </div>
-
-        <!-- Navigation -->
-        <div class="nav-container">
-            <button class="nav-button active" data-page="1">Page 1</button>
-            <button class="nav-button" data-page="2">Page 2</button>
-            <button class="nav-button" data-page="3">Page 3</button>
-            <button class="nav-button" data-page="4">Page 4</button>
-            <button class="nav-button" onclick="previousPage()" style="margin-left: 20px;">← Previous</button>
-            <button class="nav-button" onclick="nextPage()">Next →</button>
         </div>
     </div>
 
     <script>
-        let currentPage = 1;
-        let currentAnimation = 'slide';
-        const totalPages = 4;
+        let currentPage = 0;
+        const totalPages = 8;
+        const book = document.querySelector('.book');
+        const cover = document.querySelector('.cover');
+        const pageIndicator = document.getElementById('current-page');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
 
-        // Animation mappings
-        const animationMap = {
-            slide: { enter: 'slide-enter', exit: 'slide-exit' },
-            zoom: { enter: 'zoom-enter', exit: 'zoom-exit' },
-            flip: { enter: 'flip-enter', exit: 'flip-exit' },
-            rotate: { enter: 'rotate-enter', exit: 'rotate-exit' },
-            fade: { enter: 'fade-enter', exit: 'fade-exit' }
-        };
-
-        // Set animation type
-        document.querySelectorAll('.anim-button').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.anim-button').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentAnimation = this.dataset.animation;
-            });
-        });
-
-        // Navigate to page
-        function goToPage(pageNumber) {
-            if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) {
-                return;
+        function updatePageIndicator() {
+            if (currentPage === 0) {
+                pageIndicator.textContent = 'Cover';
+            } else {
+                pageIndicator.textContent = `Page ${currentPage}`;
             }
-
-            const currentPageEl = document.querySelector(`.page[data-page="${currentPage}"]`);
-            const nextPageEl = document.querySelector(`.page[data-page="${pageNumber}"]`);
-
-            const animation = animationMap[currentAnimation];
-
-            // Apply exit animation
-            currentPageEl.classList.remove('active');
-            currentPageEl.classList.add(animation.exit);
-
-            // Apply enter animation
-            setTimeout(() => {
-                currentPageEl.classList.remove(animation.exit);
-                nextPageEl.classList.add('active');
-                nextPageEl.classList.add(animation.enter);
-
-                setTimeout(() => {
-                    nextPageEl.classList.remove(animation.enter);
-                }, 600);
-            }, 600);
-
-            currentPage = pageNumber;
-            updateNavigation();
         }
 
-        // Next page
+        function updateButtonStates() {
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
         function nextPage() {
             if (currentPage < totalPages) {
-                goToPage(currentPage + 1);
-            }
-        }
-
-        // Previous page
-        function previousPage() {
-            if (currentPage > 1) {
-                goToPage(currentPage - 1);
-            }
-        }
-
-        // Update navigation buttons
-        function updateNavigation() {
-            document.querySelectorAll('.nav-button[data-page]').forEach(button => {
-                button.classList.remove('active');
-                if (button.dataset.page == currentPage) {
-                    button.classList.add('active');
+                if (currentPage === 0) {
+                    cover.classList.add('hidden');
                 }
-            });
-            document.getElementById('current-page').textContent = currentPage;
+
+                const currentPageDiv = document.getElementById(`page-${currentPage + 1}`);
+                if (currentPageDiv) {
+                    if (currentPageDiv.classList.contains('left-page')) {
+                        book.classList.add('flipped-left');
+                    } else {
+                        book.classList.add('flipped-right');
+                    }
+
+                    setTimeout(() => {
+                        currentPage++;
+                        updatePageIndicator();
+                        updateButtonStates();
+                        removeFlipClasses();
+                    }, 800);
+                }
+            }
         }
 
-        // Navigation button event listeners
-        document.querySelectorAll('.nav-button[data-page]').forEach(button => {
-            button.addEventListener('click', function() {
-                const pageNumber = parseInt(this.dataset.page);
-                goToPage(pageNumber);
-            });
-        });
+        function previousPage() {
+            if (currentPage > 0) {
+                const previousPageDiv = document.getElementById(`page-${currentPage}`);
+                if (previousPageDiv) {
+                    if (previousPageDiv.classList.contains('left-page')) {
+                        book.classList.add('flipped-left');
+                    } else {
+                        book.classList.add('flipped-right');
+                    }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
+                    setTimeout(() => {
+                        currentPage--;
+                        if (currentPage === 0) {
+                            cover.classList.remove('hidden');
+                        }
+                        updatePageIndicator();
+                        updateButtonStates();
+                        removeFlipClasses();
+                    }, 800);
+                }
+            }
+        }
+
+        function removeFlipClasses() {
+            book.classList.remove('flipped-left', 'flipped-right');
+        }
+
+        function init() {
+            updatePageIndicator();
+            updateButtonStates();
+        }
+
+        document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') nextPage();
             if (e.key === 'ArrowLeft') previousPage();
         });
+
+        init();
     </script>
 </body>
 </html>
