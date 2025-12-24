@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="VJ Forever - Your ultimate entertainment platform">
-    <meta name="theme-color" content="#1a1a1a">
-    <title>VJ Forever</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VJ Forever - Page Transitions Demo</title>
     <style>
         * {
             margin: 0;
@@ -13,348 +11,538 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Page Container */
+        .pages-wrapper {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            perspective: 1000px;
+        }
+
+        .page {
+            position: absolute;
             width: 100%;
             height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-            color: #ffffff;
-            line-height: 1.6;
-            letter-spacing: 0.3px;
-        }
-
-        /* Viewport Optimization */
-        .container {
-            width: 100%;
-            height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 1rem;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* Header */
-        header {
-            width: 100%;
-            padding: 1.5rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        header h1 {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-align: center;
+        /* Animation: Slide */
+        .slide-enter {
+            animation: slideInRight 0.6s ease-out forwards;
         }
 
-        /* Main Content */
-        main {
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 6rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            flex: 1;
-            overflow-y: auto;
+        .slide-exit {
+            animation: slideOutLeft 0.6s ease-in forwards;
         }
 
-        /* Hero Section */
-        .hero {
-            width: 100%;
-            text-align: center;
-            padding: 2rem 1rem;
-            animation: fadeIn 0.8s ease-in;
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        .hero h2 {
-            font-size: clamp(2rem, 8vw, 3.5rem);
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ff006e, #8338ec, #3a86ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
+        @keyframes slideOutLeft {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
         }
 
-        .hero p {
-            font-size: clamp(1rem, 3vw, 1.25rem);
-            color: #cccccc;
-            margin-bottom: 2rem;
-            line-height: 1.8;
+        /* Animation: Zoom */
+        .zoom-enter {
+            animation: zoomIn 0.6s ease-out forwards;
         }
 
-        /* Button Grid */
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            width: 100%;
-            padding: 0 1rem;
+        .zoom-exit {
+            animation: zoomOut 0.6s ease-in forwards;
         }
 
-        .btn {
-            padding: 1.2rem 1.5rem;
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #ff006e, #8338ec);
-            color: white;
-            box-shadow: 0 8px 24px rgba(255, 0, 110, 0.3);
+        @keyframes zoomIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(255, 0, 110, 0.5);
+        @keyframes zoomOut {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(0);
+                opacity: 0;
+            }
         }
 
-        .btn:active {
-            transform: translateY(-2px);
+        /* Animation: Flip */
+        .flip-enter {
+            animation: flipInY 0.6s ease-out forwards;
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, #3a86ff, #8338ec);
-            box-shadow: 0 8px 24px rgba(58, 134, 255, 0.3);
+        .flip-exit {
+            animation: flipOutY 0.6s ease-in forwards;
         }
 
-        .btn-secondary:hover {
-            box-shadow: 0 12px 32px rgba(58, 134, 255, 0.5);
+        @keyframes flipInY {
+            from {
+                transform: perspective(400px) rotateY(90deg);
+                opacity: 0;
+            }
+            to {
+                transform: perspective(400px) rotateY(0deg);
+                opacity: 1;
+            }
         }
 
-        /* Features Section */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            width: 100%;
-            padding: 1rem 0;
+        @keyframes flipOutY {
+            from {
+                transform: perspective(400px) rotateY(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: perspective(400px) rotateY(-90deg);
+                opacity: 0;
+            }
         }
 
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
+        /* Animation: Rotate */
+        .rotate-enter {
+            animation: rotateIn 0.6s ease-out forwards;
         }
 
-        .feature-card:hover {
-            transform: translateY(-6px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 0, 110, 0.5);
+        .rotate-exit {
+            animation: rotateOut 0.6s ease-in forwards;
         }
 
-        .feature-card h3 {
-            font-size: clamp(1.1rem, 3vw, 1.3rem);
-            margin-bottom: 1rem;
-            color: #ff006e;
+        @keyframes rotateIn {
+            from {
+                transform: rotate(-180deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotate(0deg);
+                opacity: 1;
+            }
         }
 
-        .feature-card p {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            color: #aaaaaa;
-            line-height: 1.8;
+        @keyframes rotateOut {
+            from {
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: rotate(180deg);
+                opacity: 0;
+            }
         }
 
-        /* Footer */
-        footer {
-            width: 100%;
-            padding: 2rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            font-size: clamp(0.85rem, 2vw, 0.95rem);
-            color: #888888;
+        /* Animation: Fade */
+        .fade-enter {
+            animation: fadeIn 0.6s ease-out forwards;
         }
 
-        footer p {
-            margin: 0.5rem 0;
+        .fade-exit {
+            animation: fadeOut 0.6s ease-in forwards;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0.5rem;
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
             }
-
-            header {
-                padding: 1rem 0.75rem;
-            }
-
-            main {
-                margin-top: 5rem;
-                padding: 1rem 0.75rem;
-                gap: 1.5rem;
-            }
-
-            .hero {
-                padding: 1.5rem 0.75rem;
-            }
-
-            .button-grid {
-                grid-template-columns: 1fr;
-                padding: 0;
-            }
-
-            .btn {
-                width: 100%;
-                padding: 1rem 1.2rem;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            footer {
-                padding: 1.5rem 0.75rem;
+            to {
+                opacity: 0;
             }
         }
 
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            main {
-                margin-top: 4rem;
-                padding: 0.75rem;
-                gap: 1.25rem;
-            }
-
-            .btn {
-                padding: 0.9rem 1rem;
-                font-size: 0.95rem;
-            }
-
-            .feature-card {
-                padding: 1.25rem;
-            }
-
-            footer {
-                padding: 1.25rem 0.5rem;
-                font-size: 0.8rem;
-            }
+        /* Page Content Styling */
+        .page-content {
+            text-align: center;
+            padding: 40px 30px;
         }
 
-        /* Touch and accessibility */
-        @media (hover: none) and (pointer: coarse) {
-            .btn {
-                padding: 1.3rem 1.5rem;
-            }
-
-            .feature-card {
-                padding: 1.75rem;
-            }
+        .page-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
         }
 
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(135deg, #0a0a0a 0%, #151515 100%);
-            }
+        .page-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        /* Reduce motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
+        .page-description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .page-color {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Page 1 - Slide */
+        .page-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .page-1 .page-color {
+            background: #667eea;
+        }
+
+        /* Page 2 - Zoom */
+        .page-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .page-2 .page-color {
+            background: #f5576c;
+        }
+
+        /* Page 3 - Flip */
+        .page-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .page-3 .page-color {
+            background: #00f2fe;
+        }
+
+        /* Page 4 - Rotate */
+        .page-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .page-4 .page-color {
+            background: #43e97b;
+        }
+
+        .page-content-white {
+            color: white;
+        }
+
+        .page-content-white .page-title {
+            color: white;
+        }
+
+        .page-content-white .page-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .animation-selector {
+            display: flex;
+            gap: 8px;
+            padding: 15px;
+            background: #f0f0f0;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .anim-label {
+            font-weight: 500;
+            color: #333;
+            align-self: center;
+            margin-right: 10px;
+        }
+
+        .anim-button {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .anim-button:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .anim-button.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        /* Page indicator */
+        .page-indicator {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            padding: 10px 0;
+            background: white;
+        }
+
+        .page-indicator span {
+            font-weight: 600;
+            color: #667eea;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>✨ VJ Forever ✨</h1>
-        </header>
+        <!-- Animation Selector -->
+        <div class="animation-selector">
+            <span class="anim-label">Select Animation:</span>
+            <button class="anim-button active" data-animation="slide">Slide</button>
+            <button class="anim-button" data-animation="zoom">Zoom</button>
+            <button class="anim-button" data-animation="flip">Flip</button>
+            <button class="anim-button" data-animation="rotate">Rotate</button>
+            <button class="anim-button" data-animation="fade">Fade</button>
+        </div>
 
-        <main>
-            <section class="hero">
-                <h2>Welcome to VJ Forever</h2>
-                <p>Experience the ultimate entertainment platform with stunning visuals, seamless performance, and endless entertainment options for everyone.</p>
-            </section>
+        <!-- Pages Wrapper -->
+        <div class="pages-wrapper">
+            <!-- Page 1 - Slide Animation -->
+            <div class="page page-1 active" data-page="1">
+                <div class="page-content page-content-white">
+                    <div class="page-icon">🚀</div>
+                    <h1 class="page-title">Slide Animation</h1>
+                    <p class="page-description">Welcome to Page 1! This page uses a smooth slide transition effect.</p>
+                    <div class="page-color"></div>
+                    <p class="page-description">Pages slide in from right and out to the left.</p>
+                </div>
+            </div>
 
-            <section class="button-grid">
-                <button class="btn">Get Started</button>
-                <button class="btn btn-secondary">Explore Now</button>
-                <button class="btn">Learn More</button>
-            </section>
+            <!-- Page 2 - Zoom Animation -->
+            <div class="page page-2" data-page="2">
+                <div class="page-content page-content-white">
+                    <div class="page-icon">⭐</div>
+                    <h1 class="page-title">Zoom Animation</h1>
+                    <p class="page-description">You've reached Page 2! This page uses a zoom transition effect.</p>
+                    <div class="page-color"></div>
+                    <p class="page-description">Pages zoom in and out with scale transform.</p>
+                </div>
+            </div>
 
-            <section class="features">
-                <div class="feature-card">
-                    <h3>🚀 Lightning Fast</h3>
-                    <p>Experience blazing-fast performance optimized for all devices and network speeds.</p>
+            <!-- Page 3 - Flip Animation -->
+            <div class="page page-3" data-page="3">
+                <div class="page-content page-content-white">
+                    <div class="page-icon">💎</div>
+                    <h1 class="page-title">Flip Animation</h1>
+                    <p class="page-description">Welcome to Page 3! This page uses a flip transition effect.</p>
+                    <div class="page-color"></div>
+                    <p class="page-description">Pages flip in Y-axis with 3D perspective.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>📱 Mobile First</h3>
-                    <p>Perfectly responsive design that works beautifully on smartphones, tablets, and desktops.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>✨ Stunning Design</h3>
-                    <p>Modern UI with smooth animations and intuitive navigation for the best user experience.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔐 Secure & Safe</h3>
-                    <p>Your privacy and security are our top priorities with enterprise-grade protection.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🌍 Global Access</h3>
-                    <p>Access your content from anywhere in the world with unlimited streaming capabilities.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>💬 24/7 Support</h3>
-                    <p>Round-the-clock customer support to help you with any questions or issues.</p>
-                </div>
-            </section>
-        </main>
+            </div>
 
-        <footer>
-            <p>&copy; 2025 VJ Forever. All rights reserved.</p>
-            <p>Made with ❤️ for entertainment lovers worldwide.</p>
-        </footer>
+            <!-- Page 4 - Rotate Animation -->
+            <div class="page page-4" data-page="4">
+                <div class="page-content page-content-white">
+                    <div class="page-icon">🎨</div>
+                    <h1 class="page-title">Rotate Animation</h1>
+                    <p class="page-description">You've reached Page 4! This page uses a rotate transition effect.</p>
+                    <div class="page-color"></div>
+                    <p class="page-description">Pages rotate 180 degrees during transitions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Indicator -->
+        <div class="page-indicator">
+            Page <span id="current-page">1</span> of <span>4</span>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <button class="nav-button active" data-page="1">Page 1</button>
+            <button class="nav-button" data-page="2">Page 2</button>
+            <button class="nav-button" data-page="3">Page 3</button>
+            <button class="nav-button" data-page="4">Page 4</button>
+            <button class="nav-button" onclick="previousPage()" style="margin-left: 20px;">← Previous</button>
+            <button class="nav-button" onclick="nextPage()">Next →</button>
+        </div>
     </div>
+
+    <script>
+        let currentPage = 1;
+        let currentAnimation = 'slide';
+        const totalPages = 4;
+
+        // Animation mappings
+        const animationMap = {
+            slide: { enter: 'slide-enter', exit: 'slide-exit' },
+            zoom: { enter: 'zoom-enter', exit: 'zoom-exit' },
+            flip: { enter: 'flip-enter', exit: 'flip-exit' },
+            rotate: { enter: 'rotate-enter', exit: 'rotate-exit' },
+            fade: { enter: 'fade-enter', exit: 'fade-exit' }
+        };
+
+        // Set animation type
+        document.querySelectorAll('.anim-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.anim-button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentAnimation = this.dataset.animation;
+            });
+        });
+
+        // Navigate to page
+        function goToPage(pageNumber) {
+            if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) {
+                return;
+            }
+
+            const currentPageEl = document.querySelector(`.page[data-page="${currentPage}"]`);
+            const nextPageEl = document.querySelector(`.page[data-page="${pageNumber}"]`);
+
+            const animation = animationMap[currentAnimation];
+
+            // Apply exit animation
+            currentPageEl.classList.remove('active');
+            currentPageEl.classList.add(animation.exit);
+
+            // Apply enter animation
+            setTimeout(() => {
+                currentPageEl.classList.remove(animation.exit);
+                nextPageEl.classList.add('active');
+                nextPageEl.classList.add(animation.enter);
+
+                setTimeout(() => {
+                    nextPageEl.classList.remove(animation.enter);
+                }, 600);
+            }, 600);
+
+            currentPage = pageNumber;
+            updateNavigation();
+        }
+
+        // Next page
+        function nextPage() {
+            if (currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        }
+
+        // Previous page
+        function previousPage() {
+            if (currentPage > 1) {
+                goToPage(currentPage - 1);
+            }
+        }
+
+        // Update navigation buttons
+        function updateNavigation() {
+            document.querySelectorAll('.nav-button[data-page]').forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.page == currentPage) {
+                    button.classList.add('active');
+                }
+            });
+            document.getElementById('current-page').textContent = currentPage;
+        }
+
+        // Navigation button event listeners
+        document.querySelectorAll('.nav-button[data-page]').forEach(button => {
+            button.addEventListener('click', function() {
+                const pageNumber = parseInt(this.dataset.page);
+                goToPage(pageNumber);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') previousPage();
+        });
+    </script>
 </body>
 </html>
