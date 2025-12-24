@@ -1,0 +1,748 @@
+/* ==============================================
+   VJ-Forever: Vintage Parchment Aesthetic CSS
+   ============================================== */
+
+/* Import Handwritten Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap');
+
+/* ============================================
+   CSS Variables - Vintage Parchment Palette
+   ============================================ */
+:root {
+  /* Primary Colors */
+  --cream: #f5f1e8;
+  --light-cream: #faf8f3;
+  --dark-brown: #6b5344;
+  --medium-brown: #8b7355;
+  --light-brown: #a0927a;
+  --heart-red: #d4555f;
+  --soft-red: #e8a3a8;
+  --accent-gold: #d4af37;
+  
+  /* Neutral Colors */
+  --off-white: #f9f7f2;
+  --shadow-brown: #4a3f37;
+  --text-dark: #3d3530;
+  
+  /* Transitions */
+  --smooth-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --fade-transition: opacity 0.5s ease-in-out;
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Dancing Script', 'Caveat', cursive;
+  background-color: var(--cream);
+  color: var(--text-dark);
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(107, 83, 68, 0.03) 2px,
+      rgba(107, 83, 68, 0.03) 4px
+    );
+  transition: var(--smooth-transition);
+}
+
+/* Parchment texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23f5f1e8" width="100" height="100"/><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="1"/><feColorMatrix type="saturate" values="0.3"/></filter><rect width="100" height="100" fill="%236b5344" opacity="0.02" filter="url(%23noise)"/></svg>');
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Great Vibes', 'Caveat', cursive;
+  color: var(--dark-brown);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--heart-red);
+  animation: slideInDown 0.8s ease-out;
+}
+
+h2 {
+  font-size: 2.8rem;
+  margin-top: 2rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--heart-red), var(--accent-gold));
+  border-radius: 2px;
+}
+
+h3 {
+  font-size: 2.2rem;
+  color: var(--medium-brown);
+}
+
+h4 {
+  font-size: 1.8rem;
+  color: var(--dark-brown);
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+  text-align: justify;
+}
+
+a {
+  color: var(--heart-red);
+  text-decoration: none;
+  transition: var(--smooth-transition);
+  position: relative;
+  font-weight: 600;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--heart-red);
+  transition: width 0.3s ease;
+}
+
+a:hover {
+  color: var(--dark-brown);
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn, button {
+  font-family: 'Dancing Script', cursive;
+  padding: 0.8rem 2rem;
+  border: 2px solid var(--heart-red);
+  background-color: transparent;
+  color: var(--heart-red);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--smooth-transition);
+  border-radius: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before, .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: var(--heart-red);
+  transition: left 0.4s ease;
+  z-index: -1;
+  border-radius: 25px;
+}
+
+button:hover, .btn:hover {
+  color: var(--cream);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(212, 85, 95, 0.3);
+}
+
+button:hover::before, .btn:hover::before {
+  left: 0;
+}
+
+.btn-primary {
+  background-color: var(--heart-red);
+  color: var(--cream);
+  border-color: var(--heart-red);
+}
+
+.btn-primary::before {
+  background-color: var(--dark-brown);
+  left: 0;
+}
+
+.btn-primary:hover {
+  color: var(--cream);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-secondary {
+  border-color: var(--medium-brown);
+  color: var(--medium-brown);
+}
+
+.btn-secondary::before {
+  background-color: var(--medium-brown);
+}
+
+.btn-secondary:hover {
+  color: var(--cream);
+}
+
+/* ============================================
+   Container & Layout
+   ============================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.container-fluid {
+  padding: 2rem;
+}
+
+section {
+  padding: 3rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+}
+
+/* ============================================
+   Cards
+   ============================================ */
+.card {
+  background-color: var(--light-cream);
+  border: 2px solid var(--light-brown);
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  transition: var(--smooth-transition);
+  box-shadow: 0 4px 15px rgba(107, 83, 68, 0.1);
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--heart-red);
+  border-radius: 10px 0 0 10px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(212, 85, 95, 0.2);
+  border-color: var(--heart-red);
+}
+
+.card-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: var(--heart-red);
+  margin-bottom: 1rem;
+}
+
+.card-content {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+/* ============================================
+   Header & Navigation
+   ============================================ */
+header {
+  background: linear-gradient(135deg, var(--light-cream) 0%, var(--off-white) 100%);
+  border-bottom: 3px solid var(--heart-red);
+  padding: 1.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.2rem;
+  color: var(--heart-red);
+  font-weight: 700;
+  transition: var(--smooth-transition);
+}
+
+.logo:hover {
+  color: var(--dark-brown);
+  transform: scale(1.05);
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+nav a {
+  font-size: 1.1rem;
+  color: var(--dark-brown);
+  font-weight: 600;
+  transition: var(--smooth-transition);
+}
+
+nav a:hover {
+  color: var(--heart-red);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+footer {
+  background-color: var(--dark-brown);
+  color: var(--cream);
+  padding: 3rem 2rem;
+  margin-top: 5rem;
+  text-align: center;
+  border-top: 3px solid var(--heart-red);
+}
+
+footer p {
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+footer a {
+  color: var(--accent-gold);
+}
+
+footer a:hover {
+  color: var(--soft-red);
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+input, textarea, select {
+  font-family: 'Dancing Script', cursive;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--light-brown);
+  background-color: var(--light-cream);
+  color: var(--text-dark);
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: var(--smooth-transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--heart-red);
+  box-shadow: 0 0 10px rgba(212, 85, 95, 0.3);
+  background-color: var(--off-white);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: 'Dancing Script', cursive;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--dark-brown);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   Images
+   ============================================ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  transition: var(--smooth-transition);
+  border-radius: 8px;
+}
+
+img:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 8px 16px rgba(212, 85, 95, 0.2));
+}
+
+/* ============================================
+   Dividers & Decorative Elements
+   ============================================ */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--heart-red), transparent);
+  margin: 2rem 0;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background-color: var(--heart-red);
+  margin: 1.5rem auto;
+  border-radius: 2px;
+}
+
+.separator {
+  text-align: center;
+  color: var(--medium-brown);
+  font-size: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-in;
+}
+
+.slide-up {
+  animation: slideInUp 0.8s ease-out;
+}
+
+.heartbeat {
+  animation: heartbeat 0.6s ease-in-out;
+}
+
+/* ============================================
+   Responsive Design - Tablets
+   ============================================ */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.6rem;
+  }
+  
+  h4 {
+    font-size: 1.4rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+  
+  .container {
+    padding: 1.5rem;
+  }
+  
+  section {
+    padding: 2rem 1.5rem;
+  }
+  
+  nav {
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  nav a {
+    font-size: 1rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+  }
+  
+  .btn, button {
+    width: 100%;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* ============================================
+   Responsive Design - Mobile Devices
+   ============================================ */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+  }
+  
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+  
+  section {
+    padding: 1.5rem 1rem;
+  }
+  
+  header {
+    padding: 1rem;
+  }
+  
+  .header-content {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+  }
+  
+  nav {
+    gap: 0.8rem;
+  }
+  
+  nav a {
+    font-size: 0.9rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+  }
+  
+  .btn, button {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  footer {
+    padding: 2rem 1rem;
+  }
+  
+  footer p {
+    font-size: 0.95rem;
+  }
+  
+  input, textarea, select {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  label {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--heart-red);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: more) {
+  body {
+    background-color: var(--off-white);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--shadow-brown);
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #2a2420;
+    color: #e8dcc8;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffb3b8;
+  }
+  
+  .card {
+    background-color: #3d3530;
+    border-color: #6b5344;
+  }
+  
+  input, textarea, select {
+    background-color: #3d3530;
+    color: #e8dcc8;
+    border-color: #6b5344;
+  }
+  
+  header {
+    background: linear-gradient(135deg, #2a2420 0%, #3d3530 100%);
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+  body {
+    background-color: white;
+    color: #000;
+  }
+  
+  a {
+    color: #000;
+  }
+  
+  header, footer, .btn, button {
+    display: none;
+  }
+}
