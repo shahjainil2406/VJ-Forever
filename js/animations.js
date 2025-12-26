@@ -9,6 +9,7 @@ class AnimationManager {
     this.isPaused = false;
     this.activeAnimations = new Set();
     this.observers = new Map();
+    this.milestoneEffects = new Map();
     
     this.init();
   }
@@ -27,6 +28,9 @@ class AnimationManager {
     
     // Initialize romantic effects
     this.initRomanticEffects();
+    
+    // Initialize milestone celebration system
+    this.initMilestoneCelebrations();
     
     console.log('✨ Animation manager initialized');
   }
@@ -109,6 +113,9 @@ class AnimationManager {
     this.createFloatingPanda(pandaContainer, { top: '10%', left: '80%', delay: '5s' });
     this.createFloatingPanda(pandaContainer, { top: '70%', left: '5%', delay: '15s' });
     this.createFloatingPanda(pandaContainer, { top: '40%', right: '10%', delay: '25s' });
+    
+    // Create continuous floating effect
+    this.startContinuousFloatingEffect();
   }
   
   createFloatingPanda(container, options) {
@@ -130,6 +137,50 @@ class AnimationManager {
     container.appendChild(panda);
   }
   
+  startContinuousFloatingEffect() {
+    if (!this.isEnabled) return;
+    
+    // Create floating pandas and hearts periodically
+    setInterval(() => {
+      if (!this.isPaused && this.isEnabled) {
+        this.createRandomFloatingElement();
+      }
+    }, 8000); // Every 8 seconds
+  }
+  
+  createRandomFloatingElement() {
+    const elements = ['🐼', '💕', '🌿', '✨'];
+    const element = elements[Math.floor(Math.random() * elements.length)];
+    
+    const floatingElement = document.createElement('div');
+    floatingElement.className = 'random-floating-element';
+    floatingElement.textContent = element;
+    
+    // Random starting position
+    const startSide = Math.random() < 0.5 ? 'left' : 'right';
+    const startPosition = Math.random() * 100;
+    
+    floatingElement.style.cssText = `
+      position: fixed;
+      ${startSide}: -50px;
+      top: ${startPosition}%;
+      font-size: 1.5rem;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatAcross 15s linear forwards;
+    `;
+    
+    document.body.appendChild(floatingElement);
+    
+    // Remove element after animation
+    setTimeout(() => {
+      if (floatingElement.parentNode) {
+        floatingElement.parentNode.removeChild(floatingElement);
+      }
+    }, 15000);
+  }
+  
   initRomanticEffects() {
     if (!this.isEnabled) return;
     
@@ -141,6 +192,9 @@ class AnimationManager {
     
     // Add bamboo growth effects
     this.addBambooEffects();
+    
+    // Add timer celebration effects
+    this.addTimerCelebrationEffects();
   }
   
   addSparkleEffects() {
@@ -230,6 +284,59 @@ class AnimationManager {
     }
   }
   
+  addTimerCelebrationEffects() {
+    // Add special effects when timer units change
+    const timerUnits = document.querySelectorAll('.timer-unit');
+    
+    timerUnits.forEach(unit => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList' || mutation.type === 'characterData') {
+            this.triggerTimerChangeEffect(unit);
+          }
+        });
+      });
+      
+      observer.observe(unit, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    });
+  }
+  
+  triggerTimerChangeEffect(timerUnit) {
+    if (!this.isEnabled || this.isPaused) return;
+    
+    // Create small celebration effect around timer unit
+    const rect = timerUnit.getBoundingClientRect();
+    const particles = ['🐼', '💕'];
+    
+    for (let i = 0; i < 2; i++) {
+      const particle = document.createElement('div');
+      particle.textContent = particles[i % particles.length];
+      
+      particle.style.cssText = `
+        position: fixed;
+        left: ${rect.left + rect.width / 2}px;
+        top: ${rect.top + rect.height / 2}px;
+        font-size: 12px;
+        pointer-events: none;
+        z-index: 1000;
+        animation: timerCelebration 1s ease-out forwards;
+        animation-delay: ${i * 0.1}s;
+      `;
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => {
+        if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
+      }, 1000);
+    }
+  }
+  
   addBambooEffects() {
     // Add subtle bamboo growth animation to timeline bar
     const timelineBar = document.querySelector('.timeline-bar');
@@ -254,6 +361,230 @@ class AnimationManager {
         timelineBar.appendChild(bambooAccent);
       });
     }
+  }
+  
+  initMilestoneCelebrations() {
+    // Define special anniversary dates and their celebration effects
+    this.anniversaryDates = [
+      { month: 5, day: 18, name: 'First Conversation', effect: 'sparkleRain' },
+      { month: 6, day: 24, name: 'Birthday Magic', effect: 'pandaParty' },
+      { month: 7, day: 26, name: 'Engagement Day', effect: 'heartExplosion' },
+      { month: 8, day: 15, name: 'First Kiss', effect: 'romanticGlow' }
+    ];
+    
+    // Check if today is a special anniversary
+    this.checkAnniversaryDate();
+    
+    // Set up daily check
+    setInterval(() => {
+      this.checkAnniversaryDate();
+    }, 24 * 60 * 60 * 1000); // Check once per day
+  }
+  
+  checkAnniversaryDate() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // JavaScript months are 0-indexed
+    const currentDay = today.getDate();
+    
+    const anniversary = this.anniversaryDates.find(date => 
+      date.month === currentMonth && date.day === currentDay
+    );
+    
+    if (anniversary) {
+      console.log(`🎉 Today is ${anniversary.name}! Triggering special celebration...`);
+      this.triggerAnniversaryCelebration(anniversary);
+    }
+  }
+  
+  triggerAnniversaryCelebration(anniversary) {
+    if (!this.isEnabled || this.isPaused) return;
+    
+    // Show anniversary message
+    this.showAnniversaryMessage(anniversary);
+    
+    // Trigger specific celebration effect
+    switch (anniversary.effect) {
+      case 'sparkleRain':
+        this.createSparkleRain();
+        break;
+      case 'pandaParty':
+        this.createPandaParty();
+        break;
+      case 'heartExplosion':
+        this.createHeartExplosion();
+        break;
+      case 'romanticGlow':
+        this.createRomanticGlow();
+        break;
+    }
+  }
+  
+  showAnniversaryMessage(anniversary) {
+    const messageOverlay = document.createElement('div');
+    messageOverlay.className = 'anniversary-message-overlay';
+    messageOverlay.innerHTML = `
+      <div class="anniversary-message">
+        <div class="anniversary-pandas">🐼 🎉 🐼</div>
+        <h3>Happy ${anniversary.name} Anniversary!</h3>
+        <p>Celebrating this special day in our love story 💕</p>
+        <div class="anniversary-hearts">💖 ✨ 💖</div>
+      </div>
+    `;
+    
+    messageOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(232, 240, 228, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      animation: fadeIn 0.5s ease-out;
+      backdrop-filter: blur(10px);
+    `;
+    
+    document.body.appendChild(messageOverlay);
+    
+    // Auto-remove after 6 seconds
+    setTimeout(() => {
+      messageOverlay.style.animation = 'fadeOut 0.5s ease-out';
+      setTimeout(() => {
+        if (messageOverlay.parentNode) {
+          messageOverlay.parentNode.removeChild(messageOverlay);
+        }
+      }, 500);
+    }, 6000);
+    
+    // Allow manual close
+    messageOverlay.addEventListener('click', () => {
+      messageOverlay.style.animation = 'fadeOut 0.5s ease-out';
+      setTimeout(() => {
+        if (messageOverlay.parentNode) {
+          messageOverlay.parentNode.removeChild(messageOverlay);
+        }
+      }, 500);
+    });
+  }
+  
+  createSparkleRain() {
+    const sparkleCount = 30;
+    
+    for (let i = 0; i < sparkleCount; i++) {
+      setTimeout(() => {
+        const sparkle = document.createElement('div');
+        sparkle.textContent = '✨';
+        sparkle.style.cssText = `
+          position: fixed;
+          left: ${Math.random() * 100}%;
+          top: -20px;
+          font-size: 16px;
+          pointer-events: none;
+          z-index: 9999;
+          animation: sparkleRainFall ${3 + Math.random() * 2}s linear forwards;
+        `;
+        
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 5000);
+      }, i * 100);
+    }
+  }
+  
+  createPandaParty() {
+    const pandaCount = 15;
+    
+    for (let i = 0; i < pandaCount; i++) {
+      setTimeout(() => {
+        const panda = document.createElement('div');
+        panda.textContent = '🐼';
+        panda.style.cssText = `
+          position: fixed;
+          left: ${Math.random() * 100}%;
+          top: ${Math.random() * 100}%;
+          font-size: 24px;
+          pointer-events: none;
+          z-index: 9999;
+          animation: pandaPartyDance 3s ease-in-out forwards;
+        `;
+        
+        document.body.appendChild(panda);
+        
+        setTimeout(() => {
+          if (panda.parentNode) {
+            panda.parentNode.removeChild(panda);
+          }
+        }, 3000);
+      }, i * 200);
+    }
+  }
+  
+  createHeartExplosion() {
+    const center = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2
+    };
+    
+    const heartCount = 25;
+    
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement('div');
+      heart.textContent = '💕';
+      
+      const angle = (i / heartCount) * Math.PI * 2;
+      const velocity = 150 + Math.random() * 100;
+      
+      heart.style.cssText = `
+        position: fixed;
+        left: ${center.x}px;
+        top: ${center.y}px;
+        font-size: 20px;
+        pointer-events: none;
+        z-index: 9999;
+        animation: heartExplosion 2.5s ease-out forwards;
+        --angle: ${angle}rad;
+        --velocity: ${velocity}px;
+      `;
+      
+      document.body.appendChild(heart);
+      
+      setTimeout(() => {
+        if (heart.parentNode) {
+          heart.parentNode.removeChild(heart);
+        }
+      }, 2500);
+    }
+  }
+  
+  createRomanticGlow() {
+    // Add romantic glow effect to the entire page
+    const glowOverlay = document.createElement('div');
+    glowOverlay.className = 'romantic-glow-overlay';
+    glowOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(232, 240, 228, 0.3) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      animation: romanticGlowPulse 4s ease-in-out;
+    `;
+    
+    document.body.appendChild(glowOverlay);
+    
+    setTimeout(() => {
+      if (glowOverlay.parentNode) {
+        glowOverlay.parentNode.removeChild(glowOverlay);
+      }
+    }, 4000);
   }
   
   // Animation control methods
@@ -370,14 +701,36 @@ class AnimationManager {
     
     this.observers.clear();
     this.activeAnimations.clear();
+    this.milestoneEffects.clear();
     
     console.log('🐼 Animation manager destroyed');
   }
 }
 
-// Add animation keyframes to document
-const animationStyles = document.createElement('style');
-animationStyles.textContent = `
+// Initialize animation manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🐼 DOM loaded, initializing animation manager...');
+  
+  try {
+    const animationManager = new AnimationManager();
+    
+    // Make animation manager globally available
+    window.animationManager = animationManager;
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      animationManager.handleResize();
+    });
+    
+    console.log('🎉 Animation manager initialized successfully!');
+  } catch (error) {
+    console.error('❌ Error initializing animation manager:', error);
+  }
+});
+
+// Add enhanced animation keyframes to document
+const enhancedAnimationStyles = document.createElement('style');
+enhancedAnimationStyles.textContent = `
   @keyframes sparkleFloat {
     0% {
       transform: translate(0, 0) scale(0);
@@ -434,6 +787,125 @@ animationStyles.textContent = `
     }
   }
   
+  @keyframes floatAcross {
+    0% {
+      transform: translateX(0) rotate(0deg);
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateX(calc(100vw + 100px)) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes timerCelebration {
+    0% {
+      transform: translate(0, 0) scale(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(${Math.random() * 30 - 15}px, -20px) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(${Math.random() * 60 - 30}px, -40px) scale(0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes sparkleRainFall {
+    0% {
+      transform: translateY(-20px) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes pandaPartyDance {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    25% {
+      transform: scale(1.2) rotate(90deg);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(0.8) rotate(180deg);
+      opacity: 1;
+    }
+    75% {
+      transform: scale(1.1) rotate(270deg);
+      opacity: 0.9;
+    }
+  }
+  
+  @keyframes heartExplosion {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(
+        calc(cos(var(--angle)) * var(--velocity)), 
+        calc(sin(var(--angle)) * var(--velocity))
+      ) scale(0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes romanticGlowPulse {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  /* Anniversary message styling */
+  .anniversary-message {
+    background: linear-gradient(135deg, var(--panda-white), var(--sage-green));
+    padding: 2.5rem;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(232, 240, 228, 0.8);
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  .anniversary-pandas {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    animation: pandaPartyDance 2s ease-in-out infinite;
+  }
+  
+  .anniversary-message h3 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.2rem;
+    color: var(--forest-green);
+    margin-bottom: 1rem;
+  }
+  
+  .anniversary-message p {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: var(--text-accent);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .anniversary-hearts {
+    font-size: 1.8rem;
+    animation: heartFloat 2s ease-in-out infinite;
+  }
+  
   /* Reduced motion styles */
   .reduced-motion * {
     animation-duration: 0.01ms !important;
@@ -442,9 +914,458 @@ animationStyles.textContent = `
   }
 `;
 
-document.head.appendChild(animationStyles);
+document.head.appendChild(enhancedAnimationStyles);
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = AnimationManager;
+}
+
+// Page Transition Manager
+class PageTransitionManager {
+  constructor() {
+    this.isTransitioning = false;
+    this.transitionDuration = 600;
+    
+    this.init();
+  }
+  
+  init() {
+    console.log('🐼 Initializing page transition manager...');
+    
+    // Initialize page transition effects
+    this.initPageTransitions();
+    
+    // Add loading animations
+    this.initLoadingAnimations();
+    
+    console.log('✨ Page transition manager initialized');
+  }
+  
+  initPageTransitions() {
+    // Intercept navigation links for smooth transitions
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href], button[onclick*="location"], button[onclick*="navigate"]');
+      
+      if (link && this.shouldTransition(link)) {
+        e.preventDefault();
+        this.performTransition(link);
+      }
+    });
+    
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', () => {
+      this.performPageLoad();
+    });
+  }
+  
+  shouldTransition(element) {
+    // Don't transition for external links or special cases
+    const href = element.getAttribute('href');
+    const onclick = element.getAttribute('onclick');
+    
+    if (href && (href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel'))) {
+      return false;
+    }
+    
+    if (element.hasAttribute('data-no-transition')) {
+      return false;
+    }
+    
+    return true;
+  }
+  
+  performTransition(element) {
+    if (this.isTransitioning) return;
+    
+    this.isTransitioning = true;
+    
+    // Get destination URL
+    let destination = '';
+    const href = element.getAttribute('href');
+    const onclick = element.getAttribute('onclick');
+    
+    if (href) {
+      destination = href;
+    } else if (onclick) {
+      // Extract URL from onclick
+      const urlMatch = onclick.match(/(?:location\.href|window\.location)\s*=\s*['"`]([^'"`]+)['"`]/);
+      if (urlMatch) {
+        destination = urlMatch[1];
+      }
+    }
+    
+    if (!destination) {
+      this.isTransitioning = false;
+      return;
+    }
+    
+    // Create transition overlay
+    this.createTransitionOverlay(() => {
+      window.location.href = destination;
+    });
+  }
+  
+  createTransitionOverlay(callback) {
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    overlay.innerHTML = `
+      <div class="transition-content">
+        <div class="transition-pandas">
+          <div class="panda-1">🐼</div>
+          <div class="panda-2">💕</div>
+          <div class="panda-3">🐼</div>
+        </div>
+        <div class="transition-message">
+          <p>Loading our beautiful memories...</p>
+        </div>
+        <div class="transition-hearts">
+          <div class="heart-1">💚</div>
+          <div class="heart-2">✨</div>
+          <div class="heart-3">💚</div>
+        </div>
+      </div>
+    `;
+    
+    // Add transition styles
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--sage-green), var(--mint-cream), var(--pale-mint));
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: transitionFadeIn 0.4s ease-out;
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Trigger callback after transition animation
+    setTimeout(() => {
+      callback();
+    }, this.transitionDuration);
+  }
+  
+  initLoadingAnimations() {
+    // Add entrance animations when page loads
+    window.addEventListener('load', () => {
+      this.performPageLoad();
+    });
+    
+    // Also trigger on DOMContentLoaded for faster response
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        this.performPageLoad();
+      });
+    } else {
+      this.performPageLoad();
+    }
+  }
+  
+  performPageLoad() {
+    // Create page load animation
+    this.createPageLoadAnimation();
+    
+    // Stagger entrance animations
+    this.staggerEntranceAnimations();
+    
+    this.isTransitioning = false;
+  }
+  
+  createPageLoadAnimation() {
+    // Add fade-in effect to main content
+    const mainContent = document.querySelector('main, .timeline-page, .event-detail-page');
+    if (mainContent) {
+      mainContent.style.opacity = '0';
+      mainContent.style.transform = 'translateY(20px)';
+      mainContent.style.transition = 'all 0.6s ease-out';
+      
+      setTimeout(() => {
+        mainContent.style.opacity = '1';
+        mainContent.style.transform = 'translateY(0)';
+      }, 100);
+    }
+  }
+  
+  staggerEntranceAnimations() {
+    const elementsToAnimate = [
+      { selector: '.countdown-timer', delay: 200 },
+      { selector: '.timeline-title', delay: 400 },
+      { selector: '.timeline-bar', delay: 600 },
+      { selector: '.timeline-labels', delay: 800 },
+      { selector: '.event-header-content', delay: 300 },
+      { selector: '.event-story', delay: 500 },
+      { selector: '.photo-gallery-section', delay: 700 },
+      { selector: '.special-content-section', delay: 900 },
+      { selector: '.event-navigation', delay: 1100 }
+    ];
+    
+    elementsToAnimate.forEach(({ selector, delay }) => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((element, index) => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'all 0.6s ease-out';
+        
+        setTimeout(() => {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+          element.classList.add('entrance-complete');
+        }, delay + (index * 100));
+      });
+    });
+  }
+  
+  // Create special transition effects
+  createPandaTransition(callback) {
+    const pandaCount = 8;
+    const pandas = [];
+    
+    for (let i = 0; i < pandaCount; i++) {
+      const panda = document.createElement('div');
+      panda.textContent = '🐼';
+      panda.style.cssText = `
+        position: fixed;
+        font-size: 2rem;
+        z-index: 25000;
+        pointer-events: none;
+        animation: pandaTransition 1.5s ease-in-out forwards;
+        animation-delay: ${i * 0.1}s;
+      `;
+      
+      // Position pandas around the screen edges
+      const angle = (i / pandaCount) * Math.PI * 2;
+      const radius = Math.max(window.innerWidth, window.innerHeight) * 0.6;
+      const startX = window.innerWidth / 2 + Math.cos(angle) * radius;
+      const startY = window.innerHeight / 2 + Math.sin(angle) * radius;
+      
+      panda.style.left = `${startX}px`;
+      panda.style.top = `${startY}px`;
+      
+      document.body.appendChild(panda);
+      pandas.push(panda);
+    }
+    
+    // Clean up pandas after animation
+    setTimeout(() => {
+      pandas.forEach(panda => {
+        if (panda.parentNode) {
+          panda.parentNode.removeChild(panda);
+        }
+      });
+      
+      if (callback) callback();
+    }, 1500);
+  }
+  
+  createHeartTransition(callback) {
+    const heartCount = 12;
+    const hearts = [];
+    
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement('div');
+      heart.textContent = '💕';
+      heart.style.cssText = `
+        position: fixed;
+        font-size: 1.5rem;
+        z-index: 25000;
+        pointer-events: none;
+        animation: heartTransition 2s ease-in-out forwards;
+        animation-delay: ${i * 0.15}s;
+      `;
+      
+      // Random starting positions from edges
+      const side = i % 4;
+      let startX, startY;
+      
+      switch (side) {
+        case 0: // Top
+          startX = Math.random() * window.innerWidth;
+          startY = -50;
+          break;
+        case 1: // Right
+          startX = window.innerWidth + 50;
+          startY = Math.random() * window.innerHeight;
+          break;
+        case 2: // Bottom
+          startX = Math.random() * window.innerWidth;
+          startY = window.innerHeight + 50;
+          break;
+        case 3: // Left
+          startX = -50;
+          startY = Math.random() * window.innerHeight;
+          break;
+      }
+      
+      heart.style.left = `${startX}px`;
+      heart.style.top = `${startY}px`;
+      
+      document.body.appendChild(heart);
+      hearts.push(heart);
+    }
+    
+    // Clean up hearts after animation
+    setTimeout(() => {
+      hearts.forEach(heart => {
+        if (heart.parentNode) {
+          heart.parentNode.removeChild(heart);
+        }
+      });
+      
+      if (callback) callback();
+    }, 2000);
+  }
+}
+
+// Initialize page transition manager
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🐼 Initializing page transition manager...');
+  
+  try {
+    const pageTransitionManager = new PageTransitionManager();
+    
+    // Make page transition manager globally available
+    window.pageTransitionManager = pageTransitionManager;
+    
+    console.log('🎉 Page transition manager initialized successfully!');
+  } catch (error) {
+    console.error('❌ Error initializing page transition manager:', error);
+  }
+});
+
+// Add page transition animation keyframes
+const pageTransitionStyles = document.createElement('style');
+pageTransitionStyles.textContent = `
+  @keyframes transitionFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes transitionFadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes pandaTransition {
+    0% {
+      transform: scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0) rotate(360deg) translate(50vw, 50vh);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes heartTransition {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1) translate(25vw, 25vh);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0) translate(50vw, 50vh);
+      opacity: 0;
+    }
+  }
+  
+  /* Page transition overlay styling */
+  .page-transition-overlay {
+    font-family: 'Dancing Script', cursive;
+  }
+  
+  .transition-content {
+    text-align: center;
+    max-width: 400px;
+    padding: 2rem;
+  }
+  
+  .transition-pandas {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+  
+  .transition-pandas > div {
+    animation: pandaPartyDance 1.5s ease-in-out infinite;
+  }
+  
+  .panda-1 { animation-delay: 0s; }
+  .panda-2 { animation-delay: 0.2s; }
+  .panda-3 { animation-delay: 0.4s; }
+  
+  .transition-message {
+    margin-bottom: 2rem;
+  }
+  
+  .transition-message p {
+    font-size: 1.3rem;
+    color: var(--text-accent);
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .transition-hearts {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .transition-hearts > div {
+    animation: heartFloat 2s ease-in-out infinite;
+  }
+  
+  .heart-1 { animation-delay: 0s; }
+  .heart-2 { animation-delay: 0.3s; }
+  .heart-3 { animation-delay: 0.6s; }
+  
+  /* Mobile responsive transitions */
+  @media (max-width: 768px) {
+    .transition-content {
+      padding: 1.5rem;
+    }
+    
+    .transition-pandas {
+      font-size: 2rem;
+      gap: 0.75rem;
+    }
+    
+    .transition-message p {
+      font-size: 1.1rem;
+    }
+    
+    .transition-hearts {
+      font-size: 1.3rem;
+      gap: 0.75rem;
+    }
+  }
+`;
+
+document.head.appendChild(pageTransitionStyles);
+
+// Export for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { AnimationManager, PageTransitionManager };
 }

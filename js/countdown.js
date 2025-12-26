@@ -9,7 +9,7 @@ class CountdownTimer {
     this.targetDate = new Date(targetDate);
     this.intervalId = null;
     this.isRunning = false;
-    this.milestones = this.calculateMilestones();
+    this.previousValues = { days: 0, hours: 0, minutes: 0, seconds: 0 };
     
     // Validate target date
     if (isNaN(this.targetDate.getTime())) {
@@ -59,41 +59,33 @@ class CountdownTimer {
       // Target date is in the past - show time since date
       this.showTimeSince(timeDifference);
     }
-    
-    // Check for milestones
-    this.checkMilestones(timeDifference);
   }
   
   showTimeSince(timeDifference) {
     const timeUnits = this.calculateTimeUnits(timeDifference);
     
+    // Create timer HTML with smooth transition support
     this.element.innerHTML = `
-      <div class="timer-unit">
-        <span class="timer-number">${timeUnits.days}</span>
+      <div class="timer-unit" data-unit="days">
+        <span class="timer-number" data-value="${timeUnits.days}">${timeUnits.days}</span>
         <span class="timer-label">Days</span>
       </div>
-      <div class="timer-unit">
-        <span class="timer-number">${timeUnits.hours}</span>
+      <div class="timer-unit" data-unit="hours">
+        <span class="timer-number" data-value="${timeUnits.hours}">${timeUnits.hours}</span>
         <span class="timer-label">Hours</span>
       </div>
-      <div class="timer-unit">
-        <span class="timer-number">${timeUnits.minutes}</span>
+      <div class="timer-unit" data-unit="minutes">
+        <span class="timer-number" data-value="${timeUnits.minutes}">${timeUnits.minutes}</span>
         <span class="timer-label">Minutes</span>
       </div>
-      <div class="timer-unit">
-        <span class="timer-number">${timeUnits.seconds}</span>
+      <div class="timer-unit" data-unit="seconds">
+        <span class="timer-number" data-value="${timeUnits.seconds}">${timeUnits.seconds}</span>
         <span class="timer-label">Seconds</span>
       </div>
     `;
     
-    // Add animation to seconds for visual feedback
-    const secondsElement = this.element.querySelector('.timer-unit:last-child .timer-number');
-    if (secondsElement) {
-      secondsElement.style.animation = 'none';
-      // Trigger reflow
-      void secondsElement.offsetWidth;
-      secondsElement.style.animation = 'gentlePulse 1s ease-in-out';
-    }
+    // Add smooth animations for number transitions
+    this.animateNumberChanges(timeUnits);
   }
   
   showCountdownTo() {
@@ -106,25 +98,103 @@ class CountdownTimer {
       <div class="countdown-future">
         <p class="countdown-message">Counting down to our special day...</p>
         <div class="timer-display">
-          <div class="timer-unit">
-            <span class="timer-number">${timeUnits.days}</span>
+          <div class="timer-unit" data-unit="days">
+            <span class="timer-number" data-value="${timeUnits.days}">${timeUnits.days}</span>
             <span class="timer-label">Days</span>
           </div>
-          <div class="timer-unit">
-            <span class="timer-number">${timeUnits.hours}</span>
+          <div class="timer-unit" data-unit="hours">
+            <span class="timer-number" data-value="${timeUnits.hours}">${timeUnits.hours}</span>
             <span class="timer-label">Hours</span>
           </div>
-          <div class="timer-unit">
-            <span class="timer-number">${timeUnits.minutes}</span>
+          <div class="timer-unit" data-unit="minutes">
+            <span class="timer-number" data-value="${timeUnits.minutes}">${timeUnits.minutes}</span>
             <span class="timer-label">Minutes</span>
           </div>
-          <div class="timer-unit">
-            <span class="timer-number">${timeUnits.seconds}</span>
+          <div class="timer-unit" data-unit="seconds">
+            <span class="timer-number" data-value="${timeUnits.seconds}">${timeUnits.seconds}</span>
             <span class="timer-label">Seconds</span>
           </div>
         </div>
       </div>
     `;
+    
+    // Add smooth animations for countdown
+    this.animateNumberChanges(timeUnits);
+  }
+  
+  animateNumberChanges(currentValues) {
+    // Animate changes for each time unit
+    Object.keys(currentValues).forEach(unit => {
+      const currentValue = parseInt(currentValues[unit]);
+      const previousValue = this.previousValues[unit];
+      
+      if (currentValue !== previousValue) {
+        this.animateNumberTransition(unit, previousValue, currentValue);
+      }
+    });
+    
+    // Update previous values for next comparison
+    this.previousValues = {
+      days: parseInt(currentValues.days),
+      hours: parseInt(currentValues.hours),
+      minutes: parseInt(currentValues.minutes),
+      seconds: parseInt(currentValues.seconds)
+    };
+    
+    // Always animate seconds for visual feedback
+    const secondsElement = this.element.querySelector('[data-unit="seconds"] .timer-number');
+    if (secondsElement) {
+      this.addPulseAnimation(secondsElement);
+    }
+  }
+  
+  animateNumberTransition(unit, oldValue, newValue) {
+    const numberElement = this.element.querySelector(`[data-unit="${unit}"] .timer-number`);
+    if (!numberElement) return;
+    
+    // Add transition class
+    numberElement.classList.add('number-changing');
+    
+    // Create flip animation effect
+    numberElement.style.transform = 'rotateX(90deg)';
+    numberElement.style.opacity = '0.7';
+    
+    setTimeout(() => {
+      numberElement.textContent = this.formatNumber(newValue);
+      numberElement.style.transform = 'rotateX(0deg)';
+      numberElement.style.opacity = '1';
+      
+      // Add a gentle glow effect for significant changes
+      if (unit === 'days' || unit === 'hours') {
+        this.addGlowEffect(numberElement);
+      }
+      
+      // Remove transition class after animation
+      setTimeout(() => {
+        numberElement.classList.remove('number-changing');
+      }, 300);
+    }, 150);
+  }
+  
+  addPulseAnimation(element) {
+    element.classList.remove('pulse-animation');
+    // Trigger reflow
+    void element.offsetWidth;
+    element.classList.add('pulse-animation');
+    
+    // Remove class after animation
+    setTimeout(() => {
+      element.classList.remove('pulse-animation');
+    }, 1000);
+  }
+  
+  addGlowEffect(element) {
+    element.classList.add('glow-effect');
+    
+    // Remove glow after animation
+    setTimeout(() => {
+      element.classList.remove('glow-effect');
+    }, 2000);
   }
   
   calculateTimeUnits(timeDifference) {
@@ -147,93 +217,6 @@ class CountdownTimer {
     return num.toString().padStart(2, '0');
   }
   
-  calculateMilestones() {
-    // Define milestone days for celebrations
-    return [
-      { days: 30, message: "One month of love! 🐼💕", celebrated: false },
-      { days: 100, message: "100 days together! 🎉🐼", celebrated: false },
-      { days: 365, message: "One year of beautiful memories! 🎂🐼", celebrated: false },
-      { days: 500, message: "500 days of happiness! ✨🐼", celebrated: false },
-      { days: 730, message: "Two years of love! 💖🐼", celebrated: false },
-      { days: 1000, message: "1000 days together! 🎊🐼", celebrated: false },
-      { days: 1095, message: "Three years of joy! 🌟🐼", celebrated: false },
-      { days: 1460, message: "Four years of love! 💝🐼", celebrated: false },
-      { days: 1825, message: "Five years together! 🎈🐼", celebrated: false }
-    ];
-  }
-  
-  checkMilestones(timeDifference) {
-    const daysSince = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    
-    this.milestones.forEach(milestone => {
-      if (daysSince >= milestone.days && !milestone.celebrated) {
-        this.celebrateMilestone(milestone);
-        milestone.celebrated = true;
-      }
-    });
-  }
-  
-  celebrateMilestone(milestone) {
-    console.log('🎉 Milestone reached:', milestone.message);
-    
-    // Create celebration overlay
-    const celebration = document.createElement('div');
-    celebration.className = 'milestone-celebration';
-    celebration.innerHTML = `
-      <div class="celebration-content">
-        <div class="celebration-pandas">🐼 🎉 🐼</div>
-        <h3>Milestone Reached!</h3>
-        <p>${milestone.message}</p>
-        <div class="celebration-hearts">💕 ✨ 💕</div>
-      </div>
-    `;
-    
-    // Add celebration styles
-    celebration.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(232, 240, 228, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      animation: fadeIn 0.5s ease-out;
-      backdrop-filter: blur(5px);
-    `;
-    
-    document.body.appendChild(celebration);
-    
-    // Trigger confetti effect if available
-    if (typeof triggerConfetti === 'function') {
-      setTimeout(() => {
-        triggerConfetti();
-      }, 500);
-    }
-    
-    // Auto-remove celebration after 5 seconds
-    setTimeout(() => {
-      celebration.style.animation = 'fadeOut 0.5s ease-out';
-      setTimeout(() => {
-        if (celebration.parentNode) {
-          celebration.parentNode.removeChild(celebration);
-        }
-      }, 500);
-    }, 5000);
-    
-    // Allow manual close by clicking
-    celebration.addEventListener('click', () => {
-      celebration.style.animation = 'fadeOut 0.5s ease-out';
-      setTimeout(() => {
-        if (celebration.parentNode) {
-          celebration.parentNode.removeChild(celebration);
-        }
-      }, 500);
-    });
-  }
-  
   showError() {
     this.element.innerHTML = `
       <div class="timer-error">
@@ -245,7 +228,7 @@ class CountdownTimer {
   }
   
   render() {
-    // Initial render
+    // Initial render with loading state
     this.element.innerHTML = `
       <div class="timer-loading">
         <span class="loading-panda">🐼</span>
@@ -265,9 +248,7 @@ class CountdownTimer {
   
   reset() {
     this.stop();
-    this.milestones.forEach(milestone => {
-      milestone.celebrated = false;
-    });
+    this.previousValues = { days: 0, hours: 0, minutes: 0, seconds: 0 };
     this.init();
   }
   
@@ -300,7 +281,7 @@ class CountdownTimer {
 // Confetti effect for celebrations
 function triggerConfetti() {
   // Create confetti particles
-  const colors = ['#e8f0e4', '#f0f8f0', '#f8e8ea', '#f5f0f2'];
+  const colors = ['#e8f0e4', '#f0f8f0', '#f8e8ea', '#f5f0f2', '#87a96b', '#6b8e5a'];
   const confettiCount = 50;
   
   for (let i = 0; i < confettiCount; i++) {
@@ -333,9 +314,74 @@ function createConfettiParticle(color) {
   }, 5000);
 }
 
-// Add confetti animation styles
-const confettiStyles = document.createElement('style');
-confettiStyles.textContent = `
+// Initialize countdown timer when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🐼 DOM loaded, initializing countdown timer...');
+  
+  try {
+    const timerDisplay = document.getElementById('timer-display');
+    if (timerDisplay && typeof TIMELINE_DATA !== 'undefined') {
+      console.log('✅ Timer display and data found, creating CountdownTimer instance');
+      
+      // Create countdown timer instance
+      const countdownTimer = new CountdownTimer(timerDisplay, TIMELINE_DATA.engagementDate);
+      
+      // Make timer globally available for debugging
+      window.countdownTimer = countdownTimer;
+      
+      console.log('🎉 CountdownTimer initialized successfully!');
+    } else {
+      console.warn('⚠️ Timer display element or timeline data not found, using fallback');
+      // Fallback timer is already implemented in index.html
+    }
+  } catch (error) {
+    console.error('❌ Error initializing CountdownTimer:', error);
+    // Fallback timer will continue to work
+  }
+});
+
+// Add animation styles for smooth transitions
+const animationStyles = document.createElement('style');
+animationStyles.textContent = `
+  /* Number transition animations */
+  .timer-number {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .timer-number.number-changing {
+    transition: all 0.15s ease-in-out;
+  }
+  
+  .timer-number.pulse-animation {
+    animation: timerPulse 1s ease-in-out;
+  }
+  
+  .timer-number.glow-effect {
+    animation: timerGlow 2s ease-in-out;
+  }
+  
+  @keyframes timerPulse {
+    0%, 100% {
+      transform: scale(1);
+      color: var(--forest-green);
+    }
+    50% {
+      transform: scale(1.05);
+      color: var(--bamboo-green);
+    }
+  }
+  
+  @keyframes timerGlow {
+    0%, 100% {
+      text-shadow: 1px 1px 2px rgba(107, 142, 90, 0.2);
+      color: var(--forest-green);
+    }
+    50% {
+      text-shadow: 0 0 10px rgba(135, 169, 107, 0.6), 1px 1px 2px rgba(107, 142, 90, 0.4);
+      color: var(--bamboo-green);
+    }
+  }
+  
   @keyframes confettiFall {
     0% {
       transform: translateY(-100vh) rotate(0deg);
@@ -352,7 +398,7 @@ confettiStyles.textContent = `
     to { opacity: 0; }
   }
 `;
-document.head.appendChild(confettiStyles);
+document.head.appendChild(animationStyles);
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {

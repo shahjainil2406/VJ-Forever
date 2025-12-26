@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Performance Test - Love Story Webapp</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f0e4, #f0f8f0);
+            color: #333;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e8f0e4;
+            border-radius: 10px;
+        }
+        
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        
+        .test-pass {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .test-fail {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .test-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .run-test-btn {
+            background: #6b8e5a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        
+        .run-test-btn:hover {
+            background: #5a7a49;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+        
+        .device-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .performance-score {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .score-excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .score-good {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .score-poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🐼 Mobile Performance Test Suite</h1>
+            <p>Testing mobile optimizations for the Romantic Love Story Webapp</p>
+        </div>
+        
+        <div class="device-info" id="device-info">
+            <h3>📱 Device Information</h3>
+            <div id="device-details">Loading device information...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🚀 Performance Tests</h3>
+            <button class="run-test-btn" onclick="runAllTests()">Run All Tests</button>
+            <button class="run-test-btn" onclick="runLoadingTest()">Test Loading Performance</button>
+            <button class="run-test-btn" onclick="runMobileOptimizationTest()">Test Mobile Optimizations</button>
+            <button class="run-test-btn" onclick="runCacheTest()">Test Caching</button>
+            
+            <div id="test-results"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Performance Metrics</h3>
+            <div id="performance-metrics"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎯 Mobile Optimization Score</h3>
+            <div id="optimization-score" class="performance-score">
+                Click "Run All Tests" to get your score
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>💡 Recommendations</h3>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Performance Test Suite
+        class MobilePerformanceTest {
+            constructor() {
+                this.results = [];
+                this.metrics = {};
+                this.startTime = performance.now();
+                this.init();
+            }
+            
+            init() {
+                this.displayDeviceInfo();
+                this.startPerformanceMonitoring();
+            }
+            
+            displayDeviceInfo() {
+                const deviceDetails = document.getElementById('device-details');
+                const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                
+                let deviceInfo = `
+                    <strong>Screen Size:</strong> ${window.innerWidth} x ${window.innerHeight}<br>
+                    <strong>Device Type:</strong> ${isMobile ? 'Mobile' : 'Desktop'}<br>
+                    <strong>User Agent:</strong> ${navigator.userAgent}<br>
+                    <strong>Hardware Concurrency:</strong> ${navigator.hardwareConcurrency || 'Unknown'}<br>
+                    <strong>Device Memory:</strong> ${navigator.deviceMemory || 'Unknown'} GB<br>
+                `;
+                
+                if (connection) {
+                    deviceInfo += `
+                        <strong>Connection Type:</strong> ${connection.effectiveType || 'Unknown'}<br>
+                        <strong>Downlink:</strong> ${connection.downlink || 'Unknown'} Mbps<br>
+                        <strong>RTT:</strong> ${connection.rtt || 'Unknown'} ms<br>
+                    `;
+                }
+                
+                deviceDetails.innerHTML = deviceInfo;
+            }
+            
+            startPerformanceMonitoring() {
+                // Monitor Core Web Vitals
+                if ('PerformanceObserver' in window) {
+                    // Largest Contentful Paint (LCP)
+                    const lcpObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        const lastEntry = entries[entries.length - 1];
+                        this.metrics.lcp = lastEntry.startTime;
+                    });
+                    lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+                    
+                    // First Input Delay (FID)
+                    const fidObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach(entry => {
+                            this.metrics.fid = entry.processingStart - entry.startTime;
+                        });
+                    });
+                    fidObserver.observe({ entryTypes: ['first-input'] });
+                    
+                    // Cumulative Layout Shift (CLS)
+                    let clsValue = 0;
+                    const clsObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach(entry => {
+                            if (!entry.hadRecentInput) {
+                                clsValue += entry.value;
+                            }
+                        });
+                        this.metrics.cls = clsValue;
+                    });
+                    clsObserver.observe({ entryTypes: ['layout-shift'] });
+                }
+            }
+            
+            async runAllTests() {
+                this.clearResults();
+                this.showLoading();
+                
+                await this.runLoadingTest();
+                await this.runMobileOptimizationTest();
+                await this.runCacheTest();
+                await this.runCriticalCSSTest();
+                await this.runServiceWorkerTest();
+                
+                this.calculateOptimizationScore();
+                this.generateRecommendations();
+                this.hideLoading();
+            }
+            
+            async runLoadingTest() {
+                this.addResult('🚀 Testing Loading Performance...', 'info');
+                
+                // Test page load time
+                const loadTime = performance.now() - this.startTime;
+                const loadResult = loadTime < 3000 ? 'pass' : 'fail';
+                this.addResult(`Page Load Time: ${loadTime.toFixed(2)}ms (Target: <3000ms)`, loadResult);
+                
+                // Test DOM Content Loaded
+                const domContentLoaded = performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart;
+                const domResult = domContentLoaded < 2000 ? 'pass' : 'fail';
+                this.addResult(`DOM Content Loaded: ${domContentLoaded}ms (Target: <2000ms)`, domResult);
+                
+                // Test First Paint
+                const paintEntries = performance.getEntriesByType('paint');
+                if (paintEntries.length > 0) {
+                    const firstPaint = paintEntries[0].startTime;
+                    const paintResult = firstPaint < 1500 ? 'pass' : 'fail';
+                    this.addResult(`First Paint: ${firstPaint.toFixed(2)}ms (Target: <1500ms)`, paintResult);
+                }
+                
+                // Test resource loading
+                const resources = performance.getEntriesByType('resource');
+                const slowResources = resources.filter(r => r.duration > 1000);
+                const resourceResult = slowResources.length === 0 ? 'pass' : 'fail';
+                this.addResult(`Slow Resources (>1000ms): ${slowResources.length} (Target: 0)`, resourceResult);
+                
+                return { loadTime, domContentLoaded, slowResources: slowResources.length };
+            }
+            
+            async runMobileOptimizationTest() {
+                this.addResult('📱 Testing Mobile Optimizations...', 'info');
+                
+                // Test viewport meta tag
+                const viewportMeta = document.querySelector('meta[name="viewport"]');
+                const viewportResult = viewportMeta ? 'pass' : 'fail';
+                this.addResult(`Viewport Meta Tag: ${viewportResult === 'pass' ? 'Present' : 'Missing'}`, viewportResult);
+                
+                // Test touch-friendly elements
+                const buttons = document.querySelectorAll('button, .btn, a');
+                let touchFriendlyCount = 0;
+                buttons.forEach(btn => {
+                    const rect = btn.getBoundingClientRect();
+                    if (rect.height >= 44 && rect.width >= 44) {
+                        touchFriendlyCount++;
+                    }
+                });
+                const touchResult = touchFriendlyCount === buttons.length ? 'pass' : 'fail';
+                this.addResult(`Touch-Friendly Elements: ${touchFriendlyCount}/${buttons.length} (Target: All)`, touchResult);
+                
+                // Test mobile performance manager
+                const mobileManagerResult = window.mobilePerformanceManager ? 'pass' : 'fail';
+                this.addResult(`Mobile Performance Manager: ${mobileManagerResult === 'pass' ? 'Active' : 'Missing'}`, mobileManagerResult);
+                
+                // Test critical CSS
+                const criticalCSS = document.getElementById('critical-mobile-css');
+                const criticalResult = criticalCSS ? 'pass' : 'fail';
+                this.addResult(`Critical CSS Inlined: ${criticalResult === 'pass' ? 'Yes' : 'No'}`, criticalResult);
+                
+                return { viewport: viewportResult, touchFriendly: touchResult, mobileManager: mobileManagerResult, criticalCSS: criticalResult };
+            }
+            
+            async runCacheTest() {
+                this.addResult('💾 Testing Caching Strategy...', 'info');
+                
+                // Test service worker
+                const swResult = 'serviceWorker' in navigator ? 'pass' : 'fail';
+                this.addResult(`Service Worker Support: ${swResult === 'pass' ? 'Supported' : 'Not Supported'}`, swResult);
+                
+                // Test cache API
+                const cacheResult = 'caches' in window ? 'pass' : 'fail';
+                this.addResult(`Cache API Support: ${cacheResult === 'pass' ? 'Supported' : 'Not Supported'}`, cacheResult);
+                
+                // Test cached resources
+                if ('caches' in window) {
+                    try {
+                        const cacheNames = await caches.keys();
+                        const cacheCount = cacheNames.length;
+                        const cacheCountResult = cacheCount > 0 ? 'pass' : 'fail';
+                        this.addResult(`Active Caches: ${cacheCount} (Target: >0)`, cacheCountResult);
+                        
+                        // Test specific cache content
+                        if (cacheCount > 0) {
+                            const cache = await caches.open(cacheNames[0]);
+                            const cachedRequests = await cache.keys();
+                            const cachedCount = cachedRequests.length;
+                            const cachedResult = cachedCount > 0 ? 'pass' : 'fail';
+                            this.addResult(`Cached Resources: ${cachedCount} (Target: >0)`, cachedResult);
+                        }
+                    } catch (error) {
+                        this.addResult(`Cache Test Error: ${error.message}`, 'fail');
+                    }
+                }
+                
+                return { serviceWorker: swResult, cacheAPI: cacheResult };
+            }
+            
+            async runCriticalCSSTest() {
+                this.addResult('🎨 Testing Critical CSS Implementation...', 'info');
+                
+                // Test if critical CSS is inlined
+                const criticalStyle = document.getElementById('critical-mobile-css');
+                const criticalResult = criticalStyle ? 'pass' : 'fail';
+                this.addResult(`Critical CSS Inlined: ${criticalResult === 'pass' ? 'Yes' : 'No'}`, criticalResult);
+                
+                // Test if critical styles are applied
+                const countdownHeader = document.querySelector('.countdown-header');
+                if (countdownHeader) {
+                    const styles = window.getComputedStyle(countdownHeader);
+                    const hasBackground = styles.background !== 'rgba(0, 0, 0, 0)' && styles.background !== 'transparent';
+                    const backgroundResult = hasBackground ? 'pass' : 'fail';
+                    this.addResult(`Critical Styles Applied: ${backgroundResult === 'pass' ? 'Yes' : 'No'}`, backgroundResult);
+                }
+                
+                // Test font loading optimization
+                const fontLinks = document.querySelectorAll('link[href*="fonts.googleapis.com"]');
+                let optimizedFonts = 0;
+                fontLinks.forEach(link => {
+                    if (link.href.includes('display=swap')) {
+                        optimizedFonts++;
+                    }
+                });
+                const fontResult = optimizedFonts === fontLinks.length ? 'pass' : 'fail';
+                this.addResult(`Font Loading Optimized: ${optimizedFonts}/${fontLinks.length} (Target: All)`, fontResult);
+                
+                return { criticalCSS: criticalResult, fontOptimization: fontResult };
+            }
+            
+            async runServiceWorkerTest() {
+                this.addResult('⚙️ Testing Service Worker Implementation...', 'info');
+                
+                if ('serviceWorker' in navigator) {
+                    try {
+                        const registration = await navigator.serviceWorker.getRegistration();
+                        const registrationResult = registration ? 'pass' : 'fail';
+                        this.addResult(`Service Worker Registered: ${registrationResult === 'pass' ? 'Yes' : 'No'}`, registrationResult);
+                        
+                        if (registration) {
+                            const swState = registration.active ? registration.active.state : 'none';
+                            const stateResult = swState === 'activated' ? 'pass' : 'fail';
+                            this.addResult(`Service Worker State: ${swState} (Target: activated)`, stateResult);
+                        }
+                    } catch (error) {
+                        this.addResult(`Service Worker Test Error: ${error.message}`, 'fail');
+                    }
+                } else {
+                    this.addResult('Service Worker Not Supported', 'fail');
+                }
+            }
+            
+            calculateOptimizationScore() {
+                const passCount = this.results.filter(r => r.type === 'pass').length;
+                const totalTests = this.results.filter(r => r.type !== 'info').length;
+                const score = Math.round((passCount / totalTests) * 100);
+                
+                const scoreElement = document.getElementById('optimization-score');
+                let scoreClass = 'score-poor';
+                let scoreText = 'Needs Improvement';
+                
+                if (score >= 90) {
+                    scoreClass = 'score-excellent';
+                    scoreText = 'Excellent';
+                } else if (score >= 70) {
+                    scoreClass = 'score-good';
+                    scoreText = 'Good';
+                }
+                
+                scoreElement.className = `performance-score ${scoreClass}`;
+                scoreElement.innerHTML = `
+                    <div>Mobile Optimization Score</div>
+                    <div>${score}% - ${scoreText}</div>
+                    <div style="font-size: 0.5em; margin-top: 10px;">
+                        ${passCount}/${totalTests} tests passed
+                    </div>
+                `;
+                
+                // Update performance metrics
+                this.updatePerformanceMetrics();
+            }
+            
+            updatePerformanceMetrics() {
+                const metricsElement = document.getElementById('performance-metrics');
+                let metricsHTML = '';
+                
+                if (this.metrics.lcp) {
+                    const lcpScore = this.metrics.lcp < 2500 ? 'pass' : 'fail';
+                    metricsHTML += `<div class="test-result test-${lcpScore}">LCP: ${this.metrics.lcp.toFixed(2)}ms (Target: <2500ms)</div>`;
+                }
+                
+                if (this.metrics.fid) {
+                    const fidScore = this.metrics.fid < 100 ? 'pass' : 'fail';
+                    metricsHTML += `<div class="test-result test-${fidScore}">FID: ${this.metrics.fid.toFixed(2)}ms (Target: <100ms)</div>`;
+                }
+                
+                if (this.metrics.cls) {
+                    const clsScore = this.metrics.cls < 0.1 ? 'pass' : 'fail';
+                    metricsHTML += `<div class="test-result test-${clsScore}">CLS: ${this.metrics.cls.toFixed(4)} (Target: <0.1)</div>`;
+                }
+                
+                // Memory usage
+                if (performance.memory) {
+                    const memoryUsed = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+                    const memoryTotal = (performance.memory.totalJSHeapSize / 1024 / 1024).toFixed(2);
+                    metricsHTML += `<div class="test-result test-info">Memory Usage: ${memoryUsed}MB / ${memoryTotal}MB</div>`;
+                }
+                
+                metricsElement.innerHTML = metricsHTML || '<div class="test-result test-info">Performance metrics will appear here after running tests</div>';
+            }
+            
+            generateRecommendations() {
+                const recommendationsElement = document.getElementById('recommendations');
+                const failedTests = this.results.filter(r => r.type === 'fail');
+                
+                if (failedTests.length === 0) {
+                    recommendationsElement.innerHTML = '<div class="test-result test-pass">🎉 Excellent! All mobile optimizations are working perfectly.</div>';
+                    return;
+                }
+                
+                let recommendations = '<h4>Recommendations to improve mobile performance:</h4>';
+                
+                failedTests.forEach(test => {
+                    if (test.message.includes('Page Load Time')) {
+                        recommendations += '<div class="test-result test-info">• Optimize images and reduce file sizes</div>';
+                        recommendations += '<div class="test-result test-info">• Enable compression (gzip/brotli)</div>';
+                        recommendations += '<div class="test-result test-info">• Minimize JavaScript and CSS</div>';
+                    }
+                    
+                    if (test.message.includes('Touch-Friendly')) {
+                        recommendations += '<div class="test-result test-info">• Ensure all interactive elements are at least 44x44px</div>';
+                        recommendations += '<div class="test-result test-info">• Add proper spacing between touch targets</div>';
+                    }
+                    
+                    if (test.message.includes('Critical CSS')) {
+                        recommendations += '<div class="test-result test-info">• Inline critical CSS for above-the-fold content</div>';
+                        recommendations += '<div class="test-result test-info">• Load non-critical CSS asynchronously</div>';
+                    }
+                    
+                    if (test.message.includes('Service Worker')) {
+                        recommendations += '<div class="test-result test-info">• Implement service worker for offline functionality</div>';
+                        recommendations += '<div class="test-result test-info">• Cache critical resources for faster loading</div>';
+                    }
+                    
+                    if (test.message.includes('Font Loading')) {
+                        recommendations += '<div class="test-result test-info">• Add font-display: swap to Google Fonts</div>';
+                        recommendations += '<div class="test-result test-info">• Preload critical fonts</div>';
+                    }
+                });
+                
+                recommendationsElement.innerHTML = recommendations;
+            }
+            
+            addResult(message, type) {
+                this.results.push({ message, type });
+                const resultsElement = document.getElementById('test-results');
+                const resultDiv = document.createElement('div');
+                resultDiv.className = `test-result test-${type}`;
+                resultDiv.textContent = message;
+                resultsElement.appendChild(resultDiv);
+            }
+            
+            clearResults() {
+                this.results = [];
+                document.getElementById('test-results').innerHTML = '';
+                document.getElementById('recommendations').innerHTML = '';
+            }
+            
+            showLoading() {
+                const resultsElement = document.getElementById('test-results');
+                resultsElement.innerHTML = '<div class="loading">🐼 Running mobile performance tests...</div>';
+            }
+            
+            hideLoading() {
+                const loadingElement = document.querySelector('.loading');
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+            }
+        }
+        
+        // Initialize test suite
+        const mobileTest = new MobilePerformanceTest();
+        
+        // Global functions for buttons
+        function runAllTests() {
+            mobileTest.runAllTests();
+        }
+        
+        function runLoadingTest() {
+            mobileTest.clearResults();
+            mobileTest.runLoadingTest();
+        }
+        
+        function runMobileOptimizationTest() {
+            mobileTest.clearResults();
+            mobileTest.runMobileOptimizationTest();
+        }
+        
+        function runCacheTest() {
+            mobileTest.clearResults();
+            mobileTest.runCacheTest();
+        }
+        
+        // Auto-run basic tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                mobileTest.updatePerformanceMetrics();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

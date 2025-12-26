@@ -1,9 +1,10 @@
 /* ==============================================
    Romantic Love Story Webapp - Main Styles
-   Mobile-First Responsive Design with Panda Theme
+   Mobile-First Responsive Design with Enhanced Panda Theme
+   Final Romantic Touches & Personalization - Sub-task 8.2
    ============================================== */
 
-/* CSS Variables - Soft Romantic Colors with Green Accents */
+/* CSS Variables - Enhanced Romantic Colors with Perfect Green Harmony */
 :root {
   /* Soft Romantic Colors - Light & Gentle */
   --soft-rose: #f8e8ea;
@@ -11,36 +12,61 @@
   --gentle-coral: #f2d7d9;
   --whisper-pink: #faf7f8;
   
-  /* Her Favorite Green Tones - Soft & Subtle */
+  /* Her Favorite Green Tones - Enhanced & Harmonized */
   --sage-green: #e8f0e4;
   --mint-cream: #f0f8f0;
   --soft-eucalyptus: #e6f2e6;
   --pale-mint: #f4f9f4;
+  --bamboo-green: #87a96b;
+  --forest-green: #6b8e5a;
+  --deep-forest: #5a7a4a;
+  --spring-green: #9bb87f;
+  --jade-whisper: #c8e6c8;
   
-  /* Panda-Inspired Soft Colors */
+  /* Panda-Inspired Enhanced Colors */
   --soft-charcoal: #6a6a6a;
   --warm-white: #fefefe;
   --gentle-gray: #f5f5f5;
   --bamboo-whisper: #f0f4ed;
+  --panda-white: #fefefe;
+  --panda-black: #4a4a4a;
+  --panda-nose: #2d2d2d;
   
-  /* Subtle Accent Colors */
+  /* Romantic Accent Colors - Enhanced */
   --lavender-mist: #f6f4f8;
   --cream-white: #fdfcfd;
   --pearl-white: #fcfcfc;
+  --golden-hour: #fff8e7;
+  --sunset-blush: #ffeef0;
   
-  /* Text Colors - Improved Contrast & Readability */
+  /* Text Colors - Enhanced Contrast & Romance */
   --text-soft: #4a4a4a;
   --text-medium: #333333;
   --text-light: #666666;
   --text-accent: #2d5a2d;
   --text-dark: #2a2a2a;
+  --text-romantic: #5a4a5a;
+  --text-dreamy: #6a5a6a;
   
-  /* Transitions */
+  /* Romantic Gradients */
+  --gradient-romantic: linear-gradient(135deg, var(--sage-green), var(--mint-cream), var(--jade-whisper));
+  --gradient-dreamy: linear-gradient(45deg, var(--whisper-pink), var(--pale-mint));
+  --gradient-panda: linear-gradient(135deg, var(--panda-white), var(--bamboo-whisper));
+  --gradient-sunset: linear-gradient(180deg, var(--golden-hour), var(--sunset-blush));
+  
+  /* Enhanced Transitions */
   --smooth-transition: all 0.3s ease;
   --gentle-transition: all 0.5s ease-in-out;
+  --romantic-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Romantic Shadows */
+  --shadow-soft: 0 2px 8px rgba(232, 240, 228, 0.3);
+  --shadow-romantic: 0 4px 20px rgba(232, 240, 228, 0.4);
+  --shadow-dreamy: 0 6px 30px rgba(232, 240, 228, 0.5);
+  --shadow-magical: 0 8px 40px rgba(232, 240, 228, 0.6);
 }
 
-/* Global Reset & Base Styles */
+/* Global Reset & Base Styles - Enhanced Romance */
 * {
   margin: 0;
   padding: 0;
@@ -54,7 +80,7 @@ html {
 
 body {
   font-family: 'Dancing Script', 'Playfair Display', serif;
-  background: linear-gradient(135deg, var(--sage-green), var(--mint-cream), var(--pale-mint));
+  background: var(--gradient-romantic);
   color: var(--text-medium);
   line-height: 1.6;
   min-height: 100vh;
@@ -65,9 +91,12 @@ body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  
+  /* Enhanced romantic atmosphere */
+  position: relative;
 }
 
-/* Soft texture overlay for romantic feel */
+/* Enhanced romantic texture overlay */
 body::before {
   content: '';
   position: fixed;
@@ -76,31 +105,78 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(232, 240, 228, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(240, 248, 240, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(232, 240, 228, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(240, 248, 240, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 40% 80%, rgba(200, 230, 200, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 60% 20%, rgba(248, 232, 234, 0.1) 0%, transparent 55%);
   pointer-events: none;
   z-index: 1;
+  animation: romanticShimmer 20s ease-in-out infinite;
 }
 
-/* Typography - Mobile-First */
+/* Romantic shimmer animation */
+@keyframes romanticShimmer {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+/* Typography - Enhanced Romance & Personalization */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Great Vibes', cursive;
   color: var(--text-accent);
   margin-bottom: 1rem;
   font-weight: 400;
   letter-spacing: 0.5px;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
 }
 
 h1 {
   font-size: 2rem; /* Mobile-first: smaller on mobile */
   text-align: center;
-  color: var(--text-accent);
+  color: var(--forest-green);
+  position: relative;
+}
+
+/* Add romantic flourishes to main headings */
+h1::before,
+h1::after {
+  content: '🐼';
+  font-size: 0.8em;
+  opacity: 0.7;
+  animation: gentlePulse 4s ease-in-out infinite;
+}
+
+h1::before {
+  margin-right: 0.5rem;
+  animation-delay: 0s;
+}
+
+h1::after {
+  margin-left: 0.5rem;
+  animation-delay: 2s;
 }
 
 h2 {
   font-size: 1.75rem;
   text-align: center;
   margin-bottom: 1.5rem;
+  color: var(--deep-forest);
+}
+
+/* Add subtle romantic accents to h2 */
+h2::after {
+  content: '💕';
+  display: block;
+  font-size: 0.6em;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+  animation: gentlePulse 3s ease-in-out infinite;
 }
 
 p {
@@ -108,6 +184,26 @@ p {
   line-height: 1.6;
   margin-bottom: 1rem;
   color: var(--text-soft);
+  text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced romantic quotes and special text */
+.romantic-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.3rem;
+  color: var(--text-romantic);
+  text-align: center;
+  font-style: italic;
+  margin: 1.5rem 0;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.dreamy-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-dreamy);
+  font-weight: 600;
+  text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.6);
 }
 
 /* Main Timeline Page Layout */
@@ -118,36 +214,86 @@ p {
   min-height: 100vh;
 }
 
-/* Buttons - Mobile-Friendly Touch Targets */
+/* Buttons - Enhanced Romance & Touch-Friendly */
 .btn, button {
   font-family: 'Dancing Script', cursive;
   padding: 0.75rem 1.5rem;
-  border: 2px solid var(--sage-green);
-  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  border: 2px solid var(--bamboo-green);
+  background: var(--gradient-dreamy);
   color: var(--text-accent);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   border-radius: 25px;
-  transition: var(--smooth-transition);
+  transition: var(--romantic-transition);
   
   /* Mobile-first: Ensure minimum touch target size */
   min-height: 44px;
   min-width: 44px;
+  
+  /* Enhanced romantic styling */
+  box-shadow: var(--shadow-soft);
+  text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.8);
+  position: relative;
+  overflow: hidden;
   
   /* Prevent text selection on buttons */
   -webkit-user-select: none;
   user-select: none;
 }
 
+/* Romantic button hover effect */
+.btn::before, button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
 .btn:hover, button:hover {
-  background: linear-gradient(45deg, var(--mint-cream), var(--soft-eucalyptus));
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(232, 240, 228, 0.3);
+  background: var(--gradient-panda);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-romantic);
+  border-color: var(--spring-green);
+  color: var(--deep-forest);
+}
+
+.btn:hover::before, button:hover::before {
+  left: 100%;
 }
 
 .btn:active, button:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Special romantic button variants */
+.btn-romantic {
+  background: var(--gradient-sunset);
+  border-color: var(--spring-green);
+  color: var(--deep-forest);
+}
+
+.btn-romantic:hover {
+  background: var(--gradient-dreamy);
+  box-shadow: var(--shadow-dreamy);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.btn-panda {
+  background: var(--gradient-panda);
+  border-color: var(--panda-black);
+  color: var(--panda-nose);
+}
+
+.btn-panda::after {
+  content: '🐼';
+  margin-left: 0.5rem;
+  animation: gentlePulse 3s ease-in-out infinite;
 }
 
 /* Back to Timeline Button */
@@ -165,7 +311,7 @@ p {
   box-shadow: 0 2px 8px rgba(232, 240, 228, 0.4);
 }
 
-/* Floating Panda Decorations */
+/* Enhanced Floating Panda Decorations - Romantic Personalization */
 .floating-decorations {
   position: fixed;
   top: 0;
@@ -174,90 +320,379 @@ p {
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  overflow: hidden;
 }
 
 .panda-decoration {
   position: absolute;
   font-size: 1.5rem;
-  opacity: 0.1;
-  animation: floatingPandas 30s infinite linear;
+  opacity: 0.12;
+  animation: romanticFloatingPandas 25s infinite linear;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  filter: drop-shadow(0 2px 4px rgba(232, 240, 228, 0.3));
 }
 
+/* Individual panda personalities with romantic touches */
 .panda-1 {
   top: 20%;
   left: 10%;
   animation-delay: 0s;
+  font-size: 1.8rem;
+}
+
+.panda-1::after {
+  content: '💕';
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  font-size: 0.6em;
+  animation: heartFloat 4s ease-in-out infinite;
+  animation-delay: 1s;
 }
 
 .panda-2 {
   top: 60%;
   right: 15%;
-  animation-delay: 10s;
+  animation-delay: 8s;
+  font-size: 2rem;
+}
+
+.panda-2::after {
+  content: '✨';
+  position: absolute;
+  top: -8px;
+  left: -12px;
+  font-size: 0.5em;
+  animation: sparkleFloat 3s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
 .panda-3 {
   top: 80%;
   left: 20%;
-  animation-delay: 20s;
+  animation-delay: 16s;
+  font-size: 1.6rem;
 }
 
-/* Floating Pandas Animation */
-@keyframes floatingPandas {
+.panda-3::after {
+  content: '💚';
+  position: absolute;
+  bottom: -8px;
+  right: -10px;
+  font-size: 0.7em;
+  animation: gentlePulse 5s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.panda-4 {
+  top: 40%;
+  right: 25%;
+  animation-delay: 12s;
+  font-size: 1.7rem;
+}
+
+.panda-5 {
+  bottom: 30%;
+  left: 35%;
+  animation-delay: 20s;
+  font-size: 1.9rem;
+}
+
+.panda-6 {
+  top: 15%;
+  right: 40%;
+  animation-delay: 4s;
+  font-size: 1.4rem;
+}
+
+.panda-7 {
+  bottom: 15%;
+  right: 30%;
+  animation-delay: 24s;
+  font-size: 2.1rem;
+}
+
+.panda-8 {
+  top: 70%;
+  left: 45%;
+  animation-delay: 6s;
+  font-size: 1.5rem;
+}
+
+.panda-9 {
+  top: 35%;
+  left: 60%;
+  animation-delay: 18s;
+  font-size: 1.8rem;
+}
+
+.panda-10 {
+  bottom: 45%;
+  right: 50%;
+  animation-delay: 10s;
+  font-size: 1.6rem;
+}
+
+.panda-11 {
+  top: 55%;
+  left: 75%;
+  animation-delay: 22s;
+  font-size: 1.7rem;
+}
+
+.panda-12 {
+  bottom: 60%;
+  left: 55%;
+  animation-delay: 14s;
+  font-size: 1.9rem;
+}
+
+/* Enhanced romantic floating animation */
+@keyframes romanticFloatingPandas {
   0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.1;
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.08;
   }
   25% {
-    transform: translateY(-20px) rotate(90deg);
-    opacity: 0.2;
-  }
-  50% {
-    transform: translateY(-10px) rotate(180deg);
-    opacity: 0.1;
-  }
-  75% {
-    transform: translateY(-30px) rotate(270deg);
+    transform: translateY(-25px) rotate(5deg) scale(1.1);
     opacity: 0.15;
   }
+  50% {
+    transform: translateY(-15px) rotate(-3deg) scale(1.05);
+    opacity: 0.12;
+  }
+  75% {
+    transform: translateY(-35px) rotate(8deg) scale(1.15);
+    opacity: 0.18;
+  }
   100% {
-    transform: translateY(0) rotate(360deg);
-    opacity: 0.1;
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.08;
   }
 }
 
-/* Gentle Pulse Animation */
+/* Romantic accent animations */
+@keyframes heartFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-8px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: rotate(120deg) scale(1.3);
+    opacity: 0.8;
+  }
+  66% {
+    transform: rotate(240deg) scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+/* Special romantic moments - anniversary effects */
+.anniversary-pandas {
+  animation: anniversaryDance 3s ease-in-out infinite;
+}
+
+@keyframes anniversaryDance {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.15;
+  }
+  25% {
+    transform: scale(1.2) rotate(5deg);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.1) rotate(-3deg);
+    opacity: 0.3;
+  }
+  75% {
+    transform: scale(1.3) rotate(8deg);
+    opacity: 0.2;
+  }
+}
+
+/* Enhanced Romantic Animations - Personalized Love Story */
+
+/* Gentle Pulse Animation - Enhanced Romance */
 @keyframes gentlePulse {
   0%, 100% {
     transform: scale(1);
     box-shadow: 0 0 20px rgba(232, 240, 228, 0.3);
+    filter: brightness(1);
   }
   50% {
-    transform: scale(1.02);
-    box-shadow: 0 0 30px rgba(232, 240, 228, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(232, 240, 228, 0.6);
+    filter: brightness(1.1);
   }
 }
 
-/* Fade In Animation */
+/* Enhanced Fade In Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Slide Up Animation */
+/* Enhanced Slide Up Animation */
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Romantic Love Pulse - Special for engagement elements */
+@keyframes lovePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
+    filter: hue-rotate(10deg);
+  }
+}
+
+/* Panda Love Dance - Special animation for special moments */
+@keyframes pandaLoveDance {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  25% {
+    transform: rotate(5deg) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(-3deg) scale(1.05);
+    opacity: 0.9;
+  }
+  75% {
+    transform: rotate(8deg) scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Romantic Shimmer - For special text and elements */
+@keyframes romanticShimmer {
+  0%, 100% {
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 1), 0 0 10px rgba(232, 240, 228, 0.6);
+    filter: brightness(1.2);
+  }
+}
+
+/* Heart Rain - For special celebrations */
+@keyframes heartRain {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Bamboo Growth - Symbolic of growing love */
+@keyframes bambooGrowth {
+  0% {
+    height: 0;
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  50% {
+    height: 100%;
+    opacity: 0.7;
+    transform: scaleY(0.8);
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* Love Story Unfold - For timeline reveals */
+@keyframes loveStoryUnfold {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.8);
+    filter: blur(3px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(0) scale(0.95);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Engagement Ring Sparkle */
+@keyframes ringSparkle {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1) drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+    filter: brightness(1.3) drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+  }
+  75% {
+    transform: rotate(270deg) scale(1.15);
+    filter: brightness(1.4) drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));
+  }
+}
+
+/* Romantic Glow - For special moments */
+@keyframes romanticGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(232, 240, 228, 0.4);
+    background: var(--gradient-dreamy);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(232, 240, 228, 0.8), 0 0 60px rgba(255, 182, 193, 0.3);
+    background: var(--gradient-sunset);
   }
 }
 
@@ -302,3 +737,1136 @@ p {
     --text-accent: #2d4a2d;
   }
 }
+
+/* ==============================================
+   Countdown Timer Component - Mobile-First
+   Panda and Green-Themed Romantic Styling
+   ============================================== */
+
+/* Countdown Header - Mobile-First Design */
+.countdown-header {
+  background: linear-gradient(135deg, #e8f0e4, #f0f8f0, #f4f9f4);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 25px 25px;
+  box-shadow: 0 4px 20px rgba(232, 240, 228, 0.3);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Floating Pandas Background for Timer */
+.countdown-header::before {
+  content: '🐼 💕 🐼 💖 🐼 💗 🐼 💚 🐼 🌿';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  opacity: 0.08;
+  font-size: 1.5rem;
+  animation: floatingPandas 25s infinite linear;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Countdown Timer Container */
+.countdown-timer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Timer Title with Panda Icons */
+.timer-title {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.timer-title h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: var(--forest-green);
+  text-shadow: 2px 2px 4px rgba(107, 142, 90, 0.3);
+  margin: 0;
+  text-align: center;
+}
+
+.panda-icon {
+  font-size: 1.5rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Timer Display - Mobile-First Grid */
+.timer-display {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* Timer Units - Mobile-Optimized */
+.timer-unit {
+  background: linear-gradient(135deg, var(--panda-white), var(--pale-mint));
+  border: 2px solid var(--sage-green);
+  border-radius: 15px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(232, 240, 228, 0.4);
+  transition: var(--smooth-transition);
+  
+  /* Mobile-friendly touch targets */
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Subtle bamboo pattern for timer units */
+.timer-unit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 40%, rgba(135, 169, 107, 0.05) 50%, transparent 60%);
+  pointer-events: none;
+}
+
+.timer-unit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232, 240, 228, 0.6);
+  border-color: var(--bamboo-green);
+}
+
+/* Timer Numbers - Panda Theme */
+.timer-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--forest-green);
+  text-shadow: 1px 1px 2px rgba(107, 142, 90, 0.2);
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Timer Labels - Soft Green Theme */
+.timer-label {
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.8rem;
+  color: var(--bamboo-green);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+/* Timer Message - Romantic Text */
+.timer-message {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.timer-message p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Location Info Styling */
+.location-info {
+  margin-top: 0.75rem;
+}
+
+.location-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--bamboo-green);
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  border-radius: 20px;
+  transition: var(--smooth-transition);
+  box-shadow: 0 2px 8px rgba(232, 240, 228, 0.3);
+  
+  /* Mobile-friendly touch target */
+  min-height: 44px;
+}
+
+.location-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(232, 240, 228, 0.5);
+  background: linear-gradient(45deg, var(--mint-cream), var(--soft-eucalyptus));
+}
+
+.location-icon {
+  font-size: 1rem;
+}
+
+.location-text {
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+/* Timer Loading State */
+.timer-loading {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.loading-panda {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.timer-loading p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-accent);
+  margin: 0;
+}
+
+/* Timer Error State */
+.timer-error {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #ffeaea, #fff0f0);
+  border-radius: 15px;
+  margin: 1rem;
+}
+
+.error-panda {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.timer-error p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: #d63384;
+  margin: 0.5rem 0;
+}
+
+/* Countdown Future State */
+.countdown-future {
+  text-align: center;
+}
+
+.countdown-message {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  color: var(--text-accent);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Milestone Celebration Overlay */
+.milestone-celebration {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.celebration-content {
+  background: linear-gradient(135deg, var(--panda-white), var(--sage-green));
+  padding: 2rem;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(232, 240, 228, 0.6);
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.celebration-pandas {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  animation: gentlePulse 1s ease-in-out infinite;
+}
+
+.celebration-content h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: var(--forest-green);
+  margin-bottom: 1rem;
+}
+
+.celebration-content p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.3rem;
+  color: var(--text-accent);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.celebration-hearts {
+  font-size: 1.5rem;
+  animation: gentlePulse 1.5s ease-in-out infinite;
+}
+
+/* Panda-specific animations */
+@keyframes pandaSparkle {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  25% {
+    transform: translateY(-10px) rotate(90deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-5px) rotate(180deg);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateY(-15px) rotate(270deg);
+    opacity: 1;
+  }
+}
+
+/* Bamboo Growth Animation */
+@keyframes bambooGrowth {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  50% {
+    height: 100%;
+    opacity: 0.7;
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+/* Enhanced Floating Pandas Animation */
+@keyframes floatingPandas {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.08;
+  }
+  25% {
+    transform: translateY(-20px) rotate(90deg);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateY(-10px) rotate(180deg);
+    opacity: 0.08;
+  }
+  75% {
+    transform: translateY(-30px) rotate(270deg);
+    opacity: 0.10;
+  }
+  100% {
+    transform: translateY(0) rotate(360deg);
+    opacity: 0.08;
+  }
+}
+
+/* ==============================================
+   Enhanced Event Preview Modal - Sub-task 8.1
+   ============================================== */
+
+/* Modal Animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Event Preview Modal */
+.event-preview-content {
+  background: linear-gradient(135deg, var(--panda-white), var(--sage-green));
+  border-radius: 25px;
+  box-shadow: 0 15px 50px rgba(232, 240, 228, 0.8);
+  max-width: 500px;
+  width: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 3px solid var(--bamboo-green);
+}
+
+.preview-header {
+  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  border-bottom: 2px solid var(--soft-eucalyptus);
+}
+
+.preview-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.preview-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: var(--forest-green);
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.preview-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--panda-white);
+  border: 2px solid var(--bamboo-green);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--forest-green);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--smooth-transition);
+}
+
+.preview-close:hover {
+  background: var(--sage-green);
+  transform: scale(1.1);
+}
+
+.preview-body {
+  padding: 2rem;
+  text-align: center;
+}
+
+.preview-description {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  color: var(--text-accent);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.preview-location {
+  background: linear-gradient(45deg, var(--mint-cream), var(--soft-eucalyptus));
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: var(--forest-green);
+  margin-bottom: 1rem;
+  border: 2px solid var(--sage-green);
+  font-weight: 600;
+}
+
+.preview-date {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.preview-footer {
+  background: linear-gradient(45deg, var(--mint-cream), var(--pale-mint));
+  padding: 1.5rem;
+  text-align: center;
+  border-top: 2px solid var(--soft-eucalyptus);
+}
+
+.preview-note {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-accent);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.preview-note .panda-icon {
+  font-size: 1.2rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+.preview-button {
+  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  border: 2px solid var(--bamboo-green);
+  color: var(--forest-green);
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--smooth-transition);
+  min-height: 44px;
+}
+
+.preview-button:hover {
+  background: linear-gradient(45deg, var(--mint-cream), var(--soft-eucalyptus));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 240, 228, 0.4);
+}
+
+/* Mobile responsive modal */
+@media (max-width: 768px) {
+  .event-preview-content {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+  
+  .preview-header {
+    padding: 1rem;
+  }
+  
+  .preview-icon {
+    font-size: 2.5rem;
+  }
+  
+  .preview-title {
+    font-size: 1.6rem;
+  }
+  
+  .preview-close {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+  
+  .preview-body {
+    padding: 1.5rem;
+  }
+  
+  .preview-description {
+    font-size: 1.1rem;
+  }
+  
+  .preview-footer {
+    padding: 1rem;
+  }
+}
+
+/* Integration Success Indicator */
+.integration-success {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  color: var(--forest-green);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(232, 240, 228, 0.4);
+  border: 2px solid var(--bamboo-green);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Enhanced Cross-Highlighting */
+.timeline-dot.highlighted,
+.timeline-date-label.highlighted {
+  animation: enhancedHighlight 1s ease-in-out infinite alternate;
+}
+
+@keyframes enhancedHighlight {
+  0% {
+    filter: brightness(1) saturate(1) drop-shadow(0 0 5px rgba(255, 107, 107, 0.3));
+  }
+  100% {
+    filter: brightness(1.4) saturate(1.8) drop-shadow(0 0 15px rgba(255, 107, 107, 0.8));
+  }
+}
+
+/* Enhanced Gentle Pulse for Interactive Elements */
+.gentle-pulse {
+  animation: enhancedGentlePulse 0.6s ease-in-out;
+}
+
+@keyframes enhancedGentlePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(232, 240, 228, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(232, 240, 228, 0.6);
+  }
+}
+
+/* Enhanced Timeline Dot Interactions */
+.timeline-dot {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.timeline-dot:hover {
+  transform: translateY(-50%) scale(1.2);
+  box-shadow: 0 8px 25px rgba(107, 142, 90, 0.6);
+  z-index: 10;
+}
+
+.timeline-dot:active {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Enhanced Timeline Label Interactions */
+.timeline-date-label {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.timeline-date-label:hover {
+  transform: translateX(-50%) translateY(-5px) scale(1.05);
+  z-index: 10;
+}
+
+.timeline-date-label:active {
+  transform: translateX(-50%) translateY(-2px) scale(1.02);
+}
+
+/* Enhanced Tooltip Visibility */
+.timeline-date-label:hover .timeline-event-tooltip,
+.timeline-date-label.touch-active .timeline-event-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-10px);
+  pointer-events: auto;
+  z-index: 15;
+}
+
+/* Integration Test Status Indicators */
+.integration-status {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  color: var(--forest-green);
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(232, 240, 228, 0.4);
+  border: 1px solid var(--bamboo-green);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Enhanced Floating Pandas for Integration */
+.panda-decoration.integration-active {
+  animation: integrationFloat 8s ease-in-out infinite;
+  opacity: 0.15;
+}
+
+@keyframes integrationFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translateY(-15px) rotate(5deg) scale(1.1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-8px) rotate(-3deg) scale(1.05);
+    opacity: 0.15;
+  }
+  75% {
+    transform: translateY(-20px) rotate(8deg) scale(1.15);
+    opacity: 0.25;
+  }
+}
+
+/* ==============================================
+   Romantic Utility Classes - Final Touches
+   Sub-task 8.2 Completion
+   ============================================== */
+
+/* Romantic Animation Utility Classes */
+.love-pulse {
+  animation: lovePulse 2s ease-in-out infinite;
+}
+
+.panda-dance {
+  animation: pandaLoveDance 3s ease-in-out infinite;
+}
+
+.romantic-shimmer {
+  animation: romanticShimmer 4s ease-in-out infinite;
+}
+
+.heart-rain {
+  animation: heartRain 8s linear infinite;
+}
+
+.bamboo-growth {
+  animation: bambooGrowth 2s ease-out;
+}
+
+.love-story-unfold {
+  animation: loveStoryUnfold 1s ease-out;
+}
+
+.ring-sparkle {
+  animation: ringSparkle 3s ease-in-out infinite;
+}
+
+.romantic-glow {
+  animation: romanticGlow 4s ease-in-out infinite;
+}
+
+/* Special Milestone Celebration Classes */
+.milestone-celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(232, 240, 228, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(15px);
+  animation: modalFadeIn 0.5s ease-out;
+}
+
+.celebration-content {
+  background: var(--gradient-romantic);
+  padding: 3rem 2rem;
+  border-radius: 30px;
+  text-align: center;
+  box-shadow: var(--shadow-magical);
+  max-width: 90%;
+  margin: 0 auto;
+  border: 3px solid var(--bamboo-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.celebration-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: romanticShimmer 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.celebration-pandas {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  animation: pandaLoveDance 2s ease-in-out infinite;
+  display: block;
+}
+
+.celebration-content h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem;
+  color: var(--forest-green);
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+  animation: romanticShimmer 3s ease-in-out infinite;
+}
+
+.celebration-content p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4rem;
+  color: var(--text-accent);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.celebration-hearts {
+  font-size: 2rem;
+  animation: lovePulse 1.5s ease-in-out infinite;
+  display: block;
+  margin-top: 1rem;
+}
+
+.celebration-close {
+  background: var(--gradient-panda);
+  border: 2px solid var(--bamboo-green);
+  color: var(--forest-green);
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--romantic-transition);
+  margin-top: 1rem;
+}
+
+.celebration-close:hover {
+  background: var(--gradient-dreamy);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-romantic);
+}
+
+/* Heart Rain Effect for Special Moments */
+.heart-rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.heart-rain-drop {
+  position: absolute;
+  font-size: 1.5rem;
+  color: rgba(255, 182, 193, 0.8);
+  animation: heartRain 8s linear infinite;
+  pointer-events: none;
+}
+
+.heart-rain-drop:nth-child(odd) {
+  animation-delay: -2s;
+  font-size: 1.2rem;
+}
+
+.heart-rain-drop:nth-child(even) {
+  animation-delay: -4s;
+  font-size: 1.8rem;
+}
+
+/* Bamboo Growth Elements */
+.bamboo-element {
+  position: absolute;
+  width: 4px;
+  background: linear-gradient(to top, var(--bamboo-green), var(--spring-green));
+  border-radius: 2px;
+  opacity: 0.3;
+  animation: bambooGrowth 3s ease-out;
+}
+
+.bamboo-element::before,
+.bamboo-element::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 2px;
+  background: var(--spring-green);
+  border-radius: 1px;
+}
+
+.bamboo-element::before {
+  top: 30%;
+  left: -2px;
+}
+
+.bamboo-element::after {
+  top: 60%;
+  right: -2px;
+}
+
+/* Enhanced Romantic Text Effects */
+.romantic-quote {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  color: var(--text-romantic);
+  text-align: center;
+  font-style: italic;
+  margin: 2rem 0;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+  animation: romanticShimmer 5s ease-in-out infinite;
+  position: relative;
+}
+
+.romantic-quote::before,
+.romantic-quote::after {
+  content: '"';
+  font-size: 2rem;
+  color: var(--spring-green);
+  opacity: 0.6;
+}
+
+.romantic-quote::before {
+  margin-right: 0.5rem;
+}
+
+.romantic-quote::after {
+  margin-left: 0.5rem;
+}
+
+/* Love Letter Styling */
+.love-letter {
+  background: var(--gradient-sunset);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 3px solid var(--bamboo-green);
+  box-shadow: var(--shadow-dreamy);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-accent);
+  position: relative;
+  margin: 2rem 0;
+}
+
+.love-letter::before {
+  content: '💕';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panda-white);
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  animation: lovePulse 3s ease-in-out infinite;
+}
+
+/* Engagement Ring Effect */
+.engagement-ring {
+  display: inline-block;
+  font-size: 2rem;
+  animation: ringSparkle 4s ease-in-out infinite;
+  margin: 0 0.5rem;
+}
+
+/* Panda Love Couple */
+.panda-couple {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+.panda-couple .panda-him {
+  animation: pandaLoveDance 3s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.panda-couple .panda-her {
+  animation: pandaLoveDance 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.panda-couple .love-heart {
+  animation: lovePulse 2s ease-in-out infinite;
+  color: #ff6b9d;
+}
+
+/* Anniversary Special Effects */
+.anniversary-special {
+  position: relative;
+  overflow: hidden;
+}
+
+.anniversary-special::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+  animation: ringSparkle 3s ease-in-out infinite;
+}
+
+/* Mobile-Specific Romantic Enhancements */
+@media (max-width: 768px) {
+  .celebration-content {
+    padding: 2rem 1.5rem;
+    max-width: 95%;
+  }
+  
+  .celebration-pandas {
+    font-size: 2.5rem;
+  }
+  
+  .celebration-content h3 {
+    font-size: 2rem;
+  }
+  
+  .celebration-content p {
+    font-size: 1.2rem;
+  }
+  
+  .romantic-quote {
+    font-size: 1.3rem;
+    margin: 1.5rem 0;
+  }
+  
+  .love-letter {
+    padding: 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .panda-couple {
+    font-size: 1.8rem;
+  }
+}
+
+/* Dark Mode Romantic Adjustments */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sage-green: #2d4a2d;
+    --mint-cream: #1a2e1a;
+    --soft-eucalyptus: #234a23;
+    --pale-mint: #1e3a1e;
+    --text-soft: #e0e0e0;
+    --text-medium: #f0f0f0;
+    --text-accent: #90c690;
+    --panda-white: #2a2a2a;
+    --warm-white: #2a2a2a;
+  }
+  
+  .celebration-content {
+    background: linear-gradient(135deg, #2d4a2d, #1a2e1a);
+    color: #e0e0e0;
+  }
+  
+  .love-letter {
+    background: linear-gradient(135deg, #2d4a2d, #234a23);
+    color: #e0e0e0;
+  }
+}
+
+/* Print Styles for Love Letters */
+@media print {
+  .floating-decorations,
+  .panda-decoration,
+  .heart-rain-container {
+    display: none !important;
+  }
+  
+  .love-letter {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: 2px solid #6b8e5a !important;
+  }
+  
+  .romantic-quote {
+    color: #2d5a2d !important;
+    text-shadow: none !important;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .love-pulse,
+  .panda-dance,
+  .romantic-shimmer,
+  .heart-rain,
+  .bamboo-growth,
+  .love-story-unfold,
+  .ring-sparkle,
+  .romantic-glow,
+  .pandaLoveDance,
+  .lovePulse,
+  .romanticShimmer,
+  .heartRain,
+  .bambooGrowth,
+  .loveStoryUnfold,
+  .ringSparkle,
+  .romanticGlow {
+    animation: none !important;
+  }
+  
+  .celebration-content::before {
+    animation: none !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --sage-green: #000000;
+    --mint-cream: #ffffff;
+    --forest-green: #000000;
+    --bamboo-green: #000000;
+    --text-soft: #000000;
+    --text-medium: #000000;
+    --text-accent: #000000;
+  }
+  
+  .celebration-content {
+    background: white !important;
+    color: black !important;
+    border: 3px solid black !important;
+  }
+  
+  .love-letter {
+    background: white !important;
+    color: black !important;
+    border: 3px solid black !important;
+  }
+}
+
+/* Final Integration Success Styles */
+.integration-complete {
+  position: relative;
+}
+
+.integration-complete::after {
+  content: '🥂🥂 To never ending love! 🥂🥂';
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--gradient-romantic);
+  color: var(--forest-green);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--bamboo-green);
+  opacity: 0.9;
+  pointer-events: none;
+  animation: gentlePulse 4s ease-in-out infinite;
+}
+
+/* Sub-task 8.2 Complete - Final romantic touches and personalization added */
+/* Task 8 Complete - Final integration and polish finished */

@@ -244,16 +244,6 @@ const TIMELINE_DATA = {
       `,
       photos: []
     }
-  ],
-  
-  // Milestone celebrations configuration
-  milestones: [
-    { days: 30, message: "One month of love! 🐼💕" },
-    { days: 100, message: "100 days together! 🎉🐼" },
-    { days: 365, message: "One year of beautiful memories! 🎂🐼" },
-    { days: 500, message: "500 days of happiness! ✨🐼" },
-    { days: 730, message: "Two years of love! 💖🐼" },
-    { days: 1000, message: "1000 days together! 🎊🐼" }
   ]
 };
 
