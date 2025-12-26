@@ -1,0 +1,395 @@
+/* ==============================================
+   Responsive Design - Progressive Enhancement
+   Mobile-First Approach with Tablet and Desktop Enhancements
+   ============================================== */
+
+/* ============================================
+   Tablet Styles (768px and up)
+   Progressive Enhancement from Mobile
+   ============================================ */
+@media (min-width: 768px) {
+  /* Typography Enhancements */
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  .timer-title h1 {
+    font-size: 2.2rem;
+  }
+  
+  .timeline-title {
+    font-size: 2.8rem;
+  }
+  
+  /* Countdown Timer - Tablet Layout */
+  .countdown-header {
+    padding: 2rem 2rem;
+  }
+  
+  .timer-display {
+    gap: 1rem;
+  }
+  
+  .timer-unit {
+    min-width: 90px;
+    padding: 1rem 0.75rem;
+  }
+  
+  .timer-number {
+    font-size: 2rem;
+  }
+  
+  .timer-label {
+    font-size: 0.9rem;
+  }
+  
+  /* Timeline Section - Tablet Layout */
+  .timeline-section {
+    padding: 3rem 2rem;
+  }
+  
+  .timeline-container {
+    max-width: 800px;
+  }
+  
+  /* Timeline Bar - Still Vertical but Larger */
+  .timeline-bar {
+    width: 6px;
+    min-height: 400px;
+  }
+  
+  .timeline-dot {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .timeline-dot::before {
+    font-size: 14px;
+    top: -28px;
+  }
+  
+  /* Event Cards - Tablet Enhancements */
+  .event-card {
+    padding: 2rem;
+    margin: 0 2rem;
+    min-height: 140px;
+  }
+  
+  .event-title {
+    font-size: 1.5rem;
+  }
+  
+  .event-preview {
+    font-size: 1.1rem;
+  }
+  
+  .event-photo-preview {
+    width: 80px;
+    height: 80px;
+  }
+  
+  /* Floating Pandas - Larger on Tablet */
+  .panda-decoration {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================
+   Desktop Styles (1024px and up)
+   Full Desktop Experience
+   ============================================ */
+@media (min-width: 1024px) {
+  /* Typography - Desktop Sizes */
+  h1 {
+    font-size: 3rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+  
+  .timer-title h1 {
+    font-size: 2.8rem;
+  }
+  
+  .timeline-title {
+    font-size: 3.2rem;
+  }
+  
+  /* Countdown Timer - Desktop Layout */
+  .countdown-header {
+    padding: 3rem 2rem;
+  }
+  
+  .countdown-timer {
+    max-width: 1000px;
+  }
+  
+  .timer-display {
+    gap: 1.5rem;
+  }
+  
+  .timer-unit {
+    min-width: 120px;
+    padding: 1.5rem 1rem;
+  }
+  
+  .timer-number {
+    font-size: 2.5rem;
+  }
+  
+  .timer-label {
+    font-size: 1rem;
+  }
+  
+  /* Timeline Section - Desktop Layout */
+  .timeline-section {
+    padding: 4rem 2rem;
+  }
+  
+  .timeline-container {
+    max-width: 1200px;
+  }
+  
+  /* Timeline Bar - Horizontal Layout for Desktop */
+  .timeline-bar {
+    width: 80%;
+    height: 6px;
+    min-height: auto;
+    margin: 2rem auto 3rem;
+  }
+  
+  .timeline-dot {
+    width: 28px;
+    height: 28px;
+    top: 50%;
+    left: auto;
+    transform: translateY(-50%);
+  }
+  
+  .timeline-dot:hover {
+    transform: translateY(-50%) scale(1.2);
+  }
+  
+  .timeline-dot::before {
+    font-size: 16px;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  /* Timeline Events - Desktop Grid Layout */
+  .timeline-events {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Event Cards - Desktop Enhancements */
+  .event-card {
+    padding: 2.5rem;
+    margin: 0;
+    min-height: 180px;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+  
+  .event-title {
+    font-size: 1.7rem;
+  }
+  
+  .event-preview {
+    font-size: 1.2rem;
+  }
+  
+  .event-photo-preview {
+    width: 100px;
+    height: 100px;
+  }
+  
+  /* Floating Pandas - Desktop Size */
+  .panda-decoration {
+    font-size: 2.5rem;
+  }
+  
+  /* Desktop Hover Effects */
+  .event-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(232, 240, 228, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .event-card:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Large Desktop Styles (1440px and up)
+   Enhanced Experience for Large Screens
+   ============================================ */
+@media (min-width: 1440px) {
+  /* Typography - Large Desktop */
+  .timer-title h1 {
+    font-size: 3.2rem;
+  }
+  
+  .timeline-title {
+    font-size: 3.8rem;
+  }
+  
+  /* Countdown Timer - Large Desktop */
+  .countdown-timer {
+    max-width: 1400px;
+  }
+  
+  .timer-unit {
+    min-width: 140px;
+    padding: 2rem 1.25rem;
+  }
+  
+  .timer-number {
+    font-size: 3rem;
+  }
+  
+  /* Timeline Container - Large Desktop */
+  .timeline-container {
+    max-width: 1400px;
+  }
+  
+  /* Timeline Events - Larger Grid */
+  .timeline-events {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2.5rem;
+  }
+  
+  /* Event Cards - Large Desktop */
+  .event-card {
+    padding: 3rem;
+    min-height: 200px;
+  }
+  
+  .event-title {
+    font-size: 2rem;
+  }
+  
+  .event-preview {
+    font-size: 1.3rem;
+  }
+}
+
+/* ============================================
+   Landscape Mobile Orientation
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .countdown-header {
+    padding: 1rem;
+  }
+  
+  .timer-title h1 {
+    font-size: 1.5rem;
+  }
+  
+  .timer-display {
+    gap: 0.5rem;
+  }
+  
+  .timer-unit {
+    min-width: 60px;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .timer-number {
+    font-size: 1.2rem;
+  }
+  
+  .timer-label {
+    font-size: 0.7rem;
+  }
+  
+  .timeline-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .timeline-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* ============================================
+   High DPI / Retina Display Optimizations
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders and shadows for high DPI */
+  .event-card {
+    border-width: 1px;
+    box-shadow: 0 2px 8px rgba(232, 240, 228, 0.2);
+  }
+  
+  .timeline-dot {
+    border-width: 2px;
+    box-shadow: 0 1px 4px rgba(232, 240, 228, 0.4);
+  }
+  
+  .timer-unit {
+    border-width: 1px;
+    box-shadow: 0 1px 4px rgba(232, 240, 228, 0.3);
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .floating-decorations,
+  .panda-decoration {
+    display: none;
+  }
+  
+  .countdown-header {
+    background: white;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .timeline-section {
+    background: white;
+  }
+  
+  .event-card {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+  
+  .timeline-bar {
+    background: #ccc;
+  }
+  
+  .timeline-dot {
+    background: #666;
+    border-color: white;
+  }
+}

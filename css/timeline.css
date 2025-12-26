@@ -1,0 +1,559 @@
+/* ==============================================
+   Timeline Component Styles
+   Mobile-First Interactive Timeline with Panda Theme
+   ============================================== */
+
+/* Countdown Timer Header */
+.countdown-header {
+  padding: 1.5rem 1rem;
+  background: linear-gradient(135deg, var(--sage-green), var(--mint-cream));
+  border-bottom: 3px solid var(--soft-eucalyptus);
+  position: relative;
+  overflow: hidden;
+  min-height: 200px; /* Ensure minimum height */
+  display: block; /* Ensure visibility */
+  visibility: visible; /* Force visibility */
+}
+
+.countdown-timer {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: block; /* Ensure visibility */
+  visibility: visible; /* Force visibility */
+}
+
+.timer-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.timer-title h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: var(--text-accent);
+  margin: 0;
+}
+
+.panda-icon {
+  font-size: 1.2rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+.timer-display {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  min-height: 80px; /* Ensure minimum height */
+}
+
+.timer-unit {
+  background: linear-gradient(45deg, var(--whisper-pink), var(--pale-mint));
+  border: 2px solid var(--sage-green);
+  border-radius: 15px;
+  padding: 0.75rem 0.5rem;
+  min-width: 70px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(232, 240, 228, 0.3);
+  display: inline-block; /* Ensure proper display */
+  margin: 0.25rem; /* Add some spacing */
+}
+
+.timer-number {
+  display: block;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-accent);
+  line-height: 1;
+}
+
+.timer-label {
+  display: block;
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.8rem;
+  color: var(--text-soft);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timer-message {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: var(--text-soft);
+  font-style: italic;
+}
+
+.location-info {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.location-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, var(--sage-green), var(--mint-cream));
+  border: 2px solid var(--soft-eucalyptus);
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--text-accent);
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--smooth-transition);
+  box-shadow: 0 2px 8px rgba(232, 240, 228, 0.3);
+  
+  /* Mobile-first: Ensure minimum touch target size */
+  min-height: 44px;
+}
+
+.location-link:hover {
+  background: linear-gradient(45deg, var(--mint-cream), var(--soft-eucalyptus));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 240, 228, 0.4);
+  color: var(--text-accent);
+  text-decoration: none;
+}
+
+.location-link:active {
+  transform: translateY(0);
+}
+
+.location-icon {
+  font-size: 1.1rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+.location-text {
+  font-style: italic;
+  white-space: nowrap;
+}
+
+/* Mobile responsive for location link */
+@media (max-width: 480px) {
+  .location-text {
+    font-size: 0.8rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+  }
+  
+  .location-link {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem;
+    text-align: center;
+  }
+}
+
+.timer-loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-soft);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+}
+
+.loading-panda {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: gentlePulse 1.5s ease-in-out infinite;
+}
+
+/* Timeline Section */
+.timeline-section {
+  padding: 3rem 1rem;
+  background: linear-gradient(180deg, #f0f8f0, #e8f0e4);
+  min-height: 70vh;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.timeline-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.timeline-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem;
+  text-align: center;
+  color: #2d5a2d;
+  margin-bottom: 3rem;
+  position: relative;
+  text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+}
+
+.timeline-title::after {
+  content: '🐼 💕 🐼';
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+/* Timeline Wrapper - No Scrolling, Full Width */
+.timeline-wrapper {
+  position: relative;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  background: rgba(255,255,255,0.8);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(107, 142, 90, 0.2);
+  border: 2px solid #e8f0e4;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Timeline Bar Container - Full Width */
+.timeline-bar {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  margin: 0 auto;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Timeline Line */
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 3%;
+  right: 3%;
+  height: 10px;
+  background: linear-gradient(90deg, #2d5a2d, #6b8e5a, #2d5a2d);
+  border-radius: 5px;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 20px rgba(107, 142, 90, 0.4);
+  z-index: 1;
+  border: 2px solid #ffffff;
+}
+
+/* Timeline Dots */
+.timeline-dot {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(45deg, #ffffff, #e8f0e4);
+  border: 4px solid #6b8e5a;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 6px 25px rgba(107, 142, 90, 0.5);
+  transition: all 0.3s ease;
+  /* Remove flexbox and use absolute positioning for perfect centering */
+}
+
+.timeline-dot:hover {
+  transform: translateY(-50%) scale(1.2);
+  box-shadow: 0 8px 35px rgba(107, 142, 90, 0.7);
+  border-color: #2d5a2d;
+  border-width: 5px;
+}
+
+.timeline-dot::before {
+  content: attr(data-icon);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  line-height: 1;
+  text-align: center;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+/* Timeline Labels Container - Full Width */
+.timeline-labels {
+  display: block !important;
+  visibility: visible !important;
+  position: relative;
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0;
+}
+
+/* Date Labels Container - Full Width */
+.timeline-date-labels {
+  position: relative;
+  width: 100%;
+  height: 80px;
+}
+
+/* Individual Date Label - Absolute Positioning */
+.timeline-date-label {
+  position: absolute;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: all 0.3s ease;
+  width: 60px;
+  /* Center the label on its position */
+  transform: translateX(-50%);
+  top: 0;
+}
+
+.timeline-date-label:hover {
+  transform: translateX(-50%) translateY(-5px);
+  z-index: 10;
+}
+
+/* Date Text - Vertical and Clean */
+.timeline-date-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  color: #2d5a2d;
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.9);
+  /* Remove background and borders for clean vertical text */
+  padding: 0.2rem 0;
+  /* Split date into multiple lines for vertical display */
+  white-space: pre-line;
+}
+
+/* Tooltip */
+.timeline-event-tooltip {
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 3px solid #6b8e5a;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 15px 40px rgba(107, 142, 90, 0.5);
+  z-index: 15;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  min-width: 240px;
+  max-width: 320px;
+  /* Ensure tooltip is above everything */
+  pointer-events: none;
+}
+
+.timeline-event-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 12px solid transparent;
+  border-top-color: #6b8e5a;
+}
+
+.timeline-date-label:hover .timeline-event-tooltip,
+.timeline-date-label.touch-active .timeline-event-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-15px);
+  pointer-events: auto;
+}
+
+/* Tooltip Content */
+.tooltip-nickname {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.4rem;
+  color: #2d5a2d;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+.tooltip-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: #333333;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.tooltip-preview {
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  color: #4a4a4a;
+  text-align: center;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Responsive Timeline for Mobile */
+@media (max-width: 768px) {
+  .timeline-section {
+    padding: 2rem 0.5rem;
+  }
+  
+  .timeline-wrapper {
+    padding: 1.5rem 0.5rem;
+    /* Remove horizontal scrolling */
+    overflow-x: visible;
+  }
+  
+  .timeline-bar {
+    /* Remove min-width to fit screen */
+    width: 100%;
+    height: 100px;
+  }
+  
+  .timeline-line {
+    left: 5%;
+    right: 5%;
+    height: 8px;
+  }
+  
+  .timeline-dot {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .timeline-dot::before {
+    font-size: 16px;
+  }
+  
+  .timeline-labels {
+    /* Remove min-width to fit screen */
+    width: 100%;
+    padding: 0;
+    margin-top: 0.75rem;
+  }
+  
+  .timeline-date-label {
+    width: 50px; /* Smaller width for mobile */
+    padding: 0.4rem 0.1rem;
+  }
+  
+  .timeline-date-text {
+    font-size: 0.8rem;
+    padding: 0.15rem 0;
+  }
+  
+  .timeline-event-tooltip {
+    min-width: 200px;
+    max-width: 250px;
+    padding: 0.75rem;
+  }
+  
+  .tooltip-nickname {
+    font-size: 1.2rem;
+  }
+  
+  .tooltip-title {
+    font-size: 0.9rem;
+  }
+  
+  .tooltip-preview {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-section {
+    padding: 1.5rem 0.25rem;
+  }
+  
+  .timeline-title {
+    font-size: 2rem;
+  }
+  
+  .timeline-wrapper {
+    padding: 1rem 0.25rem;
+    /* Remove horizontal scrolling */
+    overflow-x: visible;
+  }
+  
+  .timeline-bar {
+    /* Remove min-width to fit screen */
+    width: 100%;
+    height: 90px;
+  }
+  
+  .timeline-line {
+    left: 5%;
+    right: 5%;
+    height: 6px;
+  }
+  
+  .timeline-dot {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .timeline-dot::before {
+    font-size: 14px;
+  }
+  
+  .timeline-labels {
+    /* Remove min-width to fit screen */
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  .timeline-date-label {
+    width: 45px; /* Even smaller for very small screens */
+    padding: 0.3rem 0.05rem;
+  }
+  
+  .timeline-date-text {
+    font-size: 0.7rem;
+    padding: 0.1rem 0;
+  }
+  
+  .timeline-event-tooltip {
+    min-width: 180px;
+    max-width: 220px;
+    padding: 0.5rem;
+  }
+  
+  .tooltip-nickname {
+    font-size: 1.1rem;
+  }
+  
+  .tooltip-title {
+    font-size: 0.8rem;
+  }
+  
+  .tooltip-preview {
+    font-size: 0.75rem;
+  }
+}
+
+/* Timeline Events Container - Removed (using horizontal timeline instead) */
+
+/* Loading State */
+.timeline-loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-soft);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+}
+
+.timeline-loading::before {
+  content: '🐼';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  animation: gentlePulse 1.5s ease-in-out infinite;
+}
