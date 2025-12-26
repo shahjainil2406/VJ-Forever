@@ -340,6 +340,7 @@ class LoveStoryApp {
         const dot = document.createElement('div');
         dot.className = 'timeline-dot';
         dot.setAttribute('data-icon', event.icon);
+        dot.setAttribute('data-index', index); // Add index for cross-highlighting
         dot.style.left = `${positionPercent}%`;
         
         dot.addEventListener('click', () => {
@@ -347,11 +348,29 @@ class LoveStoryApp {
           alert(`${event.nickname || event.title}\n\n${event.previewText}${locationText}\n\n${event.detailContent || 'More details coming soon!'}`);
         });
         
+        // Add hover events for cross-highlighting
+        dot.addEventListener('mouseenter', () => {
+          // Highlight corresponding date label
+          const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
+          if (dateLabel) {
+            dateLabel.classList.add('highlighted');
+          }
+        });
+        
+        dot.addEventListener('mouseleave', () => {
+          // Remove highlight from corresponding date label
+          const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
+          if (dateLabel) {
+            dateLabel.classList.remove('highlighted');
+          }
+        });
+        
         timelineBar.appendChild(dot);
         
         // Create date label with tooltip - positioned exactly under the dot
         const dateLabel = document.createElement('div');
         dateLabel.className = 'timeline-date-label';
+        dateLabel.setAttribute('data-index', index); // Add index for cross-highlighting
         dateLabel.style.left = `${positionPercent}%`; // Same position as dot
         
         // Format date vertically
@@ -365,7 +384,6 @@ class LoveStoryApp {
           <div class="timeline-date-text">${dateText}</div>
           <div class="timeline-event-tooltip">
             <div class="tooltip-nickname">${event.nickname || event.title}</div>
-            <div class="tooltip-title">${event.title}</div>
             <div class="tooltip-preview">${event.previewText}</div>
           </div>
         `;
@@ -374,6 +392,23 @@ class LoveStoryApp {
         dateLabel.addEventListener('click', () => {
           const locationText = event.location ? `\nLocation: ${event.location}` : '';
           alert(`${event.nickname || event.title}\n\n${event.previewText}${locationText}\n\n${event.detailContent || 'More details coming soon!'}`);
+        });
+        
+        // Add hover events for cross-highlighting
+        dateLabel.addEventListener('mouseenter', () => {
+          // Highlight corresponding timeline dot
+          const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
+          if (timelineDot) {
+            timelineDot.classList.add('highlighted');
+          }
+        });
+        
+        dateLabel.addEventListener('mouseleave', () => {
+          // Remove highlight from corresponding timeline dot
+          const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
+          if (timelineDot) {
+            timelineDot.classList.remove('highlighted');
+          }
         });
         
         // Add touch support for mobile tooltips

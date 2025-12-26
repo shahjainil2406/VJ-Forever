@@ -172,6 +172,15 @@
             <div class="panda-decoration panda-1">🐼</div>
             <div class="panda-decoration panda-2">🐼</div>
             <div class="panda-decoration panda-3">🐼</div>
+            <div class="panda-decoration panda-4">🐼</div>
+            <div class="panda-decoration panda-5">🐼</div>
+            <div class="panda-decoration panda-6">🐼</div>
+            <div class="panda-decoration panda-7">🐼</div>
+            <div class="panda-decoration panda-8">🐼</div>
+            <div class="panda-decoration panda-9">🐼</div>
+            <div class="panda-decoration panda-10">🐼</div>
+            <div class="panda-decoration panda-11">🐼</div>
+            <div class="panda-decoration panda-12">🐼</div>
         </div>
     </main>
 
@@ -311,6 +320,7 @@
                         const dot = document.createElement('div');
                         dot.className = 'timeline-dot';
                         dot.setAttribute('data-icon', event.icon);
+                        dot.setAttribute('data-index', index); // Add index for cross-highlighting
                         dot.style.left = `${positionPercent}%`;
                         
                         dot.addEventListener('click', () => {
@@ -319,11 +329,34 @@
                             alert(`${event.nickname}\n\n${event.preview}${locationText}\n\nDetail page coming soon! 🐼💕`);
                         });
                         
+                        // Add hover events for cross-highlighting
+                        dot.addEventListener('mouseenter', () => {
+                            console.log('🐼 Dot hover enter, index:', index);
+                            // Highlight corresponding date label
+                            const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
+                            console.log('🐼 Found date label:', dateLabel);
+                            if (dateLabel) {
+                                dateLabel.classList.add('highlighted');
+                                console.log('🐼 Added highlighted class to date label');
+                            }
+                        });
+                        
+                        dot.addEventListener('mouseleave', () => {
+                            console.log('🐼 Dot hover leave, index:', index);
+                            // Remove highlight from corresponding date label
+                            const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
+                            if (dateLabel) {
+                                dateLabel.classList.remove('highlighted');
+                                console.log('🐼 Removed highlighted class from date label');
+                            }
+                        });
+                        
                         timelineBar.appendChild(dot);
                         
                         // Create date label with tooltip - positioned exactly under the dot
                         const dateLabel = document.createElement('div');
                         dateLabel.className = 'timeline-date-label';
+                        dateLabel.setAttribute('data-index', index); // Add index for cross-highlighting
                         dateLabel.style.left = `${positionPercent}%`; // Same position as dot
                         
                         // Format date vertically
@@ -337,7 +370,6 @@
                             <div class="timeline-date-text">${dateText}</div>
                             <div class="timeline-event-tooltip">
                                 <div class="tooltip-nickname">${event.nickname}</div>
-                                <div class="tooltip-title">${event.title}</div>
                                 <div class="tooltip-preview">${event.preview}</div>
                             </div>
                         `;
@@ -346,6 +378,28 @@
                             console.log('🐼 Timeline date clicked:', event.title);
                             const locationText = event.location ? `\nLocation: ${event.location}` : '';
                             alert(`${event.nickname}\n\n${event.preview}${locationText}\n\nDetail page coming soon! 🐼💕`);
+                        });
+                        
+                        // Add hover events for cross-highlighting
+                        dateLabel.addEventListener('mouseenter', () => {
+                            console.log('🐼 Date label hover enter, index:', index);
+                            // Highlight corresponding timeline dot
+                            const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
+                            console.log('🐼 Found timeline dot:', timelineDot);
+                            if (timelineDot) {
+                                timelineDot.classList.add('highlighted');
+                                console.log('🐼 Added highlighted class to timeline dot');
+                            }
+                        });
+                        
+                        dateLabel.addEventListener('mouseleave', () => {
+                            console.log('🐼 Date label hover leave, index:', index);
+                            // Remove highlight from corresponding timeline dot
+                            const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
+                            if (timelineDot) {
+                                timelineDot.classList.remove('highlighted');
+                                console.log('🐼 Removed highlighted class from timeline dot');
+                            }
                         });
                         
                         // Add touch support for mobile tooltips
