@@ -17,9 +17,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- CSS files -->
-    <link rel="stylesheet" href="css/styles.css?v=4">
-    <link rel="stylesheet" href="css/timeline.css?v=4">
-    <link rel="stylesheet" href="css/responsive.css?v=4">
+    <link rel="stylesheet" href="css/styles.css?v=6">
+    <link rel="stylesheet" href="css/timeline.css?v=6">
+    <link rel="stylesheet" href="css/responsive.css?v=6">
     
     <!-- Inline critical CSS for immediate visibility -->
     <style>
@@ -232,24 +232,10 @@
 
     <!-- JavaScript files -->
     <script src="data/timeline-data.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="validate-navigation.js"></script>
+
     <script>
-        // Enhanced initialization with integration testing
+        // Enhanced initialization
         console.log('🐼 Love Story Webapp initializing...');
-        
-        // Register service worker for offline functionality
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('✅ Service Worker registered successfully:', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('❌ Service Worker registration failed:', error);
-                    });
-            });
-        }
         
         // Enhanced integration validation
         function validateIntegration() {
@@ -472,14 +458,9 @@
                             eventContainer.classList.add('gentle-pulse');
                             setTimeout(() => eventContainer.classList.remove('gentle-pulse'), 600);
                             
-                            // Use the global navigation function
-                            if (window.navigateToEventDetail) {
-                                window.navigateToEventDetail(event);
-                            } else {
-                                // Fallback alert
-                                const locationText = event.location ? `\nLocation: ${event.location}` : '';
-                                alert(`${event.nickname || event.title}\n\n${event.preview}${locationText}`);
-                            }
+                            // Show event details in alert (since navigation pages are removed)
+                            const locationText = event.location ? `\nLocation: ${event.location}` : '';
+                            alert(`${event.nickname || event.title}\n\n${event.preview}${locationText}`);
                         };
                         
                         // Add click handler to event content
@@ -555,11 +536,6 @@
                 console.error('❌ Error in enhanced integration initialization:', error);
             }
         });
-        
-        // Enhanced event preview modal
-        // Event preview functionality is now handled by NavigationManager
-        
-        // Event preview functionality is now handled by NavigationManager
         
         // Add sparkle effect for special romantic moments
         function addSparkleEffect(container) {
@@ -774,10 +750,7 @@
         setTimeout(initializeRomanticEnhancements, 2000);
     </script>
     <script src="js/mobile-performance.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/timeline.js"></script>
-    <script src="js/countdown.js"></script>
     <script src="js/animations.js"></script>
-    <script src="test-navigation.js"></script>
+
 </body>
 </html>

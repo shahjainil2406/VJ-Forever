@@ -364,7 +364,6 @@ class MobilePerformanceManager {
   optimizeCSSDelivery() {
     // Load non-critical CSS asynchronously
     const nonCriticalCSS = [
-      'css/event-detail.css',
       'css/responsive.css'
     ];
     
@@ -398,7 +397,7 @@ class MobilePerformanceManager {
     scripts.forEach(script => {
       if (!script.hasAttribute('defer') && !script.hasAttribute('async')) {
         // Add defer to non-critical scripts
-        if (!script.src.includes('main.js') && !script.src.includes('mobile-performance.js')) {
+        if (!script.src.includes('mobile-performance.js')) {
           script.defer = true;
         }
       }
@@ -596,7 +595,6 @@ class MobilePerformanceManager {
         '/index.html',
         '/css/styles.css',
         '/css/timeline.css',
-        '/js/main.js',
         '/js/mobile-performance.js',
         '/data/timeline-data.js'
       ];
@@ -1298,7 +1296,6 @@ class MobilePerformanceManager {
     const criticalResources = [
       { href: 'css/styles.css', as: 'style' },
       { href: 'css/timeline.css', as: 'style' },
-      { href: 'js/main.js', as: 'script' },
       { href: 'data/timeline-data.js', as: 'script' }
     ];
     

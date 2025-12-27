@@ -52,10 +52,10 @@ const TIMELINE_DATA = {
     {
       id: 'vadodara-family',
       title: 'You Went to Vadodara to Meet My Family Without Me :)',
-      nickname: 'Family Hearts 👨‍👩‍👧‍👦',
+      nickname: 'Family Hearts 🌻',
       date: '2025-07-04',
       category: 'dating',
-      icon: '👨‍👩‍👧‍👦',
+      icon: '🌻',
       previewText: 'The brave journey to win over my family...',
       detailContent: `
         July 4th, 2025 - the day you showed incredible courage and love by 
@@ -71,10 +71,10 @@ const TIMELINE_DATA = {
     {
       id: 'dalChawalDay',
       title: 'The day we said yes to Forever',
-      nickname: 'Dal Chawal for Lifetime',
-      date: '2025-07-04',
+      nickname: 'Dal Chawal for Lifetime 💓',
+      date: '2025-07-26',
       category: 'dating',
-      icon: '🤝',
+      icon: '💓',
       previewText: 'The day we said yes after taking blessings from Ganeshji',
       detailContent: `
         July 26th, 2025 - the day you showed incredible courage and love by 
@@ -129,10 +129,10 @@ const TIMELINE_DATA = {
     {
       id: 'our-engagement',
       title: 'Our Engagement',
-      nickname: 'Ring Promise 💎',
+      nickname: 'Ring Promise 💍',
       date: '2025-09-05',
       category: 'proposal',
-      icon: '💎',
+      icon: '💍',
       previewText: 'The day we officially got engaged...',
       detailContent: `
         September 5th, 2025 - our official engagement day! With rings 
@@ -168,10 +168,10 @@ const TIMELINE_DATA = {
     {
       id: 'day-to-forever',
       title: 'The Day to Forever',
-      nickname: 'Wedding Bliss 💒',
+      nickname: 'Wedding Bliss 🤵👰',
       date: '2026-02-03',
       category: 'future',
-      icon: '💒',
+      icon: '🤵👰',
       previewText: 'Our wedding day - the beginning of forever...',
       detailContent: `
         February 3rd, 2026 - our wedding day! The day we become husband 
