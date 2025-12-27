@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - Our Love Story</title>
+    <meta name="description" content="Detailed story and memories from our love journey">
+    
+    <!-- Mobile-first responsive design -->
+    <meta name="theme-color" content="#e8f0e4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Preload critical fonts for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS files -->
+    <link rel="stylesheet" href="css/styles.css?v=7">
+    <link rel="stylesheet" href="css/timeline.css?v=7">
+    <link rel="stylesheet" href="css/responsive.css?v=7">
+    
+    <!-- Event Detail Page Specific Styles -->
+    <style>
+        /* Event Detail Page Layout */
+        .event-detail-page {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #f0f8f0, #e8f0e4);
+            padding: 0;
+            margin: 0;
+        }
+        
+        /* Navigation Header */
+        .detail-navigation {
+            background: linear-gradient(135deg, #e8f0e4, #f0f8f0);
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(232, 240, 228, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .back-to-timeline {
+            background: linear-gradient(45deg, #6b8e5a, #87a96b);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 142, 90, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-to-timeline:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(107, 142, 90, 0.4);
+            background: linear-gradient(45deg, #5a7d4a, #6b8e5a);
+        }
+        
+        /* Event Header */
+        .event-header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #faf7f8, #f4f9f4);
+            margin-bottom: 2rem;
+        }
+        
+        .event-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #2d5a2d;
+            margin: 0 0 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(232, 240, 228, 0.6);
+        }
+        
+        .event-date {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #6b8e5a;
+            margin: 0;
+        }
+        
+        /* Main Content Container */
+        .event-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+        
+        /* Letter Section */
+        .letter-section {
+            background: linear-gradient(135deg, #fefefe, #f9f9f9);
+            border: 2px solid #e8f0e4;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 24px rgba(232, 240, 228, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .letter-section::before {
+            content: '💌';
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e8f0e4;
+        }
+        
+        .section-icon {
+            font-size: 2.5rem;
+        }
+        
+        .section-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #2d5a2d;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(232, 240, 228, 0.6);
+        }
+        
+        .letter-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #4a4a4a;
+            text-align: justify;
+        }
+        
+        .letter-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .letter-signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e8f0e4;
+            color: #6b8e5a;
+        }
+        
+        /* Memories Section */
+        .memories-section {
+            background: linear-gradient(135deg, #f4f9f4, #e8f0e4);
+            border: 2px solid #d0e0d0;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 24px rgba(232, 240, 228, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memories-section::before {
+            content: '📸';
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        /* Photo Collage Grid */
+        .photo-collage {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .photo-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(232, 240, 228, 0.3);
+        }
+        
+        .photo-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(232, 240, 228, 0.5);
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+        
+        /* Photo Modal for Enlargement */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .photo-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .modal-caption {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+        }
+        
+        /* Placeholder for when no photos */
+        .no-photos-placeholder {
+            text-align: center;
+            padding: 3rem;
+            color: #6b8e5a;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+        }
+        
+        .no-photos-placeholder .panda-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-navigation {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #e8f0e4, #f0f8f0);
+            margin-top: 3rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .event-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .letter-content {
+                font-size: 1.1rem;
+            }
+            
+            .photo-collage {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 0.75rem;
+            }
+            
+            .photo-item img {
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .event-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .letter-section,
+            .memories-section {
+                padding: 1.5rem;
+            }
+            
+            .photo-collage {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Event Detail Page -->
+    <main class="event-detail-page">
+
+        <!-- Event Header -->
+        <header class="event-header">
+            <h1 class="event-title" id="event-title">Event Title</h1>
+            <p class="event-date" id="event-date">Date</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="event-content">
+            <!-- Letter Section -->
+            <section class="letter-section">
+                <div class="section-header">
+                    <span class="section-icon">💌</span>
+                    <h2 class="section-title">Letter</h2>
+                </div>
+                <div class="letter-content" id="letter-content">
+                    <p>My Dearest Love,</p>
+                    <p>This is where the detailed letter content will go...</p>
+                    <div class="letter-signature">
+                        With all my love,<br>
+                        Your Forever Partner 🐼💕
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memories Section -->
+            <section class="memories-section">
+                <div class="section-header">
+                    <span class="section-icon">📸</span>
+                    <h2 class="section-title">Memories</h2>
+                </div>
+                <div class="photo-collage" id="photo-collage">
+                    <!-- Photos will be populated by JavaScript -->
+                    <div class="no-photos-placeholder">
+                        <span class="panda-icon">🐼</span>
+                        More beautiful memories coming soon...
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-navigation">
+            <a href="index.html" class="back-to-timeline">
+                Phir phir kya hua ?
+            </a>
+        </nav>
+
+        <!-- Floating Panda Decorations -->
+        <div class="floating-decorations">
+            <div class="panda-decoration panda-1">🐼</div>
+            <div class="panda-decoration panda-2">🐼</div>
+            <div class="panda-decoration panda-3">🐼</div>
+        </div>
+    </main>
+
+    <!-- Photo Modal for Enlargement -->
+    <div class="photo-modal" id="photo-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePhotoModal()">&times;</button>
+            <img class="modal-image" id="modal-image" src="" alt="">
+            <div class="modal-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="data/timeline-data.js"></script>
+    <script>
+        // Get event ID from URL parameters
+        function getEventIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('event') || 'first-talking';
+        }
+
+        // Load event details
+        function loadEventDetails() {
+            const eventId = getEventIdFromUrl();
+            const event = TIMELINE_DATA.events.find(e => e.id === eventId);
+            
+            if (!event) {
+                console.error('Event not found:', eventId);
+                return;
+            }
+
+            // Update page title and header
+            document.title = `${event.nickname || event.title} - Our Love Story`;
+            document.getElementById('event-title').textContent = event.nickname || event.title;
+            
+            // Format and display date
+            const eventDate = new Date(event.date);
+            const formattedDate = eventDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('event-date').textContent = formattedDate;
+
+            // Load letter content
+            const letterContent = event.letterContent || event.detailContent || 'More details coming soon...';
+            document.getElementById('letter-content').innerHTML = `
+                <p>My Dearest Love,</p>
+                <div>${letterContent.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>
+                <div class="letter-signature">
+                    With all my love,<br>
+                    Your Forever Partner 🐼💕
+                </div>
+            `;
+
+            // Load memories/photos
+            loadMemories(event);
+        }
+
+        // Load memories section
+        function loadMemories(event) {
+            const photoCollage = document.getElementById('photo-collage');
+            
+            if (event.memories && event.memories.length > 0) {
+                photoCollage.innerHTML = '';
+                
+                event.memories.forEach((photo, index) => {
+                    const photoItem = document.createElement('div');
+                    photoItem.className = 'photo-item';
+                    photoItem.innerHTML = `
+                        <img src="${photo.url}" alt="${photo.alt || 'Memory'}" loading="lazy">
+                        <div class="photo-caption">${photo.caption || ''}</div>
+                    `;
+                    
+                    // Add click handler for photo enlargement
+                    photoItem.addEventListener('click', () => {
+                        openPhotoModal(photo.url, photo.caption || photo.alt || 'Memory');
+                    });
+                    
+                    photoCollage.appendChild(photoItem);
+                });
+            } else if (event.photos && event.photos.length > 0) {
+                // Fallback to old photos structure
+                photoCollage.innerHTML = '';
+                
+                event.photos.forEach((photo, index) => {
+                    const photoItem = document.createElement('div');
+                    photoItem.className = 'photo-item';
+                    photoItem.innerHTML = `
+                        <img src="${photo.url || photo}" alt="Memory ${index + 1}" loading="lazy">
+                        <div class="photo-caption">${photo.caption || `Memory ${index + 1}`}</div>
+                    `;
+                    
+                    photoItem.addEventListener('click', () => {
+                        openPhotoModal(photo.url || photo, photo.caption || `Memory ${index + 1}`);
+                    });
+                    
+                    photoCollage.appendChild(photoItem);
+                });
+            } else {
+                // No photos available
+                photoCollage.innerHTML = `
+                    <div class="no-photos-placeholder">
+                        <span class="panda-icon">🐼</span>
+                        More beautiful memories coming soon...
+                    </div>
+                `;
+            }
+        }
+
+        // Photo modal functions
+        function openPhotoModal(imageSrc, caption) {
+            const modal = document.getElementById('photo-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalCaption = document.getElementById('modal-caption');
+            
+            modalImage.src = imageSrc;
+            modalCaption.textContent = caption;
+            modal.classList.add('active');
+            
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal() {
+            const modal = document.getElementById('photo-modal');
+            modal.classList.remove('active');
+            
+            // Restore body scrolling
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on background click
+        document.getElementById('photo-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePhotoModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🐼 Event detail page loading...');
+            loadEventDetails();
+            console.log('✅ Event detail page loaded successfully!');
+        });
+    </script>
+    <script src="js/mobile-performance.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

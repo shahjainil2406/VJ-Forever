@@ -458,9 +458,18 @@
                             eventContainer.classList.add('gentle-pulse');
                             setTimeout(() => eventContainer.classList.remove('gentle-pulse'), 600);
                             
-                            // Show event details in alert (since navigation pages are removed)
-                            const locationText = event.location ? `\nLocation: ${event.location}` : '';
-                            alert(`${event.nickname || event.title}\n\n${event.preview}${locationText}`);
+                            // Navigate to event detail page
+                            const detailPageUrl = `event-detail.html?event=${event.id}`;
+                            console.log('🐼 Navigating to:', detailPageUrl);
+                            
+                            // Add smooth transition effect
+                            document.body.style.transition = 'opacity 0.3s ease';
+                            document.body.style.opacity = '0.7';
+                            
+                            // Navigate after brief transition
+                            setTimeout(() => {
+                                window.location.href = detailPageUrl;
+                            }, 300);
                         };
                         
                         // Add click handler to event content
