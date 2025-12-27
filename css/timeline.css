@@ -542,18 +542,18 @@
 
 /* Floating Panda Decorations */
 .floating-decorations {
-  position: absolute;
+  position: fixed; /* Changed from absolute to fixed to follow viewport */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
 }
 
 .panda-decoration {
-  position: absolute;
+  position: fixed; /* Changed from absolute to fixed to follow viewport */
   font-size: 2rem;
   opacity: 0.1;
   animation: gentleFloat 8s ease-in-out infinite;

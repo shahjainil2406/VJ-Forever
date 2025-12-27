@@ -316,22 +316,23 @@ class AnimationManager {
       pandaContainer = document.createElement('div');
       pandaContainer.className = 'floating-decorations';
       pandaContainer.style.cssText = `
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
-        height: ${this.documentHeight}px;
+        width: 100vw;
+        height: 100vh;
         pointer-events: none;
         z-index: 1;
         overflow: hidden;
       `;
       document.body.appendChild(pandaContainer);
-      console.log('🐼 Created floating decorations container for document-wide coverage');
+      console.log('🐼 Created floating decorations container for viewport coverage');
     } else {
-      // Update existing container to use absolute positioning and full document height
-      pandaContainer.style.position = 'absolute';
-      pandaContainer.style.height = `${this.documentHeight}px`;
-      console.log('🐼 Updated existing floating decorations container for document-wide coverage');
+      // Update existing container to use fixed positioning for viewport coverage
+      pandaContainer.style.position = 'fixed';
+      pandaContainer.style.width = '100vw';
+      pandaContainer.style.height = '100vh';
+      console.log('🐼 Updated existing floating decorations container for viewport coverage');
     }
     
     this.animationContainer = pandaContainer;

@@ -304,11 +304,11 @@ p {
 
 /* Enhanced Floating Panda Decorations - Full App Coverage */
 .floating-decorations {
-  position: absolute;
+  position: fixed; /* Changed from absolute to fixed to follow viewport */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 500vh; /* Cover 5x viewport height to extend through all scrollable content */
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
   pointer-events: none;
   z-index: 1;
   overflow: visible; /* Allow pandas to float beyond container */
@@ -320,7 +320,7 @@ p {
 }
 
 .panda-decoration {
-  position: absolute;
+  position: fixed; /* Changed from absolute to fixed to follow viewport */
   font-size: 1.5rem;
   opacity: 0.15;
   animation: romanticFloatingPandas 30s infinite linear;
@@ -344,7 +344,7 @@ p {
 }
 
 .heart-decoration {
-  position: absolute;
+  position: fixed; /* Changed from absolute to fixed to follow viewport */
   font-size: 1.2rem;
   opacity: 0.12;
   animation: romanticFloatingHearts 25s infinite linear;
@@ -370,7 +370,7 @@ p {
 /* Dynamic pandas and hearts created by JavaScript */
 .dynamic-panda,
 .dynamic-heart {
-  position: absolute !important;
+  position: fixed !important; /* Changed from absolute to fixed to follow viewport */
   visibility: visible !important;
   display: block !important;
   opacity: 0.15 !important;
