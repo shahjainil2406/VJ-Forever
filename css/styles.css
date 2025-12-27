@@ -149,7 +149,7 @@ h1::after {
   content: '🐼';
   font-size: 0.8em;
   opacity: 0.7;
-  animation: gentlePulse 4s ease-in-out infinite;
+  animation: gentlePulse 4s;
 }
 
 h1::before {
