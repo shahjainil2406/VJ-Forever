@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test - Love Story</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: linear-gradient(135deg, #e8f0e4, #f0f8f0);
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .test-button {
+            background: linear-gradient(135deg, #6b8e5a, #4a7c59);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(107, 142, 90, 0.4);
+        }
+        .test-results {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f0f8f0;
+            border-radius: 10px;
+            border-left: 4px solid #6b8e5a;
+        }
+        .success { color: #2d5a2d; }
+        .error { color: #d32f2f; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🐼 Navigation System Test</h1>
+        <p>This page tests the new navigation system for the Love Story webapp.</p>
+        
+        <h2>Test Navigation Functions</h2>
+        <button class="test-button" onclick="testNavigationManager()">Test Navigation Manager</button>
+        <button class="test-button" onclick="testEventNavigation()">Test Event Navigation</button>
+        <button class="test-button" onclick="testPreviewModal()">Test Preview Modal</button>
+        <button class="test-button" onclick="goToMainApp()">Go to Main App</button>
+        
+        <div id="test-results" class="test-results">
+            <h3>Test Results:</h3>
+            <div id="results-content">Click a test button to see results...</div>
+        </div>
+    </div>
+
+    <!-- Include the same scripts as main app -->
+    <script src="data/timeline-data.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <script>
+        function logResult(message, isSuccess = true) {
+            const resultsContent = document.getElementById('results-content');
+            const className = isSuccess ? 'success' : 'error';
+            const icon = isSuccess ? '✅' : '❌';
+            resultsContent.innerHTML += `<div class="${className}">${icon} ${message}</div>`;
+        }
+        
+        function clearResults() {
+            document.getElementById('results-content').innerHTML = '';
+        }
+        
+        function testNavigationManager() {
+            clearResults();
+            logResult('Testing Navigation Manager...');
+            
+            // Test if NavigationManager is available
+            if (typeof window.navigationManager !== 'undefined') {
+                logResult('NavigationManager instance found');
+            } else {
+                logResult('NavigationManager instance not found', false);
+            }
+            
+            // Test if global function is available
+            if (typeof window.navigateToEventDetail === 'function') {
+                logResult('Global navigateToEventDetail function available');
+            } else {
+                logResult('Global navigateToEventDetail function not available', false);
+            }
+            
+            // Test timeline data
+            if (typeof TIMELINE_DATA !== 'undefined' && TIMELINE_DATA.events) {
+                logResult(`Timeline data loaded with ${TIMELINE_DATA.events.length} events`);
+            } else {
+                logResult('Timeline data not available', false);
+            }
+        }
+        
+        function testEventNavigation() {
+            clearResults();
+            logResult('Testing Event Navigation...');
+            
+            if (typeof TIMELINE_DATA !== 'undefined' && TIMELINE_DATA.events.length > 0) {
+                const testEvent = TIMELINE_DATA.events[0]; // Use first event
+                logResult(`Testing with event: ${testEvent.title}`);
+                
+                if (typeof window.navigateToEventDetail === 'function') {
+                    try {
+                        // This should show a preview modal since we're not on the main page
+                        window.navigateToEventDetail(testEvent);
+                        logResult('Navigation function executed successfully');
+                    } catch (error) {
+                        logResult(`Navigation function error: ${error.message}`, false);
+                    }
+                } else {
+                    logResult('Navigation function not available', false);
+                }
+            } else {
+                logResult('No test events available', false);
+            }
+        }
+        
+        function testPreviewModal() {
+            clearResults();
+            logResult('Testing Preview Modal...');
+            
+            if (typeof TIMELINE_DATA !== 'undefined' && TIMELINE_DATA.events.length > 0) {
+                const testEvent = TIMELINE_DATA.events.find(e => e.id === 'the-day-we-said-yes') || TIMELINE_DATA.events[0];
+                logResult(`Testing preview modal with: ${testEvent.title}`);
+                
+                if (window.navigationManager && window.navigationManager.showEventPreview) {
+                    try {
+                        window.navigationManager.showEventPreview(testEvent);
+                        logResult('Preview modal opened successfully');
+                    } catch (error) {
+                        logResult(`Preview modal error: ${error.message}`, false);
+                    }
+                } else {
+                    logResult('Preview modal function not available', false);
+                }
+            } else {
+                logResult('No test events available', false);
+            }
+        }
+        
+        function goToMainApp() {
+            window.location.href = 'index.html';
+        }
+        
+        // Run initial test when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                logResult('Page loaded, running initial tests...');
+                testNavigationManager();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -17,9 +17,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- CSS files -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/timeline.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/styles.css?v=4">
+    <link rel="stylesheet" href="css/timeline.css?v=4">
+    <link rel="stylesheet" href="css/responsive.css?v=4">
     
     <!-- Inline critical CSS for immediate visibility -->
     <style>
@@ -85,14 +85,24 @@
             min-height: 200px;
         }
         
+        .timeline-wrapper {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin: 0.5rem auto !important;
+            padding: 1rem !important;
+        }
+        
         .event-card {
             background: linear-gradient(135deg, #faf7f8, #f4f9f4);
             border: 2px solid #e8f0e4;
-            border-radius: 20px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1rem;
             cursor: pointer;
-            min-height: 120px;
+            min-height: 80px;
             display: block;
+            max-width: 300px;
         }
         
         .event-card:hover {
@@ -181,16 +191,7 @@
                     </div>
                 </div>
                 <div class="timer-message">
-                    <p>Since we said yes to forever ❤️</p>
-                    <div class="location-info">
-                        <a href="https://earth.google.com/web/search/Poetry+by+Love+and+Cheesecake,+Balewadi+High+Street,+Laxman+Nagar,+Balewadi,+Pune,+Maharashtra/@18.5704128,73.7742129,583.92061426a,796.23049535d,35y,0h,0t,0r/data=Cs8BGqABEpkBCiUweDNiYzJiOWU0OGFlZGE5Yzc6MHg5MDllNWFjODkwOGU4ZjI5GUQ4wZIGkjJAIQtpQ7SMcVJAKl5Qb2V0cnkgYnkgTG92ZSBhbmQgQ2hlZXNlY2FrZSwgQmFsZXdhZGkgSGlnaCBTdHJlZXQsIExheG1hbiBOYWdhciwgQmFsZXdhZGksIFB1bmUsIE1haGFyYXNodHJhGAIgASImCiQJqo0a972kN0ARpI0a972kN8AZHSRrRgxUSkAhNTSnknTXSsBCAggBOgMKATBCAggASg0I____________ARAA" 
-                           target="_blank" 
-                           class="location-link"
-                           title="View Poetry by Love and Cheesecake on Google Earth">
-                            <span class="location-icon">📍</span>
-                            <span class="location-text">Poetry by Love and Cheesecake, Pune</span>
-                        </a>
-                    </div>
+                    <p>Since we said yes for Dal-Chawal ❤️</p>
                 </div>
             </div>
         </header>
@@ -200,17 +201,13 @@
             <div class="timeline-container">
                 <h2 class="timeline-title">Our Love Story</h2>
                 
-                <!-- Horizontal Timeline Bar -->
+                <!-- Vertical Timeline -->
                 <div class="timeline-wrapper">
                     <div class="timeline-bar" id="timeline-bar">
-                        <!-- Timeline line -->
-                        <div class="timeline-line"></div>
-                        <!-- Timeline dots will be populated by JavaScript -->
-                    </div>
-                    
-                    <!-- Timeline Event Labels -->
-                    <div class="timeline-labels" id="timeline-labels">
-                        <!-- Event labels will be populated by JavaScript -->
+                        <!-- Vertical timeline events container -->
+                        <div class="timeline-events" id="timeline-events">
+                            <!-- Timeline events will be populated by JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -235,6 +232,7 @@
 
     <!-- JavaScript files -->
     <script src="data/timeline-data.js"></script>
+    <script src="js/navigation.js"></script>
     <script src="validate-navigation.js"></script>
     <script>
         // Enhanced initialization with integration testing
@@ -338,14 +336,14 @@
                 if (timerDisplay) {
                     console.log('✅ Timer display found');
                     
-                    // Set engagement date (July 26th, 2025, 5:30 PM IST)
-                    const engagementDate = new Date('2025-07-26T17:30:00+05:30');
-                    console.log('📅 Engagement date set to:', engagementDate);
+                    // Set the day we said yes (July 26th, 2025, 5:30 PM IST - Dal Chawal day)
+                    const dalChawalDate = new Date('2025-07-26T17:30:00+05:30');
+                    console.log('📅 Engagement date set to:', dalChawalDate);
                     
                     function updateEnhancedTimer() {
                         try {
                             const now = new Date();
-                            const timeDiff = engagementDate - now; // Countdown to future date
+                            const timeDiff = dalChawalDate - now; // Countdown to future date
                             
                             if (timeDiff > 0) {
                                 // Counting down to future date
@@ -414,12 +412,12 @@
                     console.error('❌ Timer display element not found');
                 }
                 
-                // Enhanced timeline with better error handling
+                // Enhanced timeline with vertical layout
                 const timelineBar = document.getElementById('timeline-bar');
-                const timelineLabels = document.getElementById('timeline-labels');
+                const timelineEvents = document.getElementById('timeline-events');
                 
-                if (timelineBar && timelineLabels) {
-                    console.log('✅ Timeline elements found');
+                if (timelineBar && timelineEvents) {
+                    console.log('✅ Vertical timeline elements found');
                     
                     // Use timeline data from external file
                     const events = TIMELINE_DATA.events.map(event => ({
@@ -432,163 +430,126 @@
                         location: event.location || null
                     }));
                     
-                    console.log('📝 Creating enhanced horizontal timeline with', events.length, 'events');
+                    console.log('📝 Creating vertical timeline with', events.length, 'events');
                     
-                    // Clear existing content and add timeline line
-                    timelineBar.innerHTML = '<div class="timeline-line"></div>';
+                    // Clear existing content
+                    timelineEvents.innerHTML = '';
                     
-                    // Create date labels container inside timeline-labels
-                    timelineLabels.innerHTML = '<div class="timeline-date-labels"></div>';
-                    const dateLabelsContainer = timelineLabels.querySelector('.timeline-date-labels');
-                    
-                    // Create timeline dots and date labels with enhanced interactions
+                    // Create vertical timeline events
                     events.forEach((event, index) => {
-                        // Calculate position based on container width
-                        const containerWidth = timelineBar.offsetWidth || 800; // Fallback width
-                        const margin = containerWidth * 0.05; // 5% margin on each side
-                        const availableWidth = containerWidth - (2 * margin);
-                        const dotPosition = margin + (index / (events.length - 1)) * availableWidth;
-                        const positionPercent = (dotPosition / containerWidth) * 100;
+                        console.log(`🐼 Creating vertical event ${index} (${event.nickname})`);
                         
-                        // Create timeline dot with enhanced functionality
-                        const dot = document.createElement('div');
-                        dot.className = 'timeline-dot';
-                        dot.setAttribute('data-icon', event.icon);
-                        dot.setAttribute('data-index', index);
-                        dot.setAttribute('data-event-id', event.id);
-                        dot.style.left = `${positionPercent}%`;
-                        dot.title = `${event.nickname} - Click to explore!`;
+                        // Create timeline event container
+                        const eventContainer = document.createElement('div');
+                        eventContainer.className = 'timeline-event';
+                        eventContainer.setAttribute('data-index', index);
+                        eventContainer.setAttribute('data-event-id', event.id);
                         
-                        // Enhanced click handler with navigation to detail pages
-                        dot.addEventListener('click', () => {
-                            console.log('🐼 Timeline dot clicked:', event.title);
-                            
-                            // Add click animation
-                            dot.classList.add('gentle-pulse');
-                            setTimeout(() => dot.classList.remove('gentle-pulse'), 600);
-                            
-                            // Navigate to detail page
-                            navigateToEventDetail(event);
-                        });
+                        // Create event content
+                        const eventContent = document.createElement('div');
+                        eventContent.className = 'event-content';
                         
-                        // Enhanced hover events for cross-highlighting
-                        dot.addEventListener('mouseenter', () => {
-                            console.log('🐼 Dot hover enter, index:', index);
-                            const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
-                            if (dateLabel) {
-                                dateLabel.classList.add('highlighted');
-                                console.log('🐼 Added highlighted class to date label');
-                            }
-                        });
-                        
-                        dot.addEventListener('mouseleave', () => {
-                            console.log('🐼 Dot hover leave, index:', index);
-                            const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
-                            if (dateLabel) {
-                                dateLabel.classList.remove('highlighted');
-                                console.log('🐼 Removed highlighted class from date label');
-                            }
-                        });
-                        
-                        timelineBar.appendChild(dot);
-                        
-                        // Create enhanced date label with tooltip
-                        const dateLabel = document.createElement('div');
-                        dateLabel.className = 'timeline-date-label';
-                        dateLabel.setAttribute('data-index', index);
-                        dateLabel.setAttribute('data-event-id', event.id);
-                        dateLabel.style.left = `${positionPercent}%`;
-                        dateLabel.title = `${event.nickname} - Click to explore!`;
-                        
-                        // Format date vertically
+                        // Format date as dd/mm/yy
                         const eventDate = new Date(event.date);
-                        const month = eventDate.toLocaleDateString('en-US', { month: 'short' });
-                        const day = eventDate.getDate();
-                        const year = eventDate.toLocaleDateString('en-US', { year: '2-digit' });
-                        const dateText = `${month}\n${day}\n'${year}`;
+                        const day = eventDate.getDate().toString().padStart(2, '0');
+                        const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
+                        const year = eventDate.getFullYear().toString().slice(-2);
+                        const dateText = `${day}/${month}/${year}`;
                         
-                        dateLabel.innerHTML = `
-                            <div class="timeline-date-text">${dateText}</div>
-                            <div class="timeline-event-tooltip">
-                                <div class="tooltip-nickname">${event.nickname}</div>
-                                <div class="tooltip-preview">${event.preview}</div>
-                            </div>
+                        eventContent.innerHTML = `
+                            <div class="event-date">${dateText}</div>
+                            <div class="event-title">${event.nickname || event.title}</div>
+                            <div class="event-preview">${event.preview}</div>
                         `;
                         
                         // Enhanced click handler with navigation to detail pages
-                        dateLabel.addEventListener('click', () => {
-                            console.log('🐼 Timeline date clicked:', event.title);
+                        const clickHandler = (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🐼 Vertical timeline event clicked:', event.title);
                             
                             // Add click animation
-                            dateLabel.classList.add('gentle-pulse');
-                            setTimeout(() => dateLabel.classList.remove('gentle-pulse'), 600);
+                            eventContainer.classList.add('gentle-pulse');
+                            setTimeout(() => eventContainer.classList.remove('gentle-pulse'), 600);
                             
-                            // Navigate to detail page
-                            navigateToEventDetail(event);
-                        });
-                        
-                        // Enhanced hover events for cross-highlighting
-                        dateLabel.addEventListener('mouseenter', () => {
-                            console.log('🐼 Date label hover enter, index:', index);
-                            const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
-                            if (timelineDot) {
-                                timelineDot.classList.add('highlighted');
-                                console.log('🐼 Added highlighted class to timeline dot');
+                            // Use the global navigation function
+                            if (window.navigateToEventDetail) {
+                                window.navigateToEventDetail(event);
+                            } else {
+                                // Fallback alert
+                                const locationText = event.location ? `\nLocation: ${event.location}` : '';
+                                alert(`${event.nickname || event.title}\n\n${event.preview}${locationText}`);
                             }
-                        });
+                        };
                         
-                        dateLabel.addEventListener('mouseleave', () => {
-                            console.log('🐼 Date label hover leave, index:', index);
-                            const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
-                            if (timelineDot) {
-                                timelineDot.classList.remove('highlighted');
-                                console.log('🐼 Removed highlighted class from timeline dot');
-                            }
-                        });
+                        // Add click handler to event content
+                        eventContent.addEventListener('click', clickHandler);
                         
-                        // Enhanced touch support for mobile tooltips
-                        dateLabel.addEventListener('touchstart', (e) => {
+                        // Enhanced hover events
+                        const hoverEnterHandler = () => {
+                            eventContainer.classList.add('highlighted');
+                        };
+                        
+                        const hoverLeaveHandler = () => {
+                            eventContainer.classList.remove('highlighted');
+                        };
+                        
+                        eventContent.addEventListener('mouseenter', hoverEnterHandler);
+                        eventContent.addEventListener('mouseleave', hoverLeaveHandler);
+                        
+                        // Enhanced touch support for mobile
+                        const touchHandler = (e) => {
                             e.preventDefault();
-                            // Remove touch-active from all other labels
-                            document.querySelectorAll('.timeline-date-label').forEach(label => {
-                                label.classList.remove('touch-active');
+                            // Remove touch-active from all other events
+                            document.querySelectorAll('.timeline-event').forEach(event => {
+                                event.classList.remove('touch-active');
                             });
-                            // Add touch-active to current label
-                            dateLabel.classList.add('touch-active');
+                            // Add touch-active to current event
+                            eventContainer.classList.add('touch-active');
                             
                             // Remove touch-active after 3 seconds
                             setTimeout(() => {
-                                dateLabel.classList.remove('touch-active');
+                                eventContainer.classList.remove('touch-active');
                             }, 3000);
-                        });
+                        };
                         
-                        dateLabelsContainer.appendChild(dateLabel);
-                        console.log('✅ Added enhanced timeline event:', event.nickname, 'at position:', positionPercent + '%');
+                        eventContent.addEventListener('touchstart', touchHandler);
+                        
+                        // Assemble the event (no timeline dot)
+                        eventContainer.appendChild(eventContent);
+                        timelineEvents.appendChild(eventContainer);
+                        
+                        console.log('✅ Added vertical timeline event:', event.nickname || event.title);
                         
                         // Add enhanced fade-in animation
                         setTimeout(() => {
-                            dateLabel.style.opacity = '0';
-                            dateLabel.style.transform = 'translateX(-50%) translateY(20px)';
-                            dateLabel.style.transition = 'all 0.6s ease-out';
-                            dot.style.opacity = '0';
-                            dot.style.transform = 'translateY(-50%) scale(0.5)';
-                            dot.style.transition = 'all 0.6s ease-out';
+                            eventContainer.style.opacity = '0';
+                            eventContainer.style.transform = 'translateY(30px)';
+                            eventContainer.style.transition = 'all 0.8s ease-out';
                             
                             setTimeout(() => {
-                                dateLabel.style.opacity = '1';
-                                dateLabel.style.transform = 'translateX(-50%) translateY(0)';
-                                dot.style.opacity = '1';
-                                dot.style.transform = 'translateY(-50%) scale(1)';
+                                eventContainer.style.opacity = '1';
+                                eventContainer.style.transform = 'translateY(0)';
                             }, 50);
-                        }, index * 100);
+                        }, index * 150);
                     });
                     
-                    console.log('✅ Enhanced horizontal timeline created successfully');
+                    console.log('✅ Vertical timeline created successfully');
                 } else {
-                    console.error('❌ Timeline elements not found');
+                    console.error('❌ Vertical timeline elements not found');
                 }
                 
-                console.log('🎉 Enhanced integration initialization complete!');
+                console.log('🎉 Vertical timeline integration complete!');
+                
+                // Add window resize handler for responsive adjustments
+                window.addEventListener('resize', function() {
+                    // Debounce resize events
+                    clearTimeout(window.timelineResizeTimeout);
+                    window.timelineResizeTimeout = setTimeout(function() {
+                        console.log('🐼 Window resized, vertical timeline auto-adjusts via CSS');
+                        // Vertical timeline uses CSS for responsive behavior, no JS repositioning needed
+                    }, 250);
+                });
                 
             } catch (error) {
                 console.error('❌ Error in enhanced integration initialization:', error);
@@ -596,149 +557,9 @@
         });
         
         // Enhanced event preview modal
-        // Navigate to event detail page
-        function navigateToEventDetail(event) {
-            console.log('🐼 Navigating to event detail:', event.title);
-            
-            // Map event IDs to detail page URLs (using event.id for more reliable mapping)
-            const eventPageMap = {
-                'the-day-we-said-yes': 'pages/event-the-day-we-said-yes.html',
-                'first-talking': 'pages/event-first-talking.html',
-                'special-day': 'pages/event-special-day.html',
-                'birthday-tir-i-miss-u': 'pages/event-birthday-tir-i-miss-u.html',
-                'mumbai-meeting': 'pages/event-mumbai-meeting.html',
-                'vadodara-family': 'pages/event-vadodara-family.html',
-                'roka-day': 'pages/event-roka-day.html',
-                'bangalore-first-kiss': 'pages/event-bangalore-first-kiss.html',
-                'our-engagement': 'pages/event-our-engagement.html',
-                'the-day-we': 'pages/event-the-day-we.html',
-                'memorable-photoshoot': 'pages/event-memorable-photoshoot.html',
-                'day-to-forever': 'pages/event-day-to-forever.html'
-            };
-            
-            // Use event.id for mapping, fallback to title-based mapping
-            const eventId = event.id || event.title.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            const detailPageUrl = eventPageMap[eventId];
-            
-            if (detailPageUrl) {
-                // Check if the detail page exists by trying to navigate
-                console.log('🐼 Navigating to detail page:', detailPageUrl);
-                window.location.href = detailPageUrl;
-            } else {
-                // Show preview modal for events without detail pages
-                console.log('🐼 No detail page found, showing preview for:', event.title);
-                showEventPreview(event);
-            }
-        }
+        // Event preview functionality is now handled by NavigationManager
         
-        // Enhanced event preview with romantic personalization
-        function showEventPreview(event) {
-            // Remove existing preview
-            const existingPreview = document.querySelector('.event-preview-modal');
-            if (existingPreview) {
-                existingPreview.remove();
-            }
-            
-            // Check if event has a detail page using event.id
-            const eventPageMap = {
-                'the-day-we-said-yes': 'pages/event-the-day-we-said-yes.html',
-                'first-talking': 'pages/event-first-talking.html',
-                'special-day': 'pages/event-special-day.html',
-                'birthday-tir-i-miss-u': 'pages/event-birthday-tir-i-miss-u.html',
-                'mumbai-meeting': 'pages/event-mumbai-meeting.html',
-                'vadodara-family': 'pages/event-vadodara-family.html',
-                'roka-day': 'pages/event-roka-day.html',
-                'bangalore-first-kiss': 'pages/event-bangalore-first-kiss.html',
-                'our-engagement': 'pages/event-our-engagement.html',
-                'the-day-we': 'pages/event-the-day-we.html',
-                'memorable-photoshoot': 'pages/event-memorable-photoshoot.html',
-                'day-to-forever': 'pages/event-day-to-forever.html'
-            };
-            
-            const eventId = event.id || event.title.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            const hasDetailPage = eventPageMap[eventId];
-            
-            // Create enhanced preview modal with romantic touches
-            const modal = document.createElement('div');
-            modal.className = 'event-preview-modal';
-            modal.innerHTML = `
-                <div class="event-preview-content">
-                    <div class="preview-header">
-                        <span class="preview-icon">${event.icon}</span>
-                        <h3 class="preview-title">${event.nickname}</h3>
-                        <button class="preview-close" onclick="this.parentElement.parentElement.parentElement.remove()">×</button>
-                    </div>
-                    <div class="preview-body">
-                        <p class="preview-description">${event.preview}</p>
-                        ${event.location ? `<div class="preview-location">📍 ${event.location}</div>` : ''}
-                        <div class="preview-date">${new Date(event.date).toLocaleDateString('en-US', { 
-                            weekday: 'long', 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric' 
-                        })}</div>
-                    </div>
-                    <div class="preview-footer">
-                        ${hasDetailPage ? `
-                            <button class="preview-button detail-button" onclick="window.location.href='${hasDetailPage}'">
-                                <span class="panda-icon">🐼</span>
-                                View Full Story
-                                <span class="panda-icon">💕</span>
-                            </button>
-                        ` : `
-                            <div class="preview-note">
-                                <span class="panda-icon">🐼</span>
-                                Detail page coming soon!
-                                <span class="panda-icon">🐼</span>
-                            </div>
-                        `}
-                        <button class="preview-button close-button" onclick="this.parentElement.parentElement.parentElement.remove()">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Add enhanced modal styles with romantic touches
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(232, 240, 228, 0.95);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10000;
-                backdrop-filter: blur(10px);
-                animation: modalFadeIn 0.3s ease-out;
-                font-family: 'Dancing Script', cursive;
-            `;
-            
-            document.body.appendChild(modal);
-            
-            // Add romantic sparkle effect for special events
-            if (event.title.includes('Said Yes') || event.title.includes('Engagement')) {
-                addSparkleEffect(modal);
-            }
-            
-            // Close on escape key
-            const handleEscape = (e) => {
-                if (e.key === 'Escape') {
-                    modal.remove();
-                    document.removeEventListener('keydown', handleEscape);
-                }
-            };
-            document.addEventListener('keydown', handleEscape);
-            
-            // Close on background click
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.remove();
-                }
-            });
-        }
+        // Event preview functionality is now handled by NavigationManager
         
         // Add sparkle effect for special romantic moments
         function addSparkleEffect(container) {
@@ -764,8 +585,8 @@
         // Enhanced milestone celebration for special dates
         function checkForMilestones() {
             const now = new Date();
-            const engagementDate = new Date('2025-07-26T17:30:00+05:30');
-            const daysSinceEngagement = Math.floor((now - engagementDate) / (1000 * 60 * 60 * 24));
+            const dalChawalDate = new Date('2025-07-26T17:30:00+05:30');
+            const daysSinceDalChawal = Math.floor((now - dalChawalDate) / (1000 * 60 * 60 * 24));
             
             // Check for special milestones
             const milestones = [
@@ -776,7 +597,7 @@
                 { days: 1000, message: "1000 Days Milestone! 🎆🐼" }
             ];
             
-            const milestone = milestones.find(m => m.days === daysSinceEngagement);
+            const milestone = milestones.find(m => m.days === daysSinceDalChawal);
             if (milestone) {
                 showMilestoneCelebration(milestone.message);
             }

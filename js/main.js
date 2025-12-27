@@ -5,8 +5,7 @@
 
 // Global App Configuration
 const APP_CONFIG = {
-  // Engagement date - July 26th, 2025, 5:30 PM IST
-  engagementDate: new Date('2025-07-26T17:30:00+05:30'), // July 26, 2025, 5:30 PM IST
+  dalChawalDate: new Date('2025-07-26T17:30:00+05:30'), // July 26, 2025, 5:30 PM IST
   
   // Timeline events data - loaded from TIMELINE_DATA or use defaults
   timelineEvents: (typeof TIMELINE_DATA !== 'undefined' && TIMELINE_DATA.events) ? 
@@ -219,7 +218,7 @@ class LoveStoryApp {
       console.log('✅ Timer display element found');
       if (window.CountdownTimer) {
         console.log('✅ CountdownTimer class available');
-        this.countdownTimer = new CountdownTimer(timerDisplay, APP_CONFIG.engagementDate);
+        this.countdownTimer = new CountdownTimer(timerDisplay, APP_CONFIG.dalChawalDate);
       } else {
         console.log('⚠️ CountdownTimer class not available, creating simple timer');
         this.createSimpleTimer(timerDisplay);
@@ -231,7 +230,7 @@ class LoveStoryApp {
   
   // Create a simple timer if the CountdownTimer class isn't available
   createSimpleTimer(element) {
-    const targetDate = APP_CONFIG.engagementDate;
+    const targetDate = APP_CONFIG.dalChawalDate;
     
     const updateTimer = () => {
       const now = new Date();
@@ -312,146 +311,114 @@ class LoveStoryApp {
   // Create a simple timeline if the TimelineManager class isn't available
   createSimpleTimeline() {
     const timelineBar = document.getElementById('timeline-bar');
-    const timelineLabels = document.getElementById('timeline-labels');
+    const timelineEvents = document.getElementById('timeline-events');
     
-    if (timelineBar && timelineLabels) {
+    if (timelineBar && timelineEvents) {
       // Use real timeline events from APP_CONFIG
       const events = APP_CONFIG.timelineEvents;
       
-      console.log('🐼 Creating timeline with', events.length, 'events');
+      console.log('🐼 Creating vertical timeline with', events.length, 'events');
       
-      // Clear existing content and add timeline line
-      timelineBar.innerHTML = '<div class="timeline-line"></div>';
+      // Clear existing content
+      timelineEvents.innerHTML = '';
       
-      // Create date labels container inside timeline-labels
-      timelineLabels.innerHTML = '<div class="timeline-date-labels"></div>';
-      const dateLabelsContainer = timelineLabels.querySelector('.timeline-date-labels');
-      
-      // Create horizontal timeline dots and date labels
+      // Create vertical timeline events
       events.forEach((event, index) => {
-        // Calculate position based on container width (same as inline JavaScript)
-        const containerWidth = timelineBar.offsetWidth;
-        const margin = containerWidth * 0.05; // 5% margin on each side
-        const availableWidth = containerWidth - (2 * margin);
-        const dotPosition = margin + (index / (events.length - 1)) * availableWidth;
-        const positionPercent = (dotPosition / containerWidth) * 100;
+        console.log(`🐼 Creating vertical event ${index} (${event.title})`);
         
-        // Create timeline dot
-        const dot = document.createElement('div');
-        dot.className = 'timeline-dot';
-        dot.setAttribute('data-icon', event.icon);
-        dot.setAttribute('data-index', index); // Add index for cross-highlighting
-        dot.style.left = `${positionPercent}%`;
+        // Create timeline event container
+        const eventContainer = document.createElement('div');
+        eventContainer.className = 'timeline-event';
+        eventContainer.setAttribute('data-index', index);
+        eventContainer.setAttribute('data-event-id', event.id);
         
-        dot.addEventListener('click', () => {
-          const locationText = event.location ? `\nLocation: ${event.location}` : '';
-          alert(`${event.nickname || event.title}\n\n${event.previewText}${locationText}\n\n${event.detailContent || 'More details coming soon!'}`);
-        });
+        // Create event content
+        const eventContent = document.createElement('div');
+        eventContent.className = 'event-content';
         
-        // Add hover events for cross-highlighting
-        dot.addEventListener('mouseenter', () => {
-          // Highlight corresponding date label
-          const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
-          if (dateLabel) {
-            dateLabel.classList.add('highlighted');
-          }
-        });
-        
-        dot.addEventListener('mouseleave', () => {
-          // Remove highlight from corresponding date label
-          const dateLabel = document.querySelector(`.timeline-date-label[data-index="${index}"]`);
-          if (dateLabel) {
-            dateLabel.classList.remove('highlighted');
-          }
-        });
-        
-        timelineBar.appendChild(dot);
-        
-        // Create date label with tooltip - positioned exactly under the dot
-        const dateLabel = document.createElement('div');
-        dateLabel.className = 'timeline-date-label';
-        dateLabel.setAttribute('data-index', index); // Add index for cross-highlighting
-        dateLabel.style.left = `${positionPercent}%`; // Same position as dot
-        
-        // Format date vertically
+        // Format date as dd/mm/yy
         const eventDate = new Date(event.date);
-        const month = eventDate.toLocaleDateString('en-US', { month: 'short' });
-        const day = eventDate.getDate();
-        const year = eventDate.toLocaleDateString('en-US', { year: '2-digit' });
-        const dateText = `${month}\n${day}\n'${year}`;
+        const day = eventDate.getDate().toString().padStart(2, '0');
+        const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
+        const year = eventDate.getFullYear().toString().slice(-2);
+        const dateText = `${day}/${month}/${year}`;
         
-        dateLabel.innerHTML = `
-          <div class="timeline-date-text">${dateText}</div>
-          <div class="timeline-event-tooltip">
-            <div class="tooltip-nickname">${event.nickname || event.title}</div>
-            <div class="tooltip-preview">${event.previewText}</div>
-          </div>
+        eventContent.innerHTML = `
+          <div class="event-date">${dateText}</div>
+          <div class="event-title">${event.title}</div>
+          <div class="event-preview">${event.previewText}</div>
         `;
         
-        // Add click handler for mobile
-        dateLabel.addEventListener('click', () => {
-          const locationText = event.location ? `\nLocation: ${event.location}` : '';
-          alert(`${event.nickname || event.title}\n\n${event.previewText}${locationText}\n\n${event.detailContent || 'More details coming soon!'}`);
-        });
-        
-        // Add hover events for cross-highlighting
-        dateLabel.addEventListener('mouseenter', () => {
-          // Highlight corresponding timeline dot
-          const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
-          if (timelineDot) {
-            timelineDot.classList.add('highlighted');
-          }
-        });
-        
-        dateLabel.addEventListener('mouseleave', () => {
-          // Remove highlight from corresponding timeline dot
-          const timelineDot = document.querySelector(`.timeline-dot[data-index="${index}"]`);
-          if (timelineDot) {
-            timelineDot.classList.remove('highlighted');
-          }
-        });
-        
-        // Add touch support for mobile tooltips
-        dateLabel.addEventListener('touchstart', (e) => {
+        // Enhanced click handler
+        const clickHandler = (e) => {
           e.preventDefault();
-          // Remove touch-active from all other labels
-          document.querySelectorAll('.timeline-date-label').forEach(label => {
-            label.classList.remove('touch-active');
+          e.stopPropagation();
+          console.log('🐼 Vertical timeline event clicked:', event.title);
+          
+          // Add click animation
+          eventContainer.classList.add('gentle-pulse');
+          setTimeout(() => eventContainer.classList.remove('gentle-pulse'), 600);
+          
+          // Fallback alert
+          const locationText = event.location ? `\nLocation: ${event.location}` : '';
+          alert(`${event.title}\n\n${event.previewText}${locationText}\n\n${event.detailContent || 'More details coming soon!'}`);
+        };
+        
+        // Add click handler to event content
+        eventContent.addEventListener('click', clickHandler);
+        
+        // Enhanced hover events
+        const hoverEnterHandler = () => {
+          eventContainer.classList.add('highlighted');
+        };
+        
+        const hoverLeaveHandler = () => {
+          eventContainer.classList.remove('highlighted');
+        };
+        
+        eventContent.addEventListener('mouseenter', hoverEnterHandler);
+        eventContent.addEventListener('mouseleave', hoverLeaveHandler);
+        
+        // Enhanced touch support for mobile
+        const touchHandler = (e) => {
+          e.preventDefault();
+          // Remove touch-active from all other events
+          document.querySelectorAll('.timeline-event').forEach(event => {
+            event.classList.remove('touch-active');
           });
-          // Add touch-active to current label
-          dateLabel.classList.add('touch-active');
+          // Add touch-active to current event
+          eventContainer.classList.add('touch-active');
           
           // Remove touch-active after 3 seconds
           setTimeout(() => {
-            dateLabel.classList.remove('touch-active');
+            eventContainer.classList.remove('touch-active');
           }, 3000);
-        });
+        };
         
-        dateLabelsContainer.appendChild(dateLabel);
+        eventContent.addEventListener('touchstart', touchHandler);
         
-        console.log('✅ Added timeline event:', event.nickname || event.title);
+        // Assemble the event (no timeline dot)
+        eventContainer.appendChild(eventContent);
+        timelineEvents.appendChild(eventContainer);
         
-        // Add entrance animation
+        console.log('✅ Added vertical timeline event:', event.title);
+        
+        // Add enhanced fade-in animation
         setTimeout(() => {
-          dateLabel.style.opacity = '0';
-          dateLabel.style.transform = 'translateX(-50%) translateY(20px)';
-          dateLabel.style.transition = 'all 0.6s ease-out';
-          dot.style.opacity = '0';
-          dot.style.transform = 'translateY(-50%) scale(0.5)';
-          dot.style.transition = 'all 0.6s ease-out';
+          eventContainer.style.opacity = '0';
+          eventContainer.style.transform = 'translateY(30px)';
+          eventContainer.style.transition = 'all 0.8s ease-out';
           
           setTimeout(() => {
-            dateLabel.style.opacity = '1';
-            dateLabel.style.transform = 'translateX(-50%) translateY(0)';
-            dot.style.opacity = '1';
-            dot.style.transform = 'translateY(-50%) scale(1)';
+            eventContainer.style.opacity = '1';
+            eventContainer.style.transform = 'translateY(0)';
           }, 50);
-        }, index * 100);
+        }, index * 150);
       });
       
-      console.log('🎉 Timeline created successfully!');
+      console.log('🎉 Vertical timeline created successfully!');
     } else {
-      console.error('❌ Timeline elements not found');
+      console.error('❌ Vertical timeline elements not found');
     }
   }
   

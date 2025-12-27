@@ -6,8 +6,8 @@
 // Timeline Events Configuration
 // UPDATE THESE WITH YOUR ACTUAL LOVE STORY DETAILS
 const TIMELINE_DATA = {
-  // Your engagement/relationship start date - July 26th, 2025, 5:30 PM IST
-  engagementDate: '2025-07-26T17:30:00+05:30', // Format: YYYY-MM-DDTHH:MM:SS+TZ
+  // Your relationship start date - July 26th, 2025
+  dalChawalDate: '2025-07-26T17:30:00+05:30', // Format: YYYY-MM-DDTHH:MM:SS+TZ
   
   // Your love story events
   events: [
@@ -30,25 +30,7 @@ const TIMELINE_DATA = {
       photos: []
     },
     
-    {
-      id: 'special-day',
-      title: 'Can\'t Explain The Day, Just Click 😏',
-      nickname: 'Secret Smiles 😏',
-      date: '2025-05-20',
-      category: 'dating',
-      icon: '😏',
-      previewText: 'A day so special, words can\'t describe it...',
-      detailContent: `
-        May 20th, 2025 - some moments are too precious and personal to put 
-        into words. This was one of those magical days that exists just 
-        between us, in our hearts and memories.
-        
-        A day that made us both smile and brought us even closer together. 
-        Some things are meant to be felt, not explained. 🐼✨
-      `,
-      photos: []
-    },
-    
+
     {
       id: 'birthday-tir-i-miss-u',
       title: 'My Birthday and Your Tir-i-miss-u',
@@ -67,26 +49,6 @@ const TIMELINE_DATA = {
       `,
       photos: []
     },
-    
-    {
-      id: 'mumbai-meeting',
-      title: 'We Met in Mumbai',
-      nickname: 'City of Dreams 🏙️',
-      date: '2025-06-28',
-      category: 'dating',
-      icon: '🏙️',
-      previewText: 'Our first meeting in the city of dreams...',
-      detailContent: `
-        June 28th, 2025 - Mumbai, the city of dreams, became the backdrop 
-        for our first real meeting. Seeing you in person for the first time, 
-        my heart knew what my mind was still figuring out.
-        
-        In the bustling city of Mumbai, we found our quiet moment together. 
-        The beginning of our physical journey together. 🐼💖
-      `,
-      photos: []
-    },
-    
     {
       id: 'vadodara-family',
       title: 'You Went to Vadodara to Meet My Family Without Me :)',
@@ -106,28 +68,25 @@ const TIMELINE_DATA = {
       `,
       photos: []
     },
-    
     {
-      id: 'the-day-we-said-yes',
-      title: 'The Day We Said Yes',
-      nickname: 'Forever Yes 💍',
-      date: '2025-07-26',
-      category: 'proposal',
-      icon: '💍',
-      previewText: 'The most magical moment when we said yes to forever...',
-      location: 'Poetry by Love and Cheesecake, Balewadi, Pune',
+      id: 'dalChawalDay',
+      title: 'The day we said yes to Forever',
+      nickname: 'Dal Chawal for Lifetime',
+      date: '2025-07-04',
+      category: 'dating',
+      icon: '🤝',
+      previewText: 'The day we said yes after taking blessings from Ganeshji',
       detailContent: `
-        July 26th, 2025 - at Poetry by Love and Cheesecake in Balewadi, Pune. 
-        The day we both said YES to forever! This wasn't just a proposal, 
-        it was a mutual promise to spend our lives together.
+        July 26th, 2025 - the day you showed incredible courage and love by 
+        going to Vadodara to meet my family without me there! Your dedication 
+        to our relationship and willingness to face my family alone showed 
+        me just how serious you were about us.
         
-        In that perfect romantic setting, with the sweetest name that matched 
-        our love story, we committed to our beautiful future together. 
-        The most important "yes" of our lives! 🐼💍✨
+        That smile and confidence of yours won them over completely. 
+        I knew then that you were truly the one. 🐼💚
       `,
       photos: []
     },
-    
     {
       id: 'roka-day',
       title: 'The Roka Day - Start of Official Courtship',
@@ -205,26 +164,7 @@ const TIMELINE_DATA = {
       photos: []
     },
     
-    {
-      id: 'memorable-photoshoot',
-      title: 'The Most Memorable Photoshoot',
-      nickname: 'Picture Perfect 📸',
-      date: '2025-12-03',
-      category: 'dating',
-      icon: '📸',
-      previewText: 'Capturing our love in the most beautiful way...',
-      detailContent: `
-        December 3rd, 2025 - our most memorable photoshoot! The day we 
-        captured our love in frames that will last forever. Every click 
-        of the camera caught the joy, the laughter, and the pure love 
-        between us.
-        
-        These photos will be treasures we'll look back on for years to 
-        come, remembering how happy and in love we were. 🐼📷✨
-      `,
-      photos: []
-    },
-    
+
     {
       id: 'day-to-forever',
       title: 'The Day to Forever',

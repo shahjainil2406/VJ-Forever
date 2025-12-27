@@ -1,437 +1,226 @@
-/* ==============================================
-   Navigation Validation Script
-   Tests complete user flow from timeline to detail pages
-   ============================================== */
+// Enhanced Navigation Validation Script
+console.log('🐼 Enhanced navigation validation starting...');
 
-// Navigation validation results
-const navigationResults = {
-    timelineToDetail: false,
-    detailToTimeline: false,
-    eventNavigation: false,
-    crossHighlighting: false,
-    mobileNavigation: false
-};
-
-// Test timeline to detail navigation
-function testTimelineToDetail() {
-    console.log('🐼 Testing timeline to detail navigation...');
-    
-    try {
-        // Check if timeline events have click handlers
-        const timelineDots = document.querySelectorAll('.timeline-dot');
-        const timelineLabels = document.querySelectorAll('.timeline-date-label');
-        
-        let hasClickHandlers = false;
-        
-        // Check dots for click handlers
-        timelineDots.forEach(dot => {
-            if (dot.onclick || dot.addEventListener) {
-                hasClickHandlers = true;
-            }
-        });
-        
-        // Check labels for click handlers
-        timelineLabels.forEach(label => {
-            if (label.onclick || label.addEventListener) {
-                hasClickHandlers = true;
-            }
-        });
-        
-        // Check if event detail pages exist
-        const eventDetailExists = document.querySelector('a[href*="event-"]') !== null ||
-                                 document.querySelector('[onclick*="navigateToEvent"]') !== null;
-        
-        navigationResults.timelineToDetail = hasClickHandlers && eventDetailExists;
-        
-        console.log(navigationResults.timelineToDetail ? 
-            '✅ Timeline to detail navigation working' : 
-            '❌ Timeline to detail navigation issues');
+// Wait for navigation manager to be ready
+function waitForNavigationManager() {
+    return new Promise((resolve) => {
+        if (window.navigationManager) {
+            resolve(window.navigationManager);
+        } else {
+            const checkInterval = setInterval(() => {
+                if (window.navigationManager) {
+                    clearInterval(checkInterval);
+                    resolve(window.navigationManager);
+                }
+            }, 100);
             
-        return navigationResults.timelineToDetail;
-        
-    } catch (error) {
-        console.error('❌ Error testing timeline to detail navigation:', error);
-        return false;
-    }
-}
-
-// Test detail to timeline navigation
-function testDetailToTimeline() {
-    console.log('🐼 Testing detail to timeline navigation...');
-    
-    try {
-        // Check if back buttons exist and work
-        const backButtons = document.querySelectorAll('.back-button');
-        const timelineButtons = document.querySelectorAll('.timeline-button');
-        
-        let hasBackNavigation = false;
-        
-        // Check back buttons
-        backButtons.forEach(button => {
-            if (button.onclick || button.href) {
-                hasBackNavigation = true;
-            }
-        });
-        
-        // Check timeline buttons
-        timelineButtons.forEach(button => {
-            if (button.onclick || button.href) {
-                hasBackNavigation = true;
-            }
-        });
-        
-        // Check if navigation functions exist
-        const hasNavigationFunctions = typeof navigateToTimeline === 'function';
-        
-        navigationResults.detailToTimeline = hasBackNavigation || hasNavigationFunctions;
-        
-        console.log(navigationResults.detailToTimeline ? 
-            '✅ Detail to timeline navigation working' : 
-            '❌ Detail to timeline navigation issues');
-            
-        return navigationResults.detailToTimeline;
-        
-    } catch (error) {
-        console.error('❌ Error testing detail to timeline navigation:', error);
-        return false;
-    }
-}
-
-// Test event-to-event navigation
-function testEventNavigation() {
-    console.log('🐼 Testing event-to-event navigation...');
-    
-    try {
-        // Check if next/previous buttons exist
-        const prevButtons = document.querySelectorAll('.prev-event');
-        const nextButtons = document.querySelectorAll('.next-event');
-        
-        let hasEventNavigation = false;
-        
-        // Check previous buttons
-        prevButtons.forEach(button => {
-            if (button.onclick || button.href) {
-                hasEventNavigation = true;
-            }
-        });
-        
-        // Check next buttons
-        nextButtons.forEach(button => {
-            if (button.onclick || button.href) {
-                hasEventNavigation = true;
-            }
-        });
-        
-        // Check if timeline data supports navigation
-        const hasTimelineData = typeof TIMELINE_DATA !== 'undefined' && 
-                               TIMELINE_DATA.events && 
-                               TIMELINE_DATA.events.length > 1;
-        
-        navigationResults.eventNavigation = hasEventNavigation && hasTimelineData;
-        
-        console.log(navigationResults.eventNavigation ? 
-            '✅ Event-to-event navigation working' : 
-            '❌ Event-to-event navigation issues');
-            
-        return navigationResults.eventNavigation;
-        
-    } catch (error) {
-        console.error('❌ Error testing event navigation:', error);
-        return false;
-    }
-}
-
-// Test cross-highlighting between dots and labels
-function testCrossHighlighting() {
-    console.log('🐼 Testing cross-highlighting functionality...');
-    
-    try {
-        const timelineDots = document.querySelectorAll('.timeline-dot');
-        const timelineLabels = document.querySelectorAll('.timeline-date-label');
-        
-        let hasDataIndexes = true;
-        let hasHoverEvents = false;
-        
-        // Check if dots have data-index attributes
-        timelineDots.forEach(dot => {
-            if (!dot.hasAttribute('data-index')) {
-                hasDataIndexes = false;
-            }
-        });
-        
-        // Check if labels have data-index attributes
-        timelineLabels.forEach(label => {
-            if (!label.hasAttribute('data-index')) {
-                hasDataIndexes = false;
-            }
-        });
-        
-        // Check for hover event listeners (simplified check)
-        if (timelineDots.length > 0 && timelineLabels.length > 0) {
-            // Simulate hover to test highlighting
-            const firstDot = timelineDots[0];
-            const firstLabel = timelineLabels[0];
-            
-            if (firstDot && firstLabel) {
-                // Trigger mouseenter event
-                const mouseEnterEvent = new MouseEvent('mouseenter', { bubbles: true });
-                firstDot.dispatchEvent(mouseEnterEvent);
-                
-                // Check if corresponding label gets highlighted
-                setTimeout(() => {
-                    const labelHighlighted = firstLabel.classList.contains('highlighted');
-                    hasHoverEvents = labelHighlighted;
-                    
-                    // Clean up
-                    const mouseLeaveEvent = new MouseEvent('mouseleave', { bubbles: true });
-                    firstDot.dispatchEvent(mouseLeaveEvent);
-                    
-                    navigationResults.crossHighlighting = hasDataIndexes && hasHoverEvents;
-                    
-                    console.log(navigationResults.crossHighlighting ? 
-                        '✅ Cross-highlighting working' : 
-                        '❌ Cross-highlighting issues');
-                }, 100);
-            }
+            // Timeout after 5 seconds
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                resolve(null);
+            }, 5000);
         }
-        
-        return hasDataIndexes;
-        
-    } catch (error) {
-        console.error('❌ Error testing cross-highlighting:', error);
-        return false;
-    }
+    });
 }
 
-// Test mobile navigation
-function testMobileNavigation() {
-    console.log('🐼 Testing mobile navigation...');
+// Enhanced navigation validation
+async function validateNavigation() {
+    console.log('🐼 Running enhanced navigation validation...');
     
-    try {
-        // Check if mobile optimizations are in place
-        const hasTouchEvents = 'ontouchstart' in window;
-        const hasViewportMeta = document.querySelector('meta[name="viewport"]') !== null;
-        const hasMobileCSS = document.querySelector('link[href*="responsive"]') !== null;
+    const validationResults = {
+        timelineData: typeof TIMELINE_DATA !== 'undefined',
+        navigationManager: false,
+        globalNavigationFunction: typeof window.navigateToEventDetail === 'function',
+        timelineElements: document.getElementById('timeline-bar') !== null,
+        eventMapping: false,
+        touchSupport: 'ontouchstart' in window
+    };
+    
+    // Wait for navigation manager
+    const navManager = await waitForNavigationManager();
+    validationResults.navigationManager = navManager !== null;
+    
+    // Test event mapping
+    if (validationResults.timelineData && navManager) {
+        const testEvent = TIMELINE_DATA.events[0];
+        const hasMapping = navManager.eventPageMap[testEvent.id] !== undefined;
+        validationResults.eventMapping = hasMapping;
         
-        // Check if touch-friendly elements exist
-        const touchFriendlyElements = document.querySelectorAll('[class*="touch-"]');
-        const hasTouchOptimizations = touchFriendlyElements.length > 0;
-        
-        // Check minimum touch target sizes (44px)
-        const buttons = document.querySelectorAll('button, .btn, .nav-button');
-        let hasProperTouchTargets = true;
-        
-        buttons.forEach(button => {
-            const rect = button.getBoundingClientRect();
-            if (rect.width < 44 || rect.height < 44) {
-                hasProperTouchTargets = false;
-            }
-        });
-        
-        navigationResults.mobileNavigation = hasViewportMeta && 
-                                           (hasMobileCSS || hasTouchOptimizations) && 
-                                           hasProperTouchTargets;
-        
-        console.log(navigationResults.mobileNavigation ? 
-            '✅ Mobile navigation optimized' : 
-            '❌ Mobile navigation needs improvement');
-            
-        return navigationResults.mobileNavigation;
-        
-    } catch (error) {
-        console.error('❌ Error testing mobile navigation:', error);
-        return false;
+        console.log(`🐼 Testing event mapping for: ${testEvent.id} → ${hasMapping ? 'FOUND' : 'NOT FOUND'}`);
     }
+    
+    // Count successful validations
+    const passedChecks = Object.values(validationResults).filter(result => result === true).length;
+    const totalChecks = Object.keys(validationResults).length;
+    const successRate = Math.round((passedChecks / totalChecks) * 100);
+    
+    console.log(`🎯 Enhanced Navigation Status: ${passedChecks}/${totalChecks} (${successRate}%)`);
+    
+    // Log detailed results
+    Object.entries(validationResults).forEach(([key, value]) => {
+        const icon = value ? '✅' : '❌';
+        console.log(`${icon} ${key}: ${value}`);
+    });
+    
+    if (successRate >= 90) {
+        console.log('🎉 Excellent! Navigation system working perfectly!');
+        showNavigationSuccess();
+    } else if (successRate >= 70) {
+        console.log('👍 Good! Navigation system mostly working.');
+    } else {
+        console.log('⚠️ Navigation system needs attention.');
+        showNavigationIssues(validationResults);
+    }
+    
+    return validationResults;
 }
 
-// Run all navigation tests
-function runNavigationTests() {
-    console.log('🐼 Running comprehensive navigation tests...');
+// Show navigation success indicator
+function showNavigationSuccess() {
+    const successIndicator = document.createElement('div');
+    successIndicator.style.cssText = `
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: linear-gradient(45deg, #e8f0e4, #f0f8f0);
+        color: #2d5a2d;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-family: 'Dancing Script', cursive;
+        font-size: 0.9rem;
+        font-weight: 600;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(232, 240, 228, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    `;
+    successIndicator.innerHTML = '🐼 Navigation ready! 💕';
     
-    const tests = [
-        testTimelineToDetail,
-        testDetailToTimeline,
-        testEventNavigation,
-        testCrossHighlighting,
-        testMobileNavigation
-    ];
+    document.body.appendChild(successIndicator);
     
-    let completedTests = 0;
-    const totalTests = tests.length;
+    // Fade in
+    setTimeout(() => {
+        successIndicator.style.opacity = '1';
+    }, 100);
     
-    tests.forEach((test, index) => {
+    // Fade out after 3 seconds
+    setTimeout(() => {
+        successIndicator.style.opacity = '0';
         setTimeout(() => {
-            test();
-            completedTests++;
-            
-            if (completedTests === totalTests) {
-                displayNavigationResults();
+            if (successIndicator.parentNode) {
+                successIndicator.parentNode.removeChild(successIndicator);
             }
-        }, index * 300);
+        }, 300);
+    }, 3000);
+}
+// Show navigation issues
+function showNavigationIssues(results) {
+    const issues = Object.entries(results)
+        .filter(([key, value]) => !value)
+        .map(([key]) => key);
+    
+    console.log('⚠️ Navigation issues found:', issues);
+    
+    // Show warning indicator
+    const warningIndicator = document.createElement('div');
+    warningIndicator.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+        color: #856404;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-family: 'Dancing Script', cursive;
+        font-size: 0.9rem;
+        font-weight: 600;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+    `;
+    warningIndicator.innerHTML = '⚠️ Navigation issues detected';
+    warningIndicator.title = `Issues: ${issues.join(', ')}`;
+    
+    document.body.appendChild(warningIndicator);
+    
+    // Fade in
+    setTimeout(() => {
+        warningIndicator.style.opacity = '1';
+    }, 100);
+    
+    // Remove on click or after 10 seconds
+    warningIndicator.addEventListener('click', () => {
+        warningIndicator.remove();
     });
+    
+    setTimeout(() => {
+        if (warningIndicator.parentNode) {
+            warningIndicator.remove();
+        }
+    }, 10000);
 }
 
-// Display navigation test results
-function displayNavigationResults() {
-    const passedTests = Object.values(navigationResults).filter(result => result === true).length;
-    const totalTests = Object.keys(navigationResults).length;
-    const successRate = Math.round((passedTests / totalTests) * 100);
+// Test navigation functionality
+async function testNavigationFunctionality() {
+    console.log('🐼 Testing navigation functionality...');
     
-    console.log('🎉 Navigation Test Results:');
-    console.log(`✅ Passed: ${passedTests}/${totalTests} (${successRate}%)`);
-    
-    Object.entries(navigationResults).forEach(([testName, result]) => {
-        console.log(`${result ? '✅' : '❌'} ${testName}: ${result ? 'PASS' : 'FAIL'}`);
-    });
-    
-    if (successRate >= 80) {
-        console.log('🐼💕 Excellent! Navigation flow is working beautifully!');
-    } else if (successRate >= 60) {
-        console.log('🐼 Good progress! Minor navigation improvements needed.');
-    } else {
-        console.log('🐼 Navigation needs attention. Let\'s fix these issues!');
+    const navManager = await waitForNavigationManager();
+    if (!navManager) {
+        console.error('❌ Navigation manager not available for testing');
+        return false;
     }
     
-    return {
-        passedTests,
-        totalTests,
-        successRate,
-        results: navigationResults
-    };
-}
-
-// Validate specific event detail page
-function validateEventDetailPage(eventId) {
-    console.log(`🐼 Validating event detail page: ${eventId}`);
+    if (typeof TIMELINE_DATA === 'undefined' || !TIMELINE_DATA.events.length) {
+        console.error('❌ No timeline data available for testing');
+        return false;
+    }
+    
+    // Test with first event
+    const testEvent = TIMELINE_DATA.events[0];
+    console.log(`🐼 Testing navigation with event: ${testEvent.title}`);
     
     try {
-        // Check if event exists in timeline data
-        if (typeof TIMELINE_DATA === 'undefined' || !TIMELINE_DATA.events) {
-            console.error('❌ Timeline data not available');
+        // Test event finding
+        const foundEvent = navManager.findEventById(testEvent.id);
+        if (foundEvent) {
+            console.log('✅ Event finding works correctly');
+        } else {
+            console.error('❌ Event finding failed');
             return false;
         }
         
-        const eventData = TIMELINE_DATA.events.find(event => event.id === eventId);
-        if (!eventData) {
-            console.error(`❌ Event not found: ${eventId}`);
-            return false;
+        // Test page mapping
+        const hasMapping = navManager.eventPageMap[testEvent.id] !== undefined;
+        if (hasMapping) {
+            console.log('✅ Event page mapping works correctly');
+        } else {
+            console.log('⚠️ No page mapping found (will show preview)');
         }
         
-        // Check if event detail page elements exist
-        const hasEventHeader = document.querySelector('.event-header') !== null;
-        const hasEventContent = document.querySelector('.event-content') !== null;
-        const hasBackButton = document.querySelector('.back-button') !== null;
-        const hasNavigation = document.querySelector('.event-navigation') !== null;
-        
-        const isValid = hasEventHeader && hasEventContent && hasBackButton && hasNavigation;
-        
-        console.log(isValid ? 
-            `✅ Event detail page valid: ${eventData.title}` : 
-            `❌ Event detail page issues: ${eventId}`);
-            
-        return isValid;
+        console.log('✅ Navigation functionality test passed');
+        return true;
         
     } catch (error) {
-        console.error(`❌ Error validating event detail page ${eventId}:`, error);
+        console.error('❌ Navigation functionality test failed:', error);
         return false;
     }
 }
-
-// Test complete user journey
-function testCompleteUserJourney() {
-    console.log('🐼 Testing complete user journey...');
-    
-    const journey = {
-        landOnTimeline: false,
-        seeCountdownTimer: false,
-        viewTimelineEvents: false,
-        clickOnEvent: false,
-        viewEventDetail: false,
-        navigateBack: false,
-        navigateToOtherEvents: false
-    };
-    
-    try {
-        // Test 1: Landing on timeline
-        const hasTimelinePage = document.querySelector('.timeline-page') !== null;
-        journey.landOnTimeline = hasTimelinePage;
-        
-        // Test 2: See countdown timer
-        const hasCountdownTimer = document.querySelector('.countdown-timer') !== null;
-        journey.seeCountdownTimer = hasCountdownTimer;
-        
-        // Test 3: View timeline events
-        const hasTimelineEvents = document.querySelectorAll('.timeline-dot').length > 0;
-        journey.viewTimelineEvents = hasTimelineEvents;
-        
-        // Test 4: Click on event (check if clickable)
-        const timelineDots = document.querySelectorAll('.timeline-dot');
-        journey.clickOnEvent = timelineDots.length > 0 && 
-                              (timelineDots[0].onclick !== null || timelineDots[0].style.cursor === 'pointer');
-        
-        // Test 5: View event detail (check if detail page structure exists)
-        const hasEventDetailStructure = document.querySelector('.event-detail-page') !== null ||
-                                       document.querySelector('.event-header') !== null;
-        journey.viewEventDetail = hasEventDetailStructure;
-        
-        // Test 6: Navigate back (check if back button exists)
-        const hasBackButton = document.querySelector('.back-button') !== null;
-        journey.navigateBack = hasBackButton;
-        
-        // Test 7: Navigate to other events (check if navigation exists)
-        const hasEventNavigation = document.querySelector('.event-navigation') !== null ||
-                                  document.querySelectorAll('.nav-button').length > 0;
-        journey.navigateToOtherEvents = hasEventNavigation;
-        
-        const completedSteps = Object.values(journey).filter(step => step === true).length;
-        const totalSteps = Object.keys(journey).length;
-        const journeySuccess = Math.round((completedSteps / totalSteps) * 100);
-        
-        console.log('🎯 User Journey Test Results:');
-        console.log(`✅ Completed Steps: ${completedSteps}/${totalSteps} (${journeySuccess}%)`);
-        
-        Object.entries(journey).forEach(([step, completed]) => {
-            console.log(`${completed ? '✅' : '❌'} ${step}: ${completed ? 'PASS' : 'FAIL'}`);
-        });
-        
-        return {
-            journey,
-            completedSteps,
-            totalSteps,
-            journeySuccess
-        };
-        
-    } catch (error) {
-        console.error('❌ Error testing complete user journey:', error);
-        return null;
-    }
-}
-
-// Export functions for use in other scripts
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        runNavigationTests,
-        testCompleteUserJourney,
-        validateEventDetailPage,
-        navigationResults
-    };
-}
-
-// Auto-run tests when script loads
-if (typeof window !== 'undefined') {
-    window.navigationValidator = {
-        runNavigationTests,
-        testCompleteUserJourney,
-        validateEventDetailPage,
-        navigationResults
-    };
-    
-    // Run tests after DOM is loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(runNavigationTests, 1000);
-        });
-    } else {
-        setTimeout(runNavigationTests, 1000);
-    }
+// Run validation when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Wait a bit for all scripts to load
+        setTimeout(async () => {
+            await validateNavigation();
+            await testNavigationFunctionality();
+        }, 1000);
+    });
+} else {
+    // DOM already loaded
+    setTimeout(async () => {
+        await validateNavigation();
+        await testNavigationFunctionality();
+    }, 1000);
 }

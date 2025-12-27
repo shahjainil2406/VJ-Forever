@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('✅ Timer display and data found, creating CountdownTimer instance');
       
       // Create countdown timer instance
-      const countdownTimer = new CountdownTimer(timerDisplay, TIMELINE_DATA.engagementDate);
+      const countdownTimer = new CountdownTimer(timerDisplay, TIMELINE_DATA.dalChawalDate);
       
       // Make timer globally available for debugging
       window.countdownTimer = countdownTimer;
