@@ -925,7 +925,7 @@ if (typeof module !== 'undefined' && module.exports) {
 class PageTransitionManager {
   constructor() {
     this.isTransitioning = false;
-    this.transitionDuration = 600;
+    this.transitionDuration = 1200; // Increased from 600ms for smoother mobile experience
     
     this.init();
   }
@@ -1027,7 +1027,7 @@ class PageTransitionManager {
       </div>
     `;
     
-    // Add transition styles
+    // Add transition styles with mobile optimization
     overlay.style.cssText = `
       position: fixed;
       top: 0;
@@ -1039,7 +1039,12 @@ class PageTransitionManager {
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: transitionFadeIn 0.4s ease-out;
+      animation: transitionFadeIn 0.8s ease-out;
+      
+      /* Mobile optimization */
+      will-change: opacity;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     `;
     
     document.body.appendChild(overlay);
@@ -1087,21 +1092,21 @@ class PageTransitionManager {
       setTimeout(() => {
         mainContent.style.opacity = '1';
         mainContent.style.transform = 'translateY(0)';
-      }, 100);
+      }, 200); // Increased delay for smoother mobile experience
     }
   }
   
   staggerEntranceAnimations() {
     const elementsToAnimate = [
-      { selector: '.countdown-timer', delay: 200 },
-      { selector: '.timeline-title', delay: 400 },
-      { selector: '.timeline-bar', delay: 600 },
-      { selector: '.timeline-labels', delay: 800 },
-      { selector: '.event-header-content', delay: 300 },
-      { selector: '.event-story', delay: 500 },
-      { selector: '.photo-gallery-section', delay: 700 },
-      { selector: '.special-content-section', delay: 900 },
-      { selector: '.event-navigation', delay: 1100 }
+      { selector: '.countdown-timer', delay: 300 },
+      { selector: '.timeline-title', delay: 600 },
+      { selector: '.timeline-bar', delay: 900 },
+      { selector: '.timeline-labels', delay: 1200 },
+      { selector: '.event-header-content', delay: 450 },
+      { selector: '.event-story', delay: 750 },
+      { selector: '.photo-gallery-section', delay: 1050 },
+      { selector: '.special-content-section', delay: 1350 },
+      { selector: '.event-navigation', delay: 1650 }
     ];
     
     elementsToAnimate.forEach(({ selector, delay }) => {
@@ -1264,11 +1269,11 @@ pageTransitionStyles.textContent = `
       opacity: 0;
     }
     50% {
-      transform: scale(1.2) rotate(180deg);
+      transform: scale(1.1) rotate(180deg);
       opacity: 1;
     }
     100% {
-      transform: scale(0) rotate(360deg) translate(50vw, 50vh);
+      transform: scale(0) rotate(360deg) translate(30vw, 30vh);
       opacity: 0;
     }
   }
@@ -1279,11 +1284,11 @@ pageTransitionStyles.textContent = `
       opacity: 0;
     }
     50% {
-      transform: scale(1) translate(25vw, 25vh);
+      transform: scale(1) translate(15vw, 15vh);
       opacity: 1;
     }
     100% {
-      transform: scale(0) translate(50vw, 50vh);
+      transform: scale(0) translate(30vw, 30vh);
       opacity: 0;
     }
   }
@@ -1308,12 +1313,12 @@ pageTransitionStyles.textContent = `
   }
   
   .transition-pandas > div {
-    animation: pandaPartyDance 1.5s ease-in-out infinite;
+    animation: pandaPartyDance 2s ease-in-out infinite;
   }
   
   .panda-1 { animation-delay: 0s; }
-  .panda-2 { animation-delay: 0.2s; }
-  .panda-3 { animation-delay: 0.4s; }
+  .panda-2 { animation-delay: 0.3s; }
+  .panda-3 { animation-delay: 0.6s; }
   
   .transition-message {
     margin-bottom: 2rem;
@@ -1334,12 +1339,12 @@ pageTransitionStyles.textContent = `
   }
   
   .transition-hearts > div {
-    animation: heartFloat 2s ease-in-out infinite;
+    animation: heartFloat 3s ease-in-out infinite;
   }
   
   .heart-1 { animation-delay: 0s; }
-  .heart-2 { animation-delay: 0.3s; }
-  .heart-3 { animation-delay: 0.6s; }
+  .heart-2 { animation-delay: 0.4s; }
+  .heart-3 { animation-delay: 0.8s; }
   
   /* Mobile responsive transitions */
   @media (max-width: 768px) {
@@ -1352,6 +1357,10 @@ pageTransitionStyles.textContent = `
       gap: 0.75rem;
     }
     
+    .transition-pandas > div {
+      animation-duration: 2.5s;
+    }
+    
     .transition-message p {
       font-size: 1.1rem;
     }
@@ -1359,6 +1368,41 @@ pageTransitionStyles.textContent = `
     .transition-hearts {
       font-size: 1.3rem;
       gap: 0.75rem;
+    }
+    
+    .transition-hearts > div {
+      animation-duration: 3.5s;
+    }
+    
+    /* Slower, smoother animations on mobile */
+    @keyframes pandaTransition {
+      0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.05) rotate(90deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0) rotate(180deg) translate(20vw, 20vh);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes heartTransition {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1) translate(10vw, 10vh);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0) translate(20vw, 20vh);
+        opacity: 0;
+      }
     }
   }
 `;

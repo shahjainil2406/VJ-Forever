@@ -326,18 +326,29 @@ p {
 .panda-decoration {
   position: absolute;
   font-size: 1.5rem;
-  opacity: 0.12;
-  animation: romanticFloatingPandas 25s infinite linear;
+  opacity: 0.15;
+  animation: romanticFloatingPandas 30s infinite linear;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
   filter: drop-shadow(0 2px 4px rgba(232, 240, 228, 0.3));
+  
+  /* Mobile optimization - prevent flickering */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  
+  /* Improve rendering performance on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Individual panda personalities with romantic touches */
+/* Individual panda personalities with romantic touches - Mobile Optimized */
 .panda-1 {
   top: 20%;
   left: 10%;
   animation-delay: 0s;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 .panda-1::after {
@@ -346,15 +357,15 @@ p {
   top: -10px;
   right: -15px;
   font-size: 0.6em;
-  animation: heartFloat 4s ease-in-out infinite;
+  animation: heartFloat 5s ease-in-out infinite;
   animation-delay: 1s;
 }
 
 .panda-2 {
   top: 60%;
   right: 15%;
-  animation-delay: 8s;
-  font-size: 2rem;
+  animation-delay: 10s;
+  font-size: 1.8rem;
 }
 
 .panda-2::after {
@@ -363,15 +374,15 @@ p {
   top: -8px;
   left: -12px;
   font-size: 0.5em;
-  animation: sparkleFloat 3s ease-in-out infinite;
+  animation: sparkleFloat 4s ease-in-out infinite;
   animation-delay: 2s;
 }
 
 .panda-3 {
   top: 80%;
   left: 20%;
-  animation-delay: 16s;
-  font-size: 1.6rem;
+  animation-delay: 20s;
+  font-size: 1.4rem;
 }
 
 .panda-3::after {
@@ -380,94 +391,94 @@ p {
   bottom: -8px;
   right: -10px;
   font-size: 0.7em;
-  animation: gentlePulse 5s ease-in-out infinite;
+  animation: gentlePulse 6s ease-in-out infinite;
   animation-delay: 0.5s;
 }
 
 .panda-4 {
   top: 40%;
   right: 25%;
-  animation-delay: 12s;
-  font-size: 1.7rem;
+  animation-delay: 15s;
+  font-size: 1.5rem;
 }
 
 .panda-5 {
   bottom: 30%;
   left: 35%;
-  animation-delay: 20s;
-  font-size: 1.9rem;
+  animation-delay: 25s;
+  font-size: 1.7rem;
 }
 
 .panda-6 {
   top: 15%;
   right: 40%;
-  animation-delay: 4s;
-  font-size: 1.4rem;
+  animation-delay: 5s;
+  font-size: 1.3rem;
 }
 
 .panda-7 {
   bottom: 15%;
   right: 30%;
-  animation-delay: 24s;
-  font-size: 2.1rem;
+  animation-delay: 30s;
+  font-size: 1.9rem;
 }
 
 .panda-8 {
   top: 70%;
   left: 45%;
-  animation-delay: 6s;
-  font-size: 1.5rem;
+  animation-delay: 8s;
+  font-size: 1.4rem;
 }
 
 .panda-9 {
   top: 35%;
   left: 60%;
-  animation-delay: 18s;
-  font-size: 1.8rem;
+  animation-delay: 22s;
+  font-size: 1.6rem;
 }
 
 .panda-10 {
   bottom: 45%;
   right: 50%;
-  animation-delay: 10s;
-  font-size: 1.6rem;
+  animation-delay: 12s;
+  font-size: 1.5rem;
 }
 
 .panda-11 {
   top: 55%;
   left: 75%;
-  animation-delay: 22s;
-  font-size: 1.7rem;
+  animation-delay: 28s;
+  font-size: 1.5rem;
 }
 
 .panda-12 {
   bottom: 60%;
   left: 55%;
-  animation-delay: 14s;
-  font-size: 1.9rem;
+  animation-delay: 18s;
+  font-size: 1.7rem;
 }
 
-/* Enhanced romantic floating animation */
+/* Enhanced romantic floating animation - Mobile Optimized */
 @keyframes romanticFloatingPandas {
   0% {
     transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 0.08;
+    opacity: 0.12;
   }
   25% {
-    transform: translateY(-25px) rotate(5deg) scale(1.1);
+    transform: translateY(-15px) rotate(2deg) scale(1.05);
     opacity: 0.15;
   }
   50% {
-    transform: translateY(-15px) rotate(-3deg) scale(1.05);
-    opacity: 0.12;
+    transform: translateY(-8px) rotate(-1deg) scale(1.02);
+    opacity: 0.18;
   }
   75% {
-    transform: translateY(-35px) rotate(8deg) scale(1.15);
-    opacity: 0.18;
+    transform: translateY(-20px) rotate(3deg) scale(1.08);
+    opacity: 0.15;
   }
   100% {
     transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 0.08;
+    opacity: 0.12;
   }
 }
 
@@ -726,6 +737,44 @@ p {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile-specific animation optimizations */
+@media (max-width: 768px) {
+  .panda-decoration {
+    /* Reduce animation complexity on mobile */
+    animation-duration: 35s;
+    opacity: 0.12;
+    font-size: 1.3rem;
+    
+    /* Further optimize for mobile performance */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  /* Reduce the number of visible pandas on mobile */
+  .panda-7, .panda-8, .panda-9, .panda-10, .panda-11, .panda-12 {
+    display: none;
+  }
+  
+  /* Simplify remaining panda animations */
+  .panda-1::after, .panda-2::after, .panda-3::after {
+    animation-duration: 6s;
+  }
+}
+
+/* Further mobile optimization for older devices */
+@media (max-width: 480px) {
+  .panda-decoration {
+    animation-duration: 40s;
+    opacity: 0.1;
+    font-size: 1.2rem;
+  }
+  
+  /* Hide even more pandas on small screens */
+  .panda-4, .panda-5, .panda-6 {
+    display: none;
   }
 }
 
