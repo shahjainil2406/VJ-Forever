@@ -153,16 +153,6 @@ h1::after {
   animation-delay: 0s;
 }
 
-h1::before {
-  margin-right: 0.5rem;
-  animation-delay: 0s;
-}
-
-h1::after {
-  margin-left: 0.5rem;
-  animation-delay: 0s;
-}
-
 h2 {
   font-size: 1.75rem;
   text-align: center;
