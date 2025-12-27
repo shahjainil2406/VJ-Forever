@@ -294,12 +294,76 @@
   transition: all 0.3s ease;
   position: relative;
   max-width: 300px;
+  /* Ensure minimum touch target size for mobile */
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .event-content:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(107, 142, 90, 0.3);
   border-color: #6b8e5a;
+}
+
+/* Mobile Touch States */
+.event-content:active,
+.timeline-event.touch-active .event-content {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 15px rgba(107, 142, 90, 0.4);
+  border-color: #6b8e5a;
+  background: linear-gradient(135deg, #f0f8f0, #e8f0e4);
+}
+
+/* Enhanced mobile touch feedback */
+@media (max-width: 768px) {
+  .event-content {
+    min-height: 60px;
+    padding: 1.2rem;
+    /* Larger touch targets on mobile */
+    min-width: 280px;
+    /* Prevent text selection on touch */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* Improve touch responsiveness */
+    -webkit-tap-highlight-color: rgba(107, 142, 90, 0.2);
+    touch-action: manipulation;
+    /* Add subtle indication that it's clickable */
+    position: relative;
+  }
+  
+  /* Add a subtle "tap me" indicator */
+  .event-content::after {
+    content: "👆 Tap to explore";
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    color: #6b8e5a;
+    opacity: 0.6;
+    font-family: 'Dancing Script', cursive;
+    pointer-events: none;
+  }
+  
+  .event-content:active,
+  .timeline-event.touch-active .event-content {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Ensure timeline events are easily tappable */
+  .timeline-event {
+    margin: 2rem 0;
+    min-height: 80px;
+  }
+  
+  /* Add visual feedback for touch */
+  .timeline-event.touch-active {
+    animation: gentlePulse 0.3s ease-in-out;
+  }
 }
 
 /* Event Date */

@@ -814,11 +814,15 @@ class MobilePerformanceManager {
     // Improve touch responsiveness
     document.addEventListener('touchstart', function() {}, { passive: true });
     
-    // Prevent double-tap zoom
+    // Prevent double-tap zoom only on non-interactive elements
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function(event) {
       const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
+      
+      // Only prevent double-tap zoom if not on interactive elements
+      const isInteractiveElement = event.target.closest('.event-content, .timeline-event, button, a, input, textarea, select');
+      
+      if (now - lastTouchEnd <= 300 && !isInteractiveElement) {
         event.preventDefault();
       }
       lastTouchEnd = now;

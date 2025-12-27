@@ -456,7 +456,10 @@
                         const clickHandler = (e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            console.log('🐼 Vertical timeline event clicked:', event.title);
+                            console.log('🐼 Timeline event clicked:', event.title);
+                            console.log('🐼 Event ID:', event.id);
+                            console.log('🐼 Click event type:', e.type);
+                            console.log('🐼 Is mobile device:', window.innerWidth <= 768);
                             
                             // Add click animation
                             eventContainer.classList.add('gentle-pulse');
@@ -472,12 +475,10 @@
                             
                             // Navigate after brief transition
                             setTimeout(() => {
+                                console.log('🐼 Actually navigating now...');
                                 window.location.href = detailPageUrl;
                             }, 300);
                         };
-                        
-                        // Add click handler to event content
-                        eventContent.addEventListener('click', clickHandler);
                         
                         // Enhanced hover events
                         const hoverEnterHandler = () => {
@@ -492,22 +493,38 @@
                         eventContent.addEventListener('mouseleave', hoverLeaveHandler);
                         
                         // Enhanced touch support for mobile
-                        const touchHandler = (e) => {
-                            e.preventDefault();
-                            // Remove touch-active from all other events
-                            document.querySelectorAll('.timeline-event').forEach(event => {
-                                event.classList.remove('touch-active');
-                            });
-                            // Add touch-active to current event
+                        const touchStartHandler = (e) => {
+                            // Don't prevent default - allow click event to fire
+                            console.log('🐼 Touch start on timeline event:', event.title);
+                            console.log('🐼 Touch start event type:', e.type);
+                            
+                            // Add visual feedback for touch
                             eventContainer.classList.add('touch-active');
                             
-                            // Remove touch-active after 3 seconds
+                            // Remove touch-active after a short delay
                             setTimeout(() => {
                                 eventContainer.classList.remove('touch-active');
-                            }, 3000);
+                            }, 200);
                         };
                         
-                        eventContent.addEventListener('touchstart', touchHandler);
+                        // Add touch end handler for better mobile experience
+                        const touchEndHandler = (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🐼 Touch end - triggering navigation:', event.title);
+                            console.log('🐼 Touch end event type:', e.type);
+                            console.log('🐼 Touch target:', e.target);
+                            
+                            // Trigger the same navigation as click handler
+                            clickHandler(e);
+                        };
+                        
+                        // Add both touch and click handlers
+                        eventContent.addEventListener('touchstart', touchStartHandler, { passive: true });
+                        eventContent.addEventListener('touchend', touchEndHandler);
+                        
+                        // Also add click handler for desktop and as fallback
+                        eventContent.addEventListener('click', clickHandler);
                         
                         // Assemble the event (no timeline dot)
                         eventContainer.appendChild(eventContent);
