@@ -402,11 +402,14 @@
             </a>
         </nav>
 
-        <!-- Floating Panda Decorations -->
+        <!-- Floating Panda and Heart Decorations -->
         <div class="floating-decorations">
             <div class="panda-decoration panda-1">🐼</div>
             <div class="panda-decoration panda-2">🐼</div>
             <div class="panda-decoration panda-3">🐼</div>
+            <div class="heart-decoration heart-1">💕</div>
+            <div class="heart-decoration heart-2">💖</div>
+            <div class="heart-decoration heart-3">💗</div>
         </div>
     </main>
 
@@ -421,6 +424,7 @@
 
     <!-- JavaScript -->
     <script src="data/timeline-data.js"></script>
+    <script src="js/image-discovery.js"></script>
     <script>
         // Get event ID from URL parameters
         function getEventIdFromUrl() {
@@ -466,10 +470,28 @@
             loadMemories(event);
         }
 
-        // Load memories section
-        function loadMemories(event) {
+        // Load memories section using new image discovery system
+        async function loadMemories(event) {
             const photoCollage = document.getElementById('photo-collage');
             
+            // Use new ImageDiscoveryService with imagePath from timeline data
+            try {
+                const imagePath = event.imagePath || `images/events/${event.id}/`;
+                console.log(`🔍 Looking for images in: ${imagePath}`);
+                
+                const imageDiscovery = new ImageDiscoveryService(event.id, photoCollage, imagePath);
+                const discoveredImages = await imageDiscovery.discoverAndRenderImages();
+                
+                // If images were found, we're done
+                if (discoveredImages.length > 0) {
+                    console.log(`✅ Successfully loaded ${discoveredImages.length} images from ${imagePath}`);
+                    return;
+                }
+            } catch (error) {
+                console.warn('New image discovery failed, falling back to timeline data:', error);
+            }
+            
+            // Fallback to memories array from timeline data (backward compatibility)
             if (event.memories && event.memories.length > 0) {
                 photoCollage.innerHTML = '';
                 
@@ -477,7 +499,7 @@
                     const photoItem = document.createElement('div');
                     photoItem.className = 'photo-item';
                     photoItem.innerHTML = `
-                        <img src="${photo.url}" alt="${photo.alt || 'Memory'}" loading="lazy">
+                        <img src="${photo.url}" alt="${photo.alt || 'Memory'}" loading="lazy" onerror="this.parentElement.style.display='none'">
                         <div class="photo-caption">${photo.caption || ''}</div>
                     `;
                     
@@ -488,6 +510,7 @@
                     
                     photoCollage.appendChild(photoItem);
                 });
+                console.log(`📋 Loaded ${event.memories.length} images from timeline data`);
             } else if (event.photos && event.photos.length > 0) {
                 // Fallback to old photos structure
                 photoCollage.innerHTML = '';
@@ -496,7 +519,7 @@
                     const photoItem = document.createElement('div');
                     photoItem.className = 'photo-item';
                     photoItem.innerHTML = `
-                        <img src="${photo.url || photo}" alt="Memory ${index + 1}" loading="lazy">
+                        <img src="${photo.url || photo}" alt="Memory ${index + 1}" loading="lazy" onerror="this.parentElement.style.display='none'">
                         <div class="photo-caption">${photo.caption || `Memory ${index + 1}`}</div>
                     `;
                     
@@ -506,17 +529,14 @@
                     
                     photoCollage.appendChild(photoItem);
                 });
+                console.log(`📋 Loaded ${event.photos.length} images from old photos structure`);
             } else {
-                // No photos available
-                photoCollage.innerHTML = `
-                    <div class="no-photos-placeholder">
-                        📸 More beautiful memories coming soon...
-                    </div>
-                `;
+                // No photos available - this case is now handled by ImageDiscoveryService
+                console.log('📁 No images found in any source');
             }
         }
 
-        // Photo modal functions
+        // Photo modal functions (keeping existing modal functionality)
         function openPhotoModal(imageSrc, caption) {
             const modal = document.getElementById('photo-modal');
             const modalImage = document.getElementById('modal-image');

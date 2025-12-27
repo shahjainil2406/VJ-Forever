@@ -302,16 +302,21 @@ p {
   box-shadow: 0 2px 8px rgba(232, 240, 228, 0.4);
 }
 
-/* Enhanced Floating Panda Decorations - Romantic Personalization */
+/* Enhanced Floating Panda Decorations - Full App Coverage */
 .floating-decorations {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 500vh; /* Cover 5x viewport height to extend through all scrollable content */
   pointer-events: none;
   z-index: 1;
-  overflow: hidden;
+  overflow: visible; /* Allow pandas to float beyond container */
+  
+  /* Ensure container is always visible */
+  visibility: visible !important;
+  display: block !important;
+  opacity: 1 !important;
 }
 
 .panda-decoration {
@@ -329,9 +334,58 @@ p {
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   
-  /* Improve rendering performance on mobile */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Ensure visibility throughout scroll */
+  visibility: visible !important;
+  display: block !important;
+  
+  /* Force hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.heart-decoration {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.12;
+  animation: romanticFloatingHearts 25s infinite linear;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.3));
+  
+  /* Mobile optimization - prevent flickering */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  
+  /* Ensure visibility throughout scroll */
+  visibility: visible !important;
+  display: block !important;
+  
+  /* Force hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Dynamic pandas and hearts created by JavaScript */
+.dynamic-panda,
+.dynamic-heart {
+  position: absolute !important;
+  visibility: visible !important;
+  display: block !important;
+  opacity: 0.15 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  
+  /* Prevent removal during scroll optimizations */
+  animation-play-state: running !important;
+  
+  /* Force hardware acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* Individual panda personalities with romantic touches - Mobile Optimized */
@@ -384,6 +438,49 @@ p {
   font-size: 0.7em;
   animation: gentlePulse 6s ease-in-out infinite;
   animation-delay: 0.5s;
+}
+
+/* Heart decoration positioning */
+.heart-1 {
+  top: 35%;
+  left: 85%;
+  animation: romanticFloatingHearts 25s infinite linear;
+  animation-delay: 3s;
+}
+
+.heart-2 {
+  top: 65%;
+  right: 25%;
+  animation: romanticFloatingHeartsReverse 27s infinite linear;
+  animation-delay: 8s;
+}
+
+.heart-3 {
+  top: 45%;
+  left: 5%;
+  animation: romanticFloatingHeartsDiagonal 24s infinite linear;
+  animation-delay: 13s;
+}
+
+.heart-4 {
+  top: 75%;
+  right: 10%;
+  animation: romanticFloatingHearts 26s infinite linear;
+  animation-delay: 18s;
+}
+
+.heart-5 {
+  top: 25%;
+  left: 60%;
+  animation: romanticFloatingHeartsReverse 28s infinite linear;
+  animation-delay: 23s;
+}
+
+.heart-6 {
+  top: 85%;
+  right: 45%;
+  animation: romanticFloatingHeartsDiagonal 23s infinite linear;
+  animation-delay: 28s;
 }
 
 .panda-4 {
@@ -449,27 +546,145 @@ p {
   font-size: 1.7rem;
 }
 
-/* Enhanced romantic floating animation - Mobile Optimized */
+/* Enhanced romantic floating animation - Full App Coverage */
 @keyframes romanticFloatingPandas {
   0% {
     transform: translateY(0) rotate(0deg) scale(1);
     opacity: 0.12;
   }
   25% {
-    transform: translateY(-15px) rotate(2deg) scale(1.05);
+    transform: translateY(20vh) rotate(2deg) scale(1.05);
     opacity: 0.15;
   }
   50% {
-    transform: translateY(-8px) rotate(-1deg) scale(1.02);
+    transform: translateY(-10vh) rotate(-1deg) scale(1.02);
     opacity: 0.18;
   }
   75% {
-    transform: translateY(-20px) rotate(3deg) scale(1.08);
+    transform: translateY(30vh) rotate(3deg) scale(1.08);
     opacity: 0.15;
   }
   100% {
     transform: translateY(0) rotate(0deg) scale(1);
     opacity: 0.12;
+  }
+}
+
+/* Alternative floating animation for variety */
+@keyframes romanticFloatingPandasReverse {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.12;
+  }
+  25% {
+    transform: translateY(-15vh) rotate(-2deg) scale(1.05);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(25vh) rotate(1deg) scale(1.02);
+    opacity: 0.18;
+  }
+  75% {
+    transform: translateY(-20vh) rotate(-3deg) scale(1.08);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.12;
+  }
+}
+
+/* Diagonal floating animation */
+@keyframes romanticFloatingPandasDiagonal {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.12;
+  }
+  25% {
+    transform: translate(10vw, 15vh) rotate(2deg) scale(1.05);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate(-5vw, -10vh) rotate(-1deg) scale(1.02);
+    opacity: 0.18;
+  }
+  75% {
+    transform: translate(15vw, 20vh) rotate(3deg) scale(1.08);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.12;
+  }
+}
+
+/* Floating Hearts Animations */
+@keyframes romanticFloatingHearts {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translateY(15vh) rotate(-2deg) scale(1.1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-8vh) rotate(1deg) scale(1.05);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translateY(22vh) rotate(-3deg) scale(1.15);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+}
+
+@keyframes romanticFloatingHeartsReverse {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translateY(-12vh) rotate(2deg) scale(1.1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(18vh) rotate(-1deg) scale(1.05);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translateY(-15vh) rotate(3deg) scale(1.15);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+}
+
+@keyframes romanticFloatingHeartsDiagonal {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translate(-8vw, 12vh) rotate(-2deg) scale(1.1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate(12vw, -6vh) rotate(1deg) scale(1.05);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(-6vw, 16vh) rotate(-3deg) scale(1.15);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.1;
   }
 }
 

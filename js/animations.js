@@ -11,6 +11,19 @@ class AnimationManager {
     this.observers = new Map();
     this.milestoneEffects = new Map();
     
+    // Enhanced properties for document-wide animations
+    this.documentHeight = 0;
+    this.viewportHeight = 0;
+    this.scrollSections = [];
+    this.animationContainer = null;
+    
+    // New properties for event detail page support
+    this.pageType = 'unknown';
+    this.pageConfig = null;
+    this.exclusionZones = [];
+    this.safeZones = [];
+    this.contentSections = [];
+    
     this.init();
   }
   
@@ -20,10 +33,22 @@ class AnimationManager {
     // Check for reduced motion preference
     this.checkReducedMotion();
     
+    // Detect page type and load configuration
+    this.detectPageType();
+    this.loadPageConfiguration();
+    
+    // Calculate document dimensions for full-page coverage
+    this.calculateDocumentHeight();
+    
     // Initialize intersection observer for scroll animations
     this.initIntersectionObserver();
     
-    // Initialize floating pandas
+    // Initialize content change observer for event detail pages
+    if (this.pageType === 'event-detail') {
+      this.initContentChangeObserver();
+    }
+    
+    // Initialize floating pandas with document-wide coverage
     this.initFloatingPandas();
     
     // Initialize romantic effects
@@ -43,6 +68,113 @@ class AnimationManager {
       document.body.classList.add('reduced-motion');
       console.log('🐼 Reduced motion detected - animations disabled');
     }
+  }
+  
+  detectPageType() {
+    // Detect current page type for optimized animations
+    const isEventDetailPage = document.querySelector('.event-detail-page') !== null;
+    const isTimelinePage = document.querySelector('.timeline-page') !== null;
+    
+    if (isEventDetailPage) {
+      this.pageType = 'event-detail';
+    } else if (isTimelinePage) {
+      this.pageType = 'timeline';
+    } else {
+      this.pageType = 'unknown';
+    }
+    
+    console.log('🐼 Page type detected:', {
+      pageType: this.pageType,
+      isEventDetailPage,
+      isTimelinePage,
+      currentPage: window.location.pathname
+    });
+  }
+  
+  loadPageConfiguration() {
+    // Define page-specific configurations
+    const configurations = {
+      'timeline': {
+        pageType: 'timeline',
+        contentSelectors: {
+          exclusionZones: [],
+          safeZones: ['body'] // Entire page is safe for timeline
+        },
+        animationSettings: {
+          density: 1.0, // Full density for timeline
+          minDistance: 0,
+          bufferPadding: 0
+        }
+      },
+      'event-detail': {
+        pageType: 'event-detail',
+        contentSelectors: {
+          exclusionZones: [
+            '.letter-section',
+            '.memories-section',
+            '.photo-modal'
+          ],
+          safeZones: [
+            '.event-header',
+            '.detail-navigation', 
+            '.bottom-navigation'
+          ]
+        },
+        animationSettings: {
+          density: 0.6, // Reduced density for cleaner look
+          minDistance: 50, // 50px minimum from content
+          bufferPadding: 20 // 20px extra padding
+        }
+      },
+      'unknown': {
+        pageType: 'unknown',
+        contentSelectors: {
+          exclusionZones: [],
+          safeZones: ['body'] // Fallback to full page
+        },
+        animationSettings: {
+          density: 0.8, // Conservative density
+          minDistance: 20,
+          bufferPadding: 10
+        }
+      }
+    };
+    
+    // Load configuration for detected page type
+    this.pageConfig = configurations[this.pageType] || configurations['unknown'];
+    
+    console.log('🐼 Page configuration loaded:', {
+      pageType: this.pageType,
+      config: this.pageConfig
+    });
+  }
+  
+  calculateDocumentHeight() {
+    // Calculate the full document height including all content
+    const body = document.body;
+    const html = document.documentElement;
+    
+    // Get the maximum height from various measurements
+    this.documentHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    
+    // Get current viewport height
+    this.viewportHeight = window.innerHeight;
+    
+    console.log(`🐼 Document dimensions calculated: ${this.documentHeight}px height, ${this.viewportHeight}px viewport`);
+    
+    // Ensure minimum height for proper animation distribution
+    if (this.documentHeight < this.viewportHeight * 2) {
+      this.documentHeight = this.viewportHeight * 2;
+      console.log('🐼 Adjusted minimum document height for animation coverage');
+    }
+    
+    return this.documentHeight;
   }
   
   initIntersectionObserver() {
@@ -66,7 +198,78 @@ class AnimationManager {
     this.observeScrollElements();
   }
   
-  observeScrollElements() {
+  initContentChangeObserver() {
+    if (!this.isEnabled) return;
+    
+    console.log('🐼 Initializing content change observer for event detail page');
+    
+    // Create mutation observer to watch for content changes
+    this.contentObserver = new MutationObserver((mutations) => {
+      let shouldRecalculate = false;
+      
+      mutations.forEach(mutation => {
+        // Check if any content sections were modified
+        if (mutation.type === 'childList' || mutation.type === 'attributes') {
+          const target = mutation.target;
+          
+          // Check if the changed element is within our watched sections
+          const isContentSection = this.pageConfig.contentSelectors.exclusionZones.some(selector => {
+            return target.matches && target.matches(selector) || 
+                   target.closest && target.closest(selector);
+          });
+          
+          if (isContentSection) {
+            shouldRecalculate = true;
+          }
+        }
+      });
+      
+      if (shouldRecalculate) {
+        console.log('🐼 Content sections changed, recalculating zones');
+        // Throttle recalculation to avoid excessive updates
+        clearTimeout(this.contentRecalculateTimeout);
+        this.contentRecalculateTimeout = setTimeout(() => {
+          this.calculateExclusionZones();
+          this.calculateSafeZones();
+        }, 500);
+      }
+    });
+    
+    // Observe the entire document for changes
+    this.contentObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style'] // Watch for class and style changes that might affect layout
+    });
+    
+    // Special handling for photo modal
+    const photoModal = document.getElementById('photo-modal');
+    if (photoModal) {
+      // Watch for modal visibility changes
+      const modalObserver = new MutationObserver((mutations) => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            const isActive = photoModal.classList.contains('active');
+            console.log('🐼 Photo modal visibility changed:', isActive ? 'opened' : 'closed');
+            
+            // Recalculate zones when modal opens/closes
+            setTimeout(() => {
+              this.calculateExclusionZones();
+              this.calculateSafeZones();
+            }, 100);
+          }
+        });
+      });
+      
+      modalObserver.observe(photoModal, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      
+      this.modalObserver = modalObserver;
+    }
+  }
     const elementsToObserve = [
       '.event-card',
       '.timer-unit',
@@ -106,35 +309,497 @@ class AnimationManager {
   initFloatingPandas() {
     if (!this.isEnabled) return;
     
-    const pandaContainer = document.querySelector('.floating-decorations');
-    if (!pandaContainer) return;
+    // Find or create floating decorations container with absolute positioning
+    let pandaContainer = document.querySelector('.floating-decorations');
+    if (!pandaContainer) {
+      // Create container if it doesn't exist (for pages that don't have it)
+      pandaContainer = document.createElement('div');
+      pandaContainer.className = 'floating-decorations';
+      pandaContainer.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: ${this.documentHeight}px;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      `;
+      document.body.appendChild(pandaContainer);
+      console.log('🐼 Created floating decorations container for document-wide coverage');
+    } else {
+      // Update existing container to use absolute positioning and full document height
+      pandaContainer.style.position = 'absolute';
+      pandaContainer.style.height = `${this.documentHeight}px`;
+      console.log('🐼 Updated existing floating decorations container for document-wide coverage');
+    }
     
-    // Create additional floating pandas dynamically
-    this.createFloatingPanda(pandaContainer, { top: '10%', left: '80%', delay: '5s' });
-    this.createFloatingPanda(pandaContainer, { top: '70%', left: '5%', delay: '15s' });
-    this.createFloatingPanda(pandaContainer, { top: '40%', right: '10%', delay: '25s' });
+    this.animationContainer = pandaContainer;
+    
+    console.log('🐼 Initializing floating pandas for page type:', {
+      pageType: this.pageType,
+      config: this.pageConfig,
+      currentPage: window.location.pathname,
+      documentHeight: this.documentHeight
+    });
+    
+    // Use page-specific animation density
+    const baseAnimationCount = 6;
+    const sectionsNeeded = Math.ceil(this.documentHeight / this.viewportHeight);
+    const densityMultiplier = this.pageConfig.animationSettings.density;
+    const totalPandas = Math.floor(baseAnimationCount * sectionsNeeded * densityMultiplier);
+    const totalHearts = Math.floor(totalPandas * 0.8); // Slightly fewer hearts than pandas
+    
+    console.log(`🐼 Creating ${totalPandas} pandas and ${totalHearts} hearts across ${sectionsNeeded} sections (density: ${densityMultiplier})`);
+    
+    // Branch based on page type for different animation strategies
+    if (this.pageType === 'event-detail') {
+      this.initEventDetailAnimations(pandaContainer, totalPandas, totalHearts);
+    } else {
+      this.initStandardAnimations(pandaContainer, totalPandas, totalHearts);
+    }
     
     // Create continuous floating effect
     this.startContinuousFloatingEffect();
   }
   
+  initEventDetailAnimations(container, totalPandas, totalHearts) {
+    console.log('🐼 Initializing event detail page animations with content exclusion');
+    
+    // Calculate exclusion and safe zones for content-aware positioning
+    this.calculateExclusionZones();
+    this.calculateSafeZones();
+    
+    console.log('🐼 Content zones calculated:', {
+      exclusionZones: this.exclusionZones.length,
+      safeZones: this.safeZones.length
+    });
+    
+    // Generate content-aware animations
+    this.createContentAwareAnimations(container, totalPandas, totalHearts);
+  }
+  
+  createContentAwareAnimations(container, totalPandas, totalHearts) {
+    console.log('🐼 Creating content-aware animations');
+    
+    // Performance optimization: reduce animation count on content-heavy pages
+    const performanceMultiplier = this.getPerformanceMultiplier();
+    const optimizedPandas = Math.floor(totalPandas * performanceMultiplier);
+    const optimizedHearts = Math.floor(totalHearts * performanceMultiplier);
+    
+    console.log(`🐼 Performance optimization: ${totalPandas} → ${optimizedPandas} pandas, ${totalHearts} → ${optimizedHearts} hearts`);
+    
+    const baseAnimationCount = 6;
+    
+    // Generate panda configurations with safe positioning
+    const pandaConfigs = [];
+    for (let i = 0; i < optimizedPandas; i++) {
+      const safePosition = this.generateSafePosition();
+      if (safePosition) {
+        const animations = ['romanticFloatingPandas', 'romanticFloatingPandasReverse', 'romanticFloatingPandasDiagonal'];
+        const animationName = animations[Math.floor(Math.random() * animations.length)];
+        
+        pandaConfigs.push({
+          top: `${safePosition.top}px`,
+          left: `${safePosition.left}px`,
+          delay: `${Math.random() * 60}s`,
+          animation: animationName,
+          type: 'panda',
+          emoji: '🐼',
+          duration: `${28 + Math.random() * 10}s`
+        });
+      }
+    }
+    
+    // Generate heart configurations with safe positioning
+    const heartConfigs = [];
+    for (let i = 0; i < optimizedHearts; i++) {
+      const safePosition = this.generateSafePosition();
+      if (safePosition) {
+        const animations = ['romanticFloatingHearts', 'romanticFloatingHeartsReverse', 'romanticFloatingHeartsDiagonal'];
+        const animationName = animations[Math.floor(Math.random() * animations.length)];
+        const heartEmojis = ['💕', '💖', '💗'];
+        const emoji = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        
+        heartConfigs.push({
+          top: `${safePosition.top}px`,
+          left: `${safePosition.left}px`,
+          delay: `${Math.random() * 60}s`,
+          animation: animationName,
+          type: 'heart',
+          emoji: emoji,
+          duration: `${23 + Math.random() * 8}s`
+        });
+      }
+    }
+    
+    // Create all pandas
+    pandaConfigs.forEach((config, index) => {
+      this.createFloatingPanda(container, config);
+    });
+    console.log(`🐼 Created ${pandaConfigs.length} content-aware floating pandas`);
+    
+    // Create all hearts
+    heartConfigs.forEach((config, index) => {
+      this.createFloatingPanda(container, config);
+    });
+    console.log(`💕 Created ${heartConfigs.length} content-aware floating hearts`);
+  }
+  
+  getPerformanceMultiplier() {
+    // Detect device performance characteristics
+    const isLowEndDevice = this.detectLowEndDevice();
+    const contentComplexity = this.assessContentComplexity();
+    
+    let multiplier = 1.0;
+    
+    // Reduce animations on low-end devices
+    if (isLowEndDevice) {
+      multiplier *= 0.6;
+      console.log('🐼 Low-end device detected, reducing animation count');
+    }
+    
+    // Reduce animations on content-heavy pages
+    if (contentComplexity > 0.7) {
+      multiplier *= 0.8;
+      console.log('🐼 High content complexity detected, reducing animation count');
+    }
+    
+    // Apply page-specific density setting
+    const pageDensity = this.pageConfig?.animationSettings?.density || 1.0;
+    multiplier *= pageDensity;
+    
+    return Math.max(0.3, multiplier); // Minimum 30% of animations
+  }
+  
+  detectLowEndDevice() {
+    // Simple heuristics for low-end device detection
+    const hardwareConcurrency = navigator.hardwareConcurrency || 1;
+    const deviceMemory = navigator.deviceMemory || 1;
+    const connection = navigator.connection;
+    
+    // Consider low-end if:
+    // - Less than 2 CPU cores
+    // - Less than 2GB RAM
+    // - Slow network connection
+    const isLowCPU = hardwareConcurrency < 2;
+    const isLowMemory = deviceMemory < 2;
+    const isSlowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
+    
+    return isLowCPU || isLowMemory || isSlowConnection;
+  }
+  
+  assessContentComplexity() {
+    // Assess page content complexity
+    const totalElements = document.querySelectorAll('*').length;
+    const images = document.querySelectorAll('img').length;
+    const videos = document.querySelectorAll('video').length;
+    const animations = document.querySelectorAll('[style*="animation"], .animated').length;
+    
+    // Normalize complexity score (0-1)
+    const elementComplexity = Math.min(totalElements / 1000, 1);
+    const mediaComplexity = Math.min((images + videos * 3) / 50, 1);
+    const animationComplexity = Math.min(animations / 20, 1);
+    
+    return (elementComplexity + mediaComplexity + animationComplexity) / 3;
+  }
+  
+  calculateExclusionZones() {
+    this.exclusionZones = [];
+    
+    if (!this.pageConfig || !this.pageConfig.contentSelectors) {
+      console.log('🐼 No page config found, skipping exclusion zone calculation');
+      return;
+    }
+    
+    try {
+      const exclusionSelectors = this.pageConfig.contentSelectors.exclusionZones;
+      const bufferPadding = this.pageConfig.animationSettings.bufferPadding || 20;
+      
+      exclusionSelectors.forEach(selector => {
+        try {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(element => {
+            try {
+              const rect = this.getBoundingRectWithPadding(element, bufferPadding);
+              if (rect.width > 0 && rect.height > 0) {
+                this.exclusionZones.push({
+                  selector,
+                  element,
+                  rect,
+                  type: 'exclusion'
+                });
+              }
+            } catch (elementError) {
+              console.warn('🐼 Error processing exclusion element:', selector, elementError);
+            }
+          });
+        } catch (selectorError) {
+          console.warn('🐼 Error with exclusion selector:', selector, selectorError);
+        }
+      });
+      
+      console.log(`🐼 Calculated ${this.exclusionZones.length} exclusion zones with ${bufferPadding}px padding`);
+    } catch (error) {
+      console.error('🐼 Error calculating exclusion zones:', error);
+      this.exclusionZones = []; // Reset to empty array on error
+    }
+  }
+  
+  calculateSafeZones() {
+    this.safeZones = [];
+    
+    if (!this.pageConfig || !this.pageConfig.contentSelectors) {
+      console.log('🐼 No page config found, using full document as safe zone');
+      this.createFallbackSafeZone();
+      return;
+    }
+    
+    try {
+      const safeSelectors = this.pageConfig.contentSelectors.safeZones;
+      const bufferPadding = this.pageConfig.animationSettings.bufferPadding || 20;
+      
+      safeSelectors.forEach(selector => {
+        try {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(element => {
+            try {
+              const rect = this.getBoundingRectWithPadding(element, -bufferPadding); // Negative padding to create inner safe zone
+              if (rect.width > 0 && rect.height > 0) {
+                this.safeZones.push({
+                  selector,
+                  element,
+                  rect,
+                  type: 'safe'
+                });
+              }
+            } catch (elementError) {
+              console.warn('🐼 Error processing safe zone element:', selector, elementError);
+            }
+          });
+        } catch (selectorError) {
+          console.warn('🐼 Error with safe zone selector:', selector, selectorError);
+        }
+      });
+      
+      // If no safe zones found, use document body as fallback
+      if (this.safeZones.length === 0) {
+        console.log('🐼 No safe zones found, using document body as fallback');
+        this.createFallbackSafeZone();
+      }
+      
+      console.log(`🐼 Calculated ${this.safeZones.length} safe zones`);
+    } catch (error) {
+      console.error('🐼 Error calculating safe zones:', error);
+      this.createFallbackSafeZone();
+    }
+  }
+  
+  createFallbackSafeZone() {
+    this.safeZones = [{
+      selector: 'body',
+      element: document.body,
+      rect: {
+        top: 0,
+        left: 0,
+        right: window.innerWidth,
+        bottom: this.documentHeight,
+        width: window.innerWidth,
+        height: this.documentHeight
+      },
+      type: 'safe'
+    }];
+  }
+  
+  getBoundingRectWithPadding(element, padding) {
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    return {
+      top: rect.top + scrollTop - padding,
+      left: rect.left + scrollLeft - padding,
+      right: rect.right + scrollLeft + padding,
+      bottom: rect.bottom + scrollTop + padding,
+      width: rect.width + (padding * 2),
+      height: rect.height + (padding * 2)
+    };
+  }
+  
+  isPositionSafe(x, y) {
+    const minDistance = this.pageConfig?.animationSettings?.minDistance || 50;
+    
+    // Check if position is within any safe zone
+    const inSafeZone = this.safeZones.some(zone => {
+      return x >= zone.rect.left && 
+             x <= zone.rect.right && 
+             y >= zone.rect.top && 
+             y <= zone.rect.bottom;
+    });
+    
+    if (!inSafeZone) {
+      return false;
+    }
+    
+    // Check if position is too close to any exclusion zone
+    const tooCloseToExclusion = this.exclusionZones.some(zone => {
+      const distance = Math.sqrt(
+        Math.pow(Math.min(Math.abs(x - zone.rect.left), Math.abs(x - zone.rect.right)), 2) +
+        Math.pow(Math.min(Math.abs(y - zone.rect.top), Math.abs(y - zone.rect.bottom)), 2)
+      );
+      return distance < minDistance;
+    });
+    
+    return !tooCloseToExclusion;
+  }
+  
+  generateSafePosition() {
+    const maxAttempts = 50;
+    let attempts = 0;
+    
+    // Graceful degradation: if no safe zones calculated, use conservative fallback
+    if (this.safeZones.length === 0) {
+      console.log('🐼 No safe zones available, using conservative fallback positioning');
+      return this.getConservativeFallbackPosition();
+    }
+    
+    while (attempts < maxAttempts) {
+      // Pick a random safe zone
+      const safeZone = this.safeZones[Math.floor(Math.random() * this.safeZones.length)];
+      
+      // Validate safe zone has reasonable dimensions
+      if (safeZone.rect.width < 50 || safeZone.rect.height < 50) {
+        attempts++;
+        continue;
+      }
+      
+      // Generate random position within the safe zone
+      const x = safeZone.rect.left + Math.random() * safeZone.rect.width;
+      const y = safeZone.rect.top + Math.random() * safeZone.rect.height;
+      
+      // Check if position is actually safe
+      if (this.isPositionSafe(x, y)) {
+        return { left: x, top: y };
+      }
+      
+      attempts++;
+    }
+    
+    // Fallback: return a position in the first safe zone without collision checking
+    if (this.safeZones.length > 0) {
+      const fallbackZone = this.safeZones[0];
+      console.log('🐼 Using fallback position after', maxAttempts, 'attempts');
+      return {
+        left: fallbackZone.rect.left + fallbackZone.rect.width * 0.5,
+        top: fallbackZone.rect.top + fallbackZone.rect.height * 0.5
+      };
+    }
+    
+    // Ultimate fallback: conservative safe area
+    console.log('🐼 Using ultimate conservative fallback position');
+    return this.getConservativeFallbackPosition();
+  }
+  
+  getConservativeFallbackPosition() {
+    // Conservative safe area: avoid edges and center areas
+    const margin = Math.min(window.innerWidth, window.innerHeight) * 0.1;
+    const safeWidth = window.innerWidth - (margin * 2);
+    const safeHeight = this.documentHeight - (margin * 2);
+    
+    return {
+      left: margin + Math.random() * safeWidth,
+      top: margin + Math.random() * safeHeight
+    };
+  }
+    console.log('🐼 Initializing standard animations');
+    
+    const baseAnimationCount = 6;
+    
+    // Generate panda configurations with pixel-based positioning
+    const pandaConfigs = [];
+    for (let i = 0; i < totalPandas; i++) {
+      const sectionIndex = Math.floor(i / baseAnimationCount);
+      const sectionStart = sectionIndex * this.viewportHeight;
+      const sectionEnd = Math.min(sectionStart + this.viewportHeight, this.documentHeight);
+      
+      // Random position within this section
+      const topPosition = sectionStart + Math.random() * (sectionEnd - sectionStart);
+      const leftPosition = Math.random() * 80 + 10; // 10% to 90% from left
+      const useRight = Math.random() < 0.5;
+      
+      const animations = ['romanticFloatingPandas', 'romanticFloatingPandasReverse', 'romanticFloatingPandasDiagonal'];
+      const animationName = animations[Math.floor(Math.random() * animations.length)];
+      
+      pandaConfigs.push({
+        top: `${topPosition}px`,
+        [useRight ? 'right' : 'left']: `${leftPosition}%`,
+        delay: `${Math.random() * 60}s`,
+        animation: animationName,
+        type: 'panda',
+        emoji: '🐼',
+        duration: `${28 + Math.random() * 10}s`
+      });
+    }
+    
+    // Generate heart configurations with pixel-based positioning
+    const heartConfigs = [];
+    for (let i = 0; i < totalHearts; i++) {
+      const sectionIndex = Math.floor(i / Math.floor(baseAnimationCount * 0.8));
+      const sectionStart = sectionIndex * this.viewportHeight;
+      const sectionEnd = Math.min(sectionStart + this.viewportHeight, this.documentHeight);
+      
+      // Random position within this section
+      const topPosition = sectionStart + Math.random() * (sectionEnd - sectionStart);
+      const leftPosition = Math.random() * 80 + 10; // 10% to 90% from left
+      const useRight = Math.random() < 0.5;
+      
+      const animations = ['romanticFloatingHearts', 'romanticFloatingHeartsReverse', 'romanticFloatingHeartsDiagonal'];
+      const animationName = animations[Math.floor(Math.random() * animations.length)];
+      const heartEmojis = ['💕', '💖', '💗'];
+      const emoji = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      
+      heartConfigs.push({
+        top: `${topPosition}px`,
+        [useRight ? 'right' : 'left']: `${leftPosition}%`,
+        delay: `${Math.random() * 60}s`,
+        animation: animationName,
+        type: 'heart',
+        emoji: emoji,
+        duration: `${23 + Math.random() * 8}s`
+      });
+    }
+    
+    // Create all pandas
+    pandaConfigs.forEach((config, index) => {
+      this.createFloatingPanda(container, config);
+    });
+    console.log(`🐼 Created ${pandaConfigs.length} floating pandas distributed across ${this.documentHeight}px document height`);
+    
+    // Create all hearts
+    heartConfigs.forEach((config, index) => {
+      this.createFloatingPanda(container, config);
+    });
+    console.log(`💕 Created ${heartConfigs.length} floating hearts distributed across ${this.documentHeight}px document height`);
+  }
+  
   createFloatingPanda(container, options) {
-    const panda = document.createElement('div');
-    panda.className = 'panda-decoration dynamic-panda';
-    panda.textContent = '🐼';
+    const element = document.createElement('div');
+    element.className = `${options.type || 'panda'}-decoration dynamic-${options.type || 'panda'}`;
+    element.textContent = options.emoji || '🐼';
     
     // Apply positioning
     Object.keys(options).forEach(key => {
-      if (key !== 'delay') {
-        panda.style[key] = options[key];
+      if (key !== 'delay' && key !== 'animation' && key !== 'type' && key !== 'emoji') {
+        element.style[key] = options[key];
       }
     });
     
     // Add custom animation with delay
-    panda.style.animationDelay = options.delay || '0s';
-    panda.style.animationDuration = '25s';
+    element.style.animationName = options.animation || 'romanticFloatingPandas';
+    element.style.animationDelay = options.delay || '0s';
+    element.style.animationDuration = options.duration || '30s';
     
-    container.appendChild(panda);
+    container.appendChild(element);
   }
   
   startContinuousFloatingEffect() {
@@ -149,26 +814,45 @@ class AnimationManager {
   }
   
   createRandomFloatingElement() {
-    const elements = ['🐼', '💕', '🌿', '✨'];
-    const element = elements[Math.floor(Math.random() * elements.length)];
+    const elements = [
+      { emoji: '🐼', type: 'panda' },
+      { emoji: '💕', type: 'heart' },
+      { emoji: '💖', type: 'heart' },
+      { emoji: '💗', type: 'heart' },
+      { emoji: '🌿', type: 'panda' },
+      { emoji: '✨', type: 'heart' }
+    ];
+    const elementConfig = elements[Math.floor(Math.random() * elements.length)];
     
     const floatingElement = document.createElement('div');
-    floatingElement.className = 'random-floating-element';
-    floatingElement.textContent = element;
+    floatingElement.className = `random-floating-element ${elementConfig.type}-decoration`;
+    floatingElement.textContent = elementConfig.emoji;
     
     // Random starting position
     const startSide = Math.random() < 0.5 ? 'left' : 'right';
     const startPosition = Math.random() * 100;
     
+    // Choose random animation based on type
+    let animationName;
+    if (elementConfig.type === 'heart') {
+      const heartAnimations = ['romanticFloatingHearts', 'romanticFloatingHeartsReverse', 'romanticFloatingHeartsDiagonal'];
+      animationName = heartAnimations[Math.floor(Math.random() * heartAnimations.length)];
+    } else {
+      const pandaAnimations = ['romanticFloatingPandas', 'romanticFloatingPandasReverse', 'romanticFloatingPandasDiagonal'];
+      animationName = pandaAnimations[Math.floor(Math.random() * pandaAnimations.length)];
+    }
+    
     floatingElement.style.cssText = `
       position: fixed;
       ${startSide}: -50px;
       top: ${startPosition}%;
-      font-size: 1.5rem;
-      opacity: 0.3;
+      font-size: ${elementConfig.type === 'heart' ? '1.2rem' : '1.5rem'};
+      opacity: ${elementConfig.type === 'heart' ? '0.12' : '0.15'};
       pointer-events: none;
       z-index: 1;
-      animation: floatAcross 15s linear forwards;
+      animation: ${animationName} ${15 + Math.random() * 10}s linear forwards;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
     `;
     
     document.body.appendChild(floatingElement);
@@ -178,7 +862,7 @@ class AnimationManager {
       if (floatingElement.parentNode) {
         floatingElement.parentNode.removeChild(floatingElement);
       }
-    }, 15000);
+    }, 25000);
   }
   
   initRomanticEffects() {
@@ -687,6 +1371,31 @@ class AnimationManager {
   
   // Handle window resize
   handleResize() {
+    // Recalculate document height for responsive behavior
+    const previousHeight = this.documentHeight;
+    this.calculateDocumentHeight();
+    
+    // Recalculate content zones for event detail pages
+    if (this.pageType === 'event-detail') {
+      console.log('🐼 Recalculating content zones on resize');
+      this.calculateExclusionZones();
+      this.calculateSafeZones();
+    }
+    
+    // If document height changed significantly, reinitialize animations
+    if (Math.abs(this.documentHeight - previousHeight) > this.viewportHeight * 0.1) {
+      console.log('🐼 Document height changed significantly, reinitializing animations');
+      
+      // Clear existing animations
+      if (this.animationContainer) {
+        this.animationContainer.innerHTML = '';
+        this.animationContainer.style.height = `${this.documentHeight}px`;
+      }
+      
+      // Reinitialize floating pandas with new dimensions
+      this.initFloatingPandas();
+    }
+    
     // Re-observe elements that might have changed position
     if (this.scrollObserver) {
       this.observeScrollElements();
@@ -699,9 +1408,25 @@ class AnimationManager {
       this.scrollObserver.disconnect();
     }
     
+    if (this.contentObserver) {
+      this.contentObserver.disconnect();
+    }
+    
+    if (this.modalObserver) {
+      this.modalObserver.disconnect();
+    }
+    
+    // Clear any pending timeouts
+    if (this.contentRecalculateTimeout) {
+      clearTimeout(this.contentRecalculateTimeout);
+    }
+    
     this.observers.clear();
     this.activeAnimations.clear();
     this.milestoneEffects.clear();
+    this.exclusionZones = [];
+    this.safeZones = [];
+    this.contentSections = [];
     
     console.log('🐼 Animation manager destroyed');
   }

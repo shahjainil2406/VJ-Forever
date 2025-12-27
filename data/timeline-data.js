@@ -18,6 +18,7 @@ const TIMELINE_DATA = {
       date: '2025-05-18',
       category: 'meeting',
       icon: '💬',
+      imagePath: 'images/events/first-talking/',
       previewText: 'The day our beautiful conversation began...',
       letterContent: `
         <p>My Dearest Love,</p>
@@ -68,6 +69,7 @@ const TIMELINE_DATA = {
       date: '2025-06-24',
       category: 'dating',
       icon: '🎂',
+      imagePath: 'images/events/birthday-tir-i-miss-u/',
       previewText: 'A birthday made extra special by your love...',
       letterContent: `
         <p>My Sweetest Love,</p>
@@ -122,6 +124,7 @@ const TIMELINE_DATA = {
       date: '2025-07-04',
       category: 'dating',
       icon: '🌻',
+      imagePath: 'images/events/vadodara-family/',
       previewText: 'The brave journey to win over my family...',
       letterContent: `
         <p>My Brave Darling,</p>
@@ -177,6 +180,7 @@ const TIMELINE_DATA = {
       date: '2025-07-26',
       category: 'dating',
       icon: '💓',
+      imagePath: 'images/events/dalChawalDay/',
       previewText: 'The day we said yes after taking blessings from Ganeshji',
       letterContent: `
         <p>My Forever Love,</p>
@@ -238,6 +242,7 @@ const TIMELINE_DATA = {
       date: '2025-07-27',
       category: 'proposal',
       icon: '🤝',
+      imagePath: 'images/events/roka-day/',
       previewText: 'The official beginning of our courtship period...',
       letterContent: `
         <p>My Official Love,</p>
@@ -278,6 +283,7 @@ const TIMELINE_DATA = {
       date: '2025-08-15',
       category: 'dating',
       icon: '💋',
+      imagePath: 'images/events/bangalore-first-kiss/',
       previewText: 'A flight to Bangalore and our first magical kiss...',
       letterContent: `
         <p>My Sweet Darling,</p>
@@ -319,6 +325,7 @@ const TIMELINE_DATA = {
       date: '2025-09-05',
       category: 'proposal',
       icon: '💍',
+      imagePath: 'images/events/our-engagement/',
       previewText: 'The day we officially got engaged...',
       letterContent: `
         <p>My Fiancé, My Love,</p>
@@ -360,6 +367,7 @@ const TIMELINE_DATA = {
       date: '2025-10-10',
       category: 'dating',
       icon: '❤️',
+      imagePath: 'images/events/the-day-we/',
       previewText: 'A special day that needs no explanation...',
       letterContent: `
         <p>My Most Intimate Love,</p>
@@ -401,6 +409,7 @@ const TIMELINE_DATA = {
       date: '2026-02-03',
       category: 'future',
       icon: '🤵👰',
+      imagePath: 'images/events/day-to-forever/',
       previewText: 'Our wedding day - the beginning of forever...',
       letterContent: `
         <p>My Husband, My Forever,</p>

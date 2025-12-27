@@ -81,6 +81,9 @@ class MobilePerformanceManager {
     
     // Optimize rendering performance
     this.optimizeRendering();
+    
+    // Add scroll-specific optimizations that don't hide pandas
+    this.addScrollOptimizations();
   }
   
   applyBrowserSpecificFixes() {
@@ -394,6 +397,56 @@ class MobilePerformanceManager {
     document.head.appendChild(style);
   }
   
+  // Add scroll-specific optimizations that don't hide pandas
+  addScrollOptimizations() {
+    if (!this.isMobile) return;
+    
+    console.log('🐼 Adding scroll optimizations that preserve panda visibility...');
+    
+    // Add CSS optimizations for scrolling that don't affect panda visibility
+    const style = document.createElement('style');
+    style.textContent = `
+      /* Scroll optimizations that preserve floating pandas */
+      .mobile-optimized.scrolling {
+        /* Optimize scrolling performance without hiding pandas */
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+      
+      /* Ensure pandas remain visible during scroll */
+      .mobile-optimized.scrolling .floating-decorations {
+        /* Keep decorations container visible */
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: block !important;
+      }
+      
+      .mobile-optimized.scrolling .panda-decoration,
+      .mobile-optimized.scrolling .heart-decoration {
+        /* Keep individual pandas and hearts visible */
+        visibility: visible !important;
+        opacity: 0.12 !important;
+        display: block !important;
+        animation-play-state: running !important;
+        
+        /* Optimize rendering during scroll */
+        will-change: transform;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      
+      /* Reduce animation complexity during scroll for performance */
+      .mobile-optimized.scrolling .panda-decoration {
+        animation-duration: 45s !important;
+      }
+      
+      .mobile-optimized.scrolling .heart-decoration {
+        animation-duration: 35s !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   // Method to temporarily disable animations during scrolling
   optimizeScrollPerformance() {
     let scrollTimeout;
@@ -404,11 +457,9 @@ class MobilePerformanceManager {
         isScrolling = true;
         document.body.classList.add('scrolling');
         
-        // Pause complex animations during scroll
-        const pandas = document.querySelectorAll('.panda-decoration');
-        pandas.forEach(panda => {
-          panda.style.animationPlayState = 'paused';
-        });
+        // Don't pause panda animations - this was causing them to disappear
+        // Instead, just add a CSS class for scroll-specific optimizations
+        console.log('🐼 Scroll started - applying scroll optimizations');
       }
       
       clearTimeout(scrollTimeout);
@@ -416,17 +467,47 @@ class MobilePerformanceManager {
         isScrolling = false;
         document.body.classList.remove('scrolling');
         
-        // Resume animations after scroll
-        const pandas = document.querySelectorAll('.panda-decoration');
-        pandas.forEach(panda => {
-          panda.style.animationPlayState = 'running';
-        });
+        // Ensure pandas are still visible after scrolling
+        this.ensurePandasVisible();
+        
+        console.log('🐼 Scroll ended - pandas should remain visible');
       }, 150);
     };
     
     if (this.isMobile) {
       window.addEventListener('scroll', handleScrollStart, { passive: true });
       window.addEventListener('touchmove', handleScrollStart, { passive: true });
+    }
+  }
+  
+  // New method to ensure pandas remain visible after scrolling
+  ensurePandasVisible() {
+    const pandas = document.querySelectorAll('.panda-decoration');
+    pandas.forEach((panda, index) => {
+      // Ensure animation is running
+      panda.style.animationPlayState = 'running';
+      
+      // Ensure visibility
+      if (panda.style.display === 'none' || panda.style.visibility === 'hidden') {
+        panda.style.display = 'block';
+        panda.style.visibility = 'visible';
+      }
+      
+      // Ensure opacity is set
+      if (!panda.style.opacity || panda.style.opacity === '0') {
+        panda.style.opacity = '0.12';
+      }
+      
+      // Force repaint to ensure visibility
+      panda.offsetHeight;
+      
+      console.log(`🐼 Panda ${index + 1} visibility ensured`);
+    });
+    
+    // If no pandas found, trigger recovery
+    if (pandas.length === 0) {
+      console.log('🚨 No pandas found after scroll - triggering recovery');
+      this.forceEmojiRecovery();
     }
   }
   
@@ -488,8 +569,11 @@ class MobilePerformanceManager {
     // Monitor all emoji elements on the page
     const emojiSelectors = [
       '.panda-decoration',
+      '.heart-decoration',
       '.floating-decorations .panda-decoration',
+      '.floating-decorations .heart-decoration',
       '.dynamic-panda',
+      '.dynamic-heart',
       '.random-floating-element',
       '.sparkle-particle',
       '.heart-particle'
@@ -804,10 +888,25 @@ class MobilePerformanceManager {
     // Also recreate base floating pandas if missing
     const floatingContainer = document.querySelector('.floating-decorations');
     if (floatingContainer) {
-      const existingPandas = floatingContainer.querySelectorAll('.panda-decoration');
-      if (existingPandas.length < 3) {
+      const existingPandas = floatingContainer.querySelectorAll('.panda-decoration, .dynamic-panda');
+      const existingHearts = floatingContainer.querySelectorAll('.heart-decoration, .dynamic-heart');
+      
+      console.log(`🐼 Found ${existingPandas.length} pandas and ${existingHearts.length} hearts`);
+      
+      if (existingPandas.length < 5) {
         console.log('🐼 Recreating base floating pandas...');
         this.recreateBasePandas(floatingContainer);
+      }
+      
+      if (existingHearts.length < 3) {
+        console.log('💕 Recreating base floating hearts...');
+        this.recreateBaseHearts(floatingContainer);
+      }
+      
+      // Force animation manager to reinitialize if available
+      if (window.animationManager && window.animationManager.initFloatingPandas) {
+        console.log('🔄 Reinitializing animation manager floating pandas...');
+        window.animationManager.initFloatingPandas();
       }
     }
   }
@@ -816,12 +915,14 @@ class MobilePerformanceManager {
     const pandaPositions = [
       { top: '15%', left: '85%', delay: '0s' },
       { top: '60%', left: '8%', delay: '10s' },
-      { top: '35%', right: '12%', delay: '20s' }
+      { top: '35%', right: '12%', delay: '20s' },
+      { top: '80%', left: '70%', delay: '30s' },
+      { top: '25%', right: '30%', delay: '40s' }
     ];
     
     pandaPositions.forEach((pos, index) => {
       const panda = document.createElement('div');
-      panda.className = 'panda-decoration recovery-panda';
+      panda.className = 'panda-decoration recovery-panda dynamic-panda';
       panda.textContent = '🐼';
       
       // Apply positioning
@@ -834,11 +935,47 @@ class MobilePerformanceManager {
       // Add animation
       panda.style.animationDelay = pos.delay;
       panda.style.animationDuration = '30s';
-      panda.style.opacity = '0.12';
+      panda.style.opacity = '0.15';
+      panda.style.animationName = 'romanticFloatingPandas';
+      panda.style.animationIterationCount = 'infinite';
+      panda.style.animationTimingFunction = 'linear';
       
       container.appendChild(panda);
       
       console.log(`✅ Recreated base panda ${index + 1}`);
+    });
+  }
+  
+  recreateBaseHearts(container) {
+    const heartPositions = [
+      { top: '20%', left: '20%', delay: '5s', emoji: '💕' },
+      { top: '50%', right: '25%', delay: '15s', emoji: '💖' },
+      { top: '75%', left: '60%', delay: '25s', emoji: '💗' }
+    ];
+    
+    heartPositions.forEach((pos, index) => {
+      const heart = document.createElement('div');
+      heart.className = 'heart-decoration recovery-heart dynamic-heart';
+      heart.textContent = pos.emoji;
+      
+      // Apply positioning
+      Object.keys(pos).forEach(key => {
+        if (key !== 'delay' && key !== 'emoji') {
+          heart.style[key] = pos[key];
+        }
+      });
+      
+      // Add animation
+      heart.style.animationDelay = pos.delay;
+      heart.style.animationDuration = '25s';
+      heart.style.opacity = '0.12';
+      heart.style.animationName = 'romanticFloatingHearts';
+      heart.style.animationIterationCount = 'infinite';
+      heart.style.animationTimingFunction = 'linear';
+      
+      container.appendChild(heart);
+      
+      console.log(`✅ Recreated base heart ${index + 1}`);
     });
   }
   
@@ -875,8 +1012,40 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
     
+    // Add debug function to check panda status
+    window.checkPandas = () => {
+      const pandas = document.querySelectorAll('.panda-decoration, .dynamic-panda');
+      const hearts = document.querySelectorAll('.heart-decoration, .dynamic-heart');
+      const container = document.querySelector('.floating-decorations');
+      
+      console.log('🐼 Panda Status Report:');
+      console.log(`📊 Found ${pandas.length} pandas and ${hearts.length} hearts`);
+      console.log(`📦 Container height: ${container ? container.style.height || 'auto' : 'not found'}`);
+      console.log(`📱 Mobile optimized: ${document.body.classList.contains('mobile-optimized')}`);
+      console.log(`🔄 Scrolling: ${document.body.classList.contains('scrolling')}`);
+      
+      pandas.forEach((panda, index) => {
+        const rect = panda.getBoundingClientRect();
+        const isVisible = rect.width > 0 && rect.height > 0 && 
+                         window.getComputedStyle(panda).opacity !== '0' &&
+                         window.getComputedStyle(panda).display !== 'none';
+        console.log(`🐼 Panda ${index + 1}: ${isVisible ? '✅ Visible' : '❌ Hidden'} - Top: ${panda.style.top}, Animation: ${panda.style.animationName || 'default'}`);
+      });
+      
+      hearts.forEach((heart, index) => {
+        const rect = heart.getBoundingClientRect();
+        const isVisible = rect.width > 0 && rect.height > 0 && 
+                         window.getComputedStyle(heart).opacity !== '0' &&
+                         window.getComputedStyle(heart).display !== 'none';
+        console.log(`💕 Heart ${index + 1}: ${isVisible ? '✅ Visible' : '❌ Hidden'} - Top: ${heart.style.top}, Animation: ${heart.style.animationName || 'default'}`);
+      });
+      
+      return { pandas: pandas.length, hearts: hearts.length, container: !!container };
+    };
+    
     console.log('🎉 Mobile performance manager initialized successfully!');
     console.log('💡 Use window.recoverEmojis() to manually recover missing emojis');
+    console.log('🔍 Use window.checkPandas() to check panda status');
   } catch (error) {
     console.error('❌ Error initializing mobile performance manager:', error);
   }
