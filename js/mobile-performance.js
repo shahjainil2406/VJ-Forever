@@ -67,6 +67,9 @@ class MobilePerformanceManager {
     // Add mobile-specific CSS class
     document.body.classList.add('mobile-optimized');
     
+    // Initialize emoji persistence system
+    this.initEmojiPersistenceSystem();
+    
     // Optimize panda animations for mobile
     this.optimizePandaAnimations();
     
@@ -458,6 +461,397 @@ class MobilePerformanceManager {
       setInterval(checkPerformance, 10000);
     }
   }
+  
+  // Mobile Browser Emoji Persistence System
+  initEmojiPersistenceSystem() {
+    if (!this.isMobile) return;
+    
+    console.log('🐼 Initializing emoji persistence system for mobile browsers...');
+    
+    this.emojiElements = new Map();
+    this.emojiCheckInterval = null;
+    this.emojiRecoveryCount = 0;
+    
+    // Start monitoring emoji elements
+    this.startEmojiMonitoring();
+    
+    // Set up periodic emoji visibility checks
+    this.startEmojiVisibilityChecks();
+    
+    // Add mobile-specific emoji stability protections
+    this.addEmojiStabilityProtections();
+    
+    console.log('✨ Emoji persistence system initialized');
+  }
+  
+  startEmojiMonitoring() {
+    // Monitor all emoji elements on the page
+    const emojiSelectors = [
+      '.panda-decoration',
+      '.floating-decorations .panda-decoration',
+      '.dynamic-panda',
+      '.random-floating-element',
+      '.sparkle-particle',
+      '.heart-particle'
+    ];
+    
+    const observeEmojis = () => {
+      emojiSelectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((element, index) => {
+          const key = `${selector}-${index}`;
+          if (!this.emojiElements.has(key)) {
+            this.emojiElements.set(key, {
+              element: element,
+              selector: selector,
+              index: index,
+              lastSeen: Date.now(),
+              content: element.textContent || element.innerHTML,
+              styles: this.captureElementStyles(element)
+            });
+            
+            console.log(`🐼 Monitoring emoji element: ${key}`);
+          }
+        });
+      });
+    };
+    
+    // Initial observation
+    observeEmojis();
+    
+    // Re-observe periodically to catch new elements
+    setInterval(observeEmojis, 5000);
+  }
+  
+  captureElementStyles(element) {
+    const computedStyle = window.getComputedStyle(element);
+    return {
+      position: computedStyle.position,
+      top: computedStyle.top,
+      left: computedStyle.left,
+      right: computedStyle.right,
+      bottom: computedStyle.bottom,
+      fontSize: computedStyle.fontSize,
+      opacity: computedStyle.opacity,
+      zIndex: computedStyle.zIndex,
+      animation: computedStyle.animation,
+      transform: computedStyle.transform,
+      className: element.className
+    };
+  }
+  
+  startEmojiVisibilityChecks() {
+    // Check emoji visibility every 10 seconds on mobile
+    this.emojiCheckInterval = setInterval(() => {
+      this.checkEmojiVisibility();
+    }, 10000);
+    
+    // Also check when page becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        setTimeout(() => {
+          this.checkEmojiVisibility();
+        }, 1000);
+      }
+    });
+  }
+  
+  checkEmojiVisibility() {
+    let missingEmojis = 0;
+    
+    this.emojiElements.forEach((emojiData, key) => {
+      const element = emojiData.element;
+      
+      // Check if element still exists in DOM
+      if (!document.contains(element)) {
+        console.log(`🚨 Missing emoji detected: ${key}`);
+        missingEmojis++;
+        this.recoverMissingEmoji(key, emojiData);
+        return;
+      }
+      
+      // Check if element is visible
+      const rect = element.getBoundingClientRect();
+      const isVisible = rect.width > 0 && rect.height > 0 && 
+                       window.getComputedStyle(element).opacity !== '0' &&
+                       window.getComputedStyle(element).display !== 'none';
+      
+      if (!isVisible && element.textContent) {
+        console.log(`🚨 Invisible emoji detected: ${key}`);
+        missingEmojis++;
+        this.restoreEmojiVisibility(element, emojiData);
+      }
+      
+      // Update last seen time
+      emojiData.lastSeen = Date.now();
+    });
+    
+    if (missingEmojis > 0) {
+      console.log(`🔧 Recovered ${missingEmojis} missing emojis`);
+      this.emojiRecoveryCount += missingEmojis;
+    }
+  }
+  
+  recoverMissingEmoji(key, emojiData) {
+    // Recreate the missing emoji element
+    const newElement = document.createElement('div');
+    newElement.textContent = emojiData.content;
+    newElement.className = emojiData.styles.className;
+    
+    // Restore styles
+    Object.keys(emojiData.styles).forEach(property => {
+      if (property !== 'className') {
+        newElement.style[property] = emojiData.styles[property];
+      }
+    });
+    
+    // Find appropriate container
+    let container = document.querySelector('.floating-decorations');
+    if (!container) {
+      container = document.body;
+    }
+    
+    // Add to DOM
+    container.appendChild(newElement);
+    
+    // Update our tracking
+    this.emojiElements.set(key, {
+      ...emojiData,
+      element: newElement,
+      lastSeen: Date.now()
+    });
+    
+    console.log(`✅ Recovered emoji: ${key}`);
+  }
+  
+  restoreEmojiVisibility(element, emojiData) {
+    // Force visibility restoration
+    element.style.opacity = emojiData.styles.opacity || '0.12';
+    element.style.display = 'block';
+    element.style.visibility = 'visible';
+    
+    // Ensure content is present
+    if (!element.textContent && emojiData.content) {
+      element.textContent = emojiData.content;
+    }
+    
+    // Force repaint
+    element.offsetHeight;
+    
+    console.log(`✅ Restored emoji visibility: ${element.className}`);
+  }
+  
+  addEmojiStabilityProtections() {
+    // Add CSS to prevent emoji removal
+    const style = document.createElement('style');
+    style.textContent = `
+      .mobile-optimized .panda-decoration,
+      .mobile-optimized .floating-decorations .panda-decoration {
+        /* Force emoji persistence on mobile */
+        will-change: auto !important;
+        contain: none !important;
+        
+        /* Prevent mobile browser cleanup */
+        -webkit-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        
+        /* Ensure font loading stability */
+        font-display: swap;
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+        
+        /* Prevent disappearance during animations */
+        animation-fill-mode: both !important;
+        
+        /* Mobile-specific stability */
+        -webkit-transform: translateZ(0) !important;
+        transform: translateZ(0) !important;
+        
+        /* Prevent removal by garbage collection */
+        pointer-events: none !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+      }
+      
+      /* Ensure emoji containers are stable */
+      .mobile-optimized .floating-decorations {
+        /* Prevent container cleanup */
+        min-height: 1px;
+        position: relative;
+        z-index: 1;
+        
+        /* Force layer creation */
+        will-change: auto;
+        contain: layout;
+      }
+      
+      /* Mobile browser specific fixes */
+      .chrome-mobile .panda-decoration,
+      .opera-mobile .panda-decoration {
+        /* Prevent Chrome/Opera mobile cleanup */
+        -webkit-font-feature-settings: "liga" 1;
+        font-feature-settings: "liga" 1;
+        
+        /* Force emoji rendering */
+        text-rendering: optimizeQuality;
+        -webkit-text-stroke: 0.01px transparent;
+      }
+      
+      /* Additional mobile emoji stability */
+      .mobile-optimized .panda-decoration::before {
+        content: '';
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      /* Force emoji font preloading */
+      .mobile-optimized::after {
+        content: '🐼💕✨🎉';
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        opacity: 0;
+        font-size: 1px;
+        pointer-events: none;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Preload emoji fonts
+    this.preloadEmojiFonts();
+    
+    // Add mutation observer to detect DOM changes
+    this.addDOMMutationProtection();
+  }
+  
+  preloadEmojiFonts() {
+    // Create hidden element to force emoji font loading
+    const emojiPreloader = document.createElement('div');
+    emojiPreloader.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      opacity: 0;
+      font-size: 1px;
+      pointer-events: none;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    `;
+    emojiPreloader.textContent = '🐼💕✨🎉🌿💚';
+    document.body.appendChild(emojiPreloader);
+    
+    // Force font loading with different sizes
+    const sizes = ['12px', '16px', '20px', '24px'];
+    sizes.forEach(size => {
+      const testElement = document.createElement('span');
+      testElement.style.cssText = `
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        opacity: 0;
+        font-size: ${size};
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      `;
+      testElement.textContent = '🐼';
+      document.body.appendChild(testElement);
+      
+      // Remove after font is loaded
+      setTimeout(() => {
+        if (testElement.parentNode) {
+          testElement.parentNode.removeChild(testElement);
+        }
+      }, 3000);
+    });
+    
+    console.log('🔤 Emoji fonts preloaded for mobile stability');
+  }
+  
+  addDOMMutationProtection() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          // Check if any emoji elements were removed
+          mutation.removedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const removedEmojis = node.querySelectorAll('.panda-decoration, .dynamic-panda');
+              if (removedEmojis.length > 0 || node.classList.contains('panda-decoration')) {
+                console.log('🚨 Emoji element removed by DOM mutation, scheduling recovery...');
+                setTimeout(() => {
+                  this.checkEmojiVisibility();
+                }, 1000);
+              }
+            }
+          });
+        }
+      });
+    });
+    
+    // Observe the entire document for changes
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    console.log('🛡️ DOM mutation protection enabled for emojis');
+  }
+  
+  // Method to manually trigger emoji recovery
+  forceEmojiRecovery() {
+    console.log('🔧 Forcing emoji recovery...');
+    this.checkEmojiVisibility();
+    
+    // Also recreate base floating pandas if missing
+    const floatingContainer = document.querySelector('.floating-decorations');
+    if (floatingContainer) {
+      const existingPandas = floatingContainer.querySelectorAll('.panda-decoration');
+      if (existingPandas.length < 3) {
+        console.log('🐼 Recreating base floating pandas...');
+        this.recreateBasePandas(floatingContainer);
+      }
+    }
+  }
+  
+  recreateBasePandas(container) {
+    const pandaPositions = [
+      { top: '15%', left: '85%', delay: '0s' },
+      { top: '60%', left: '8%', delay: '10s' },
+      { top: '35%', right: '12%', delay: '20s' }
+    ];
+    
+    pandaPositions.forEach((pos, index) => {
+      const panda = document.createElement('div');
+      panda.className = 'panda-decoration recovery-panda';
+      panda.textContent = '🐼';
+      
+      // Apply positioning
+      Object.keys(pos).forEach(key => {
+        if (key !== 'delay') {
+          panda.style[key] = pos[key];
+        }
+      });
+      
+      // Add animation
+      panda.style.animationDelay = pos.delay;
+      panda.style.animationDuration = '30s';
+      panda.style.opacity = '0.12';
+      
+      container.appendChild(panda);
+      
+      console.log(`✅ Recreated base panda ${index + 1}`);
+    });
+  }
+  
+  // Cleanup method
+  destroyEmojiPersistenceSystem() {
+    if (this.emojiCheckInterval) {
+      clearInterval(this.emojiCheckInterval);
+      this.emojiCheckInterval = null;
+    }
+    
+    this.emojiElements.clear();
+    console.log('🐼 Emoji persistence system destroyed');
+  }
 }
 
 // Initialize mobile performance manager
@@ -474,7 +868,15 @@ document.addEventListener('DOMContentLoaded', function() {
     mobilePerformanceManager.optimizeScrollPerformance();
     mobilePerformanceManager.monitorPerformance();
     
+    // Add global emoji recovery function for debugging
+    window.recoverEmojis = () => {
+      if (mobilePerformanceManager.forceEmojiRecovery) {
+        mobilePerformanceManager.forceEmojiRecovery();
+      }
+    };
+    
     console.log('🎉 Mobile performance manager initialized successfully!');
+    console.log('💡 Use window.recoverEmojis() to manually recover missing emojis');
   } catch (error) {
     console.error('❌ Error initializing mobile performance manager:', error);
   }
