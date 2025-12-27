@@ -146,10 +146,12 @@ h1 {
 /* Add romantic flourishes to main headings */
 h1::before,
 h1::after {
-  content: '🐼';
+  content: '❤️';
   font-size: 0.8em;
   opacity: 0.7;
-  animation: gentlePulse 4s;
+  animation: gentlePulse 3s ease-in-out infinite;
+  margin-right: 0.5rem;
+  animation-delay: 0s;
 }
 
 h1::before {
@@ -159,7 +161,7 @@ h1::before {
 
 h1::after {
   margin-left: 0.5rem;
-  animation-delay: 2s;
+  animation-delay: 0s;
 }
 
 h2 {
@@ -773,10 +775,7 @@ p {
   }
   
   /* Hide even more pandas on small screens */
-  .panda-4, .panda-5, .panda-6 {
-    display: none;
-  }
-}
+  .panda-4, .panda-5, .pa
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
