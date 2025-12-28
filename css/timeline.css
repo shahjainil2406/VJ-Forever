@@ -337,7 +337,6 @@
   
   /* Add a subtle "tap me" indicator */
   .event-content::after {
-    content: "👆 Tap to explore";
     position: absolute;
     bottom: 0.5rem;
     right: 0.5rem;
