@@ -192,7 +192,7 @@
         
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             width: 100%;
             margin-bottom: 2rem;
@@ -365,8 +365,8 @@
                 font-size: 1.1rem;
             }
             
-            .photo-collage {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            .photo-grid {
+                grid-template-columns: repeat(3, 1fr);
                 gap: 0.75rem;
             }
             
@@ -385,7 +385,7 @@
                 padding: 1.5rem;
             }
             
-            .photo-collage {
+            .photo-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -502,6 +502,10 @@
             if (event.memories && event.memories.length > 0) {
                 photoCollage.innerHTML = '';
                 
+                // Create the photo-grid container
+                const photoGrid = document.createElement('div');
+                photoGrid.className = 'photo-grid';
+                
                 event.memories.forEach((photo, index) => {
                     const photoItem = document.createElement('div');
                     photoUrl = event.imagePath + photo;
@@ -515,8 +519,11 @@
                         openPhotoModal(photoUrl);
                     });
                     
-                    photoCollage.appendChild(photoItem);
+                    photoGrid.appendChild(photoItem);
                 });
+                
+                // Add the photo-grid to the photo-collage container
+                photoCollage.appendChild(photoGrid);
                 console.log(`📋 Loaded ${event.memories.length} images from timeline data`);
             } else {
                 console.log('📁 No images found in any source');

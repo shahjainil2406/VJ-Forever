@@ -53,7 +53,7 @@ const TIMELINE_DATA = {
              Your Forever Partner 🐼💕
         </footer>
       `,
-      memories: ["IMG_0779.PNG", "IMG_0780.PNG"]
+      memories: ["IMG_0779.PNG", "IMG_0780.PNG"],
     },
     
 
