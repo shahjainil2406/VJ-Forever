@@ -185,10 +185,17 @@
         
         /* Photo Collage Grid */
         .photo-collage {
+            display: flex;
+            flex-direction: column;
+            margin-top: 2rem;
+        }
+        
+        .photo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 2rem;
+            width: 100%;
+            margin-bottom: 2rem;
         }
         
         .photo-item {
@@ -208,7 +215,8 @@
         .photo-item img {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            object-fit: contain;
+            background: #f9f9f9;
             transition: all 0.3s ease;
         }
         
@@ -255,15 +263,26 @@
         
         .modal-content {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        .modal-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 10px;
+        .photo-modal .modal-image {
+            max-width: 90vw !important;
+            max-height: 90vh !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            object-position: center !important;
+            border-radius: 10px !important;
+            background: transparent !important;
+            display: block !important;
+            margin: 0 auto !important;
+            transform: none !important;
+            position: static !important;
         }
         
         .modal-close {
@@ -300,6 +319,26 @@
         
         .no-photos-placeholder .panda-icon {
             font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        /* Final message footer in memories section */
+        .final-message {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            margin-top: 2rem;
+            border-top: 2px solid #e8f0e4;
+            color: #6b8e5a;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            width: 100%;
+            display: block;
+            clear: both;
+        }
+        
+        .final-message .panda-icon {
+            font-size: 2rem;
             display: block;
             margin-bottom: 1rem;
         }
@@ -371,12 +410,7 @@
                     <h2 class="section-title">Letter</h2>
                 </div>
                 <div class="letter-content" id="letter-content">
-                    <p>My Dearest Love,</p>
                     <p>This is where the detailed letter content will go...</p>
-                    <div class="letter-signature">
-                        With all my love,<br>
-                        Your Forever Partner 🐼💕
-                    </div>
                 </div>
             </section>
 
@@ -387,10 +421,6 @@
                     <h2 class="section-title">Memories</h2>
                 </div>
                 <div class="photo-collage" id="photo-collage">
-                    <!-- Photos will be populated by JavaScript -->
-                    <div class="no-photos-placeholder">
-                        📸 More beautiful memories coming soon...
-                    </div>
                 </div>
             </section>
         </div>
@@ -458,12 +488,7 @@
             // Load letter content
             const letterContent = event.letterContent || event.detailContent || 'More details coming soon...';
             document.getElementById('letter-content').innerHTML = `
-                <p>My Dearest Love,</p>
                 <div>${letterContent.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>
-                <div class="letter-signature">
-                    With all my love,<br>
-                    Your Forever Partner 🐼💕
-                </div>
             `;
 
             // Load memories/photos
@@ -474,80 +499,85 @@
         async function loadMemories(event) {
             const photoCollage = document.getElementById('photo-collage');
             
-            // Use new ImageDiscoveryService with imagePath from timeline data
-            try {
-                const imagePath = event.imagePath || `images/events/${event.id}/`;
-                console.log(`🔍 Looking for images in: ${imagePath}`);
-                
-                const imageDiscovery = new ImageDiscoveryService(event.id, photoCollage, imagePath);
-                const discoveredImages = await imageDiscovery.discoverAndRenderImages();
-                
-                // If images were found, we're done
-                if (discoveredImages.length > 0) {
-                    console.log(`✅ Successfully loaded ${discoveredImages.length} images from ${imagePath}`);
-                    return;
-                }
-            } catch (error) {
-                console.warn('New image discovery failed, falling back to timeline data:', error);
-            }
-            
-            // Fallback to memories array from timeline data (backward compatibility)
             if (event.memories && event.memories.length > 0) {
                 photoCollage.innerHTML = '';
                 
                 event.memories.forEach((photo, index) => {
                     const photoItem = document.createElement('div');
+                    photoUrl = event.imagePath + photo;
                     photoItem.className = 'photo-item';
                     photoItem.innerHTML = `
-                        <img src="${photo.url}" alt="${photo.alt || 'Memory'}" loading="lazy" onerror="this.parentElement.style.display='none'">
-                        <div class="photo-caption">${photo.caption || ''}</div>
+                        <img src="${photoUrl}" alt="${'Memory' + index}" loading="lazy" onerror="this.parentElement.style.display='none'">
                     `;
                     
                     // Add click handler for photo enlargement
                     photoItem.addEventListener('click', () => {
-                        openPhotoModal(photo.url, photo.caption || photo.alt || 'Memory');
+                        openPhotoModal(photoUrl);
                     });
                     
                     photoCollage.appendChild(photoItem);
                 });
                 console.log(`📋 Loaded ${event.memories.length} images from timeline data`);
-            } else if (event.photos && event.photos.length > 0) {
-                // Fallback to old photos structure
-                photoCollage.innerHTML = '';
-                
-                event.photos.forEach((photo, index) => {
-                    const photoItem = document.createElement('div');
-                    photoItem.className = 'photo-item';
-                    photoItem.innerHTML = `
-                        <img src="${photo.url || photo}" alt="Memory ${index + 1}" loading="lazy" onerror="this.parentElement.style.display='none'">
-                        <div class="photo-caption">${photo.caption || `Memory ${index + 1}`}</div>
-                    `;
-                    
-                    photoItem.addEventListener('click', () => {
-                        openPhotoModal(photo.url || photo, photo.caption || `Memory ${index + 1}`);
-                    });
-                    
-                    photoCollage.appendChild(photoItem);
-                });
-                console.log(`📋 Loaded ${event.photos.length} images from old photos structure`);
             } else {
-                // No photos available - this case is now handled by ImageDiscoveryService
                 console.log('📁 No images found in any source');
             }
+
+            const finalMessage = document.createElement('footer');
+            finalMessage.className = 'final-message';
+            finalMessage.innerHTML = `
+                <p class="panda-icon">📸<br>
+                More beautiful memories to come...🌙🌙 
+                </p>
+            `;
+            photoCollage.appendChild(finalMessage);
         }
 
         // Photo modal functions (keeping existing modal functionality)
-        function openPhotoModal(imageSrc, caption) {
+        function openPhotoModal(imageSrc) {
             const modal = document.getElementById('photo-modal');
             const modalImage = document.getElementById('modal-image');
-            const modalCaption = document.getElementById('modal-caption');
             
+            // Clear any previous styles and reset to defaults
+            modalImage.removeAttribute('style');
+            modalImage.className = 'modal-image';
+            
+            // Set source
             modalImage.src = imageSrc;
-            modalCaption.textContent = caption;
+            
+            // Show modal
             modal.classList.add('active');
             
             // Prevent body scrolling
             document.body.style.overflow = 'hidden';
+            
+            // Ensure proper image display after load
+            modalImage.onload = function() {
+                // Force the CSS class styles to take precedence
+                this.style.cssText = `
+                    max-width: 90vw !important;
+                    max-height: 90vh !important;
+                    width: auto !important;
+                    height: auto !important;
+                    object-fit: contain !important;
+                    object-position: center !important;
+                    border-radius: 10px !important;
+                    background: transparent !important;
+                    display: block !important;
+                `;
+            };
+            
+            // Also apply styles immediately in case image is cached
+            modalImage.style.cssText = `
+                max-width: 90vw !important;
+                max-height: 90vh !important;
+                width: auto !important;
+                height: auto !important;
+                object-fit: contain !important;
+                object-position: center !important;
+                border-radius: 10px !important;
+                background: transparent !important;
+                display: block !important;
+            `;
         }
 
         function closePhotoModal() {
@@ -575,9 +605,35 @@
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🐼 Event detail page loading...');
+            
+            // Test direct image loading first
+            testDirectImageLoad();
+            
             loadEventDetails();
             console.log('✅ Event detail page loaded successfully!');
         });
+        
+        // Test function to check if images can be loaded directly
+        function testDirectImageLoad() {
+            console.log('🧪 Testing direct image loading...');
+            
+            const testImages = [
+                'images/events/roka-day/test_pic.png',
+                'images/events/first-talking/IMG_0779.PNG',
+                'images/events/first-talking/IMG_0780.PNG'
+            ];
+            
+            testImages.forEach(imageUrl => {
+                const img = new Image();
+                img.onload = () => {
+                    console.log(`✅ DIRECT TEST SUCCESS: ${imageUrl} (${img.naturalWidth}x${img.naturalHeight})`);
+                };
+                img.onerror = (error) => {
+                    console.log(`❌ DIRECT TEST FAILED: ${imageUrl}`, error);
+                };
+                img.src = imageUrl;
+            });
+        }
     </script>
     <script src="js/mobile-performance.js"></script>
     <script src="js/animations.js"></script>

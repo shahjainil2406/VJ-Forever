@@ -20,45 +20,40 @@ const TIMELINE_DATA = {
       icon: '💬',
       imagePath: 'images/events/first-talking/',
       previewText: 'The day our beautiful conversation began...',
-      letterContent: `
-        <p>My Dearest Love,</p>
-        
-        <p>May 18th, 2025 - the day that changed everything. I still remember that first message, 
-        that first spark of connection that lit up something beautiful between us. From the very 
-        moment we started talking, I knew there was something magical happening.</p>
-        
-        <p>Your words, your thoughts, the way you expressed yourself - everything about our 
-        conversation felt so natural, so right. It was like finding a missing piece of my soul 
-        that I didn't even know was missing.</p>
-        
-        <p>Little did we know that this simple conversation would be the beginning of the most 
-        beautiful love story. Every word we exchanged was building the foundation of what we 
-        have today - this incredible, unbreakable bond between us.</p>
-        
-        <p>Thank you for that first hello, for taking the chance to talk to me, for opening 
-        your heart and letting me in. That conversation was the beginning of our forever.</p>
+      letterContent: `  
+        <header style="text-align: center;">
+            <h1 style="color: #d63384; font-size: 24px;">My Dearest Darling ❤️</h1>
+        </header>
+            <p>
+                I still remember that day 📅 when my Mom called and asked me to see a couple of biodatas. It was a regular day, ekdum simple divas hato, and I was just casually scrolling through each of them... and then, suddenly, my eyes fell on <b>your</b> biodata. ✨
+            </p>
+
+            <p>
+                Architect! 🏗️ Kaafi padhi-likhi aur sundar... <i>nai nai</i>, sundar nai, <b>haseen ladki!</b> 😍 Mane thayu ke "Vaah, aa to bahu j jordar chhe!" 
+            </p>
+
+            <p>
+                But I pulled myself back and said to myself, "Chalo, let's not hype it up too much, pehla baat karke dekhte hai." 😊 Then I remember that first <b>"Heyy"</b> of <b>18th May 2025</b>. 
+            </p>
+
+            <p>
+                And oh god, you were taking forever to reply! 😂 <i>Ketli raah jovdaavi ti tame!</i> But who knew at that time that I was actually talking to the love of my life? ❤️
+            </p>
+
+            <p>
+                But but... the real highlight is <b>20th May</b>. That day when you scolded me 😏... I don't want to say more about it here (just check the screenshots of that chat in the following memory section below! 📸). 
+            </p>
+
+            <p style="margin-top: 30px;">
+                Looking back, I am so glad I swiped right on your life. You are the best thing that ever happened to me. 💍✨
+            </p>
+
+        <footer class="letter-signature">
+            With all my love,<br>
+             Your Forever Partner 🐼💕
+        </footer>
       `,
-      memories: [
-        {
-          url: 'images/memories/first-conversation-screenshot.jpg',
-          alt: 'Screenshot of our first conversation',
-          caption: 'The message that started it all 💫'
-        },
-        {
-          url: 'images/memories/phone-hearts.jpg',
-          alt: 'Phone with heart emojis',
-          caption: 'Hearts flying through our messages 💕'
-        }
-      ],
-      detailContent: `
-        May 18th, 2025 - the day that changed everything. Our first conversation 
-        sparked something magical that neither of us could have imagined. From 
-        that very first message, there was something special between us.
-        
-        Little did we know that this simple conversation would be the beginning 
-        of the most beautiful love story. 🐼💕
-      `,
-      photos: []
+      memories: ["IMG_0779.PNG", "IMG_0780.PNG"]
     },
     
 
@@ -90,32 +85,7 @@ const TIMELINE_DATA = {
         be truly loved and celebrated. Every birthday from now on will remind me of this 
         perfect moment with you.</p>
       `,
-      memories: [
-        {
-          url: 'images/memories/birthday-cake.jpg',
-          alt: 'Birthday cake with candles',
-          caption: 'The sweetest birthday celebration 🎂'
-        },
-        {
-          url: 'images/memories/birthday-message.jpg',
-          alt: 'Sweet birthday message',
-          caption: 'Your "Tir-i-miss-u" message 💕'
-        },
-        {
-          url: 'images/memories/birthday-smile.jpg',
-          alt: 'Happy birthday smile',
-          caption: 'Pure joy on my special day ✨'
-        }
-      ],
-      detailContent: `
-        June 24th, 2025 - my birthday became infinitely more special because 
-        of you and your sweet "Tir-i-miss-u". The way you made this day about 
-        us, about our connection, made it the most memorable birthday ever.
-        
-        Your love turned an ordinary birthday into an extraordinary celebration 
-        of us. 🐼🎉💕
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     {
       id: 'vadodara-family',
@@ -145,33 +115,7 @@ const TIMELINE_DATA = {
         to such lengths for love, who would face any challenge for us - that's the person 
         I want to spend my life with.</p>
       `,
-      memories: [
-        {
-          url: 'images/memories/vadodara-family-meeting.jpg',
-          alt: 'Meeting the family in Vadodara',
-          caption: 'Brave heart meeting my family 🌻'
-        },
-        {
-          url: 'images/memories/family-smiles.jpg',
-          alt: 'Happy family moments',
-          caption: 'You won their hearts completely 💚'
-        },
-        {
-          url: 'images/memories/vadodara-sunset.jpg',
-          alt: 'Beautiful Vadodara sunset',
-          caption: 'The city where love was blessed ✨'
-        }
-      ],
-      detailContent: `
-        July 4th, 2025 - the day you showed incredible courage and love by 
-        going to Vadodara to meet my family without me there! Your dedication 
-        to our relationship and willingness to face my family alone showed 
-        me just how serious you were about us.
-        
-        That smile and confidence of yours won them over completely. 
-        I knew then that you were truly the one. 🐼💚
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     {
       id: 'dalChawalDay',
@@ -202,38 +146,7 @@ const TIMELINE_DATA = {
         towards our forever. Dal Chawal for lifetime - the most beautiful promise we could 
         make to each other.</p>
       `,
-      memories: [
-        {
-          url: 'images/memories/ganeshji-blessings.jpg',
-          alt: 'Taking blessings from Ganeshji',
-          caption: 'Blessed by Ganeshji for our journey 🙏'
-        },
-        {
-          url: 'images/memories/dal-chawal-promise.jpg',
-          alt: 'Our dal chawal promise moment',
-          caption: 'Dal Chawal for Lifetime promise 💓'
-        },
-        {
-          url: 'images/memories/happy-tears.jpg',
-          alt: 'Tears of joy',
-          caption: 'Happy tears of forever love 💕'
-        },
-        {
-          url: 'images/memories/holding-hands.jpg',
-          alt: 'Holding hands together',
-          caption: 'Hands joined for eternity 🤝'
-        }
-      ],
-      detailContent: `
-        July 26th, 2025 - the day you showed incredible courage and love by 
-        going to Vadodara to meet my family without me there! Your dedication 
-        to our relationship and willingness to face my family alone showed 
-        me just how serious you were about us.
-        
-        That smile and confidence of yours won them over completely. 
-        I knew then that you were truly the one. 🐼💚
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     {
       id: 'roka-day',
@@ -264,16 +177,7 @@ const TIMELINE_DATA = {
         love and support of both our families guiding us towards our wedding day. It was 
         the perfect start to our formal courtship.</p>
       `,
-      memories: [],
-      detailContent: `
-        July 27th, 2025 - our Roka ceremony! The traditional and official 
-        start of our courtship period. Surrounded by family and blessings, 
-        we took the formal step towards our forever.
-        
-        This beautiful ceremony marked the beginning of our official journey 
-        as a couple, with the support and love of both our families. 🐼💒
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     
     {
@@ -305,17 +209,7 @@ const TIMELINE_DATA = {
         freedom to love each other completely, to express our feelings without holding back, 
         to be truly together in every way.</p>
       `,
-      memories: [],
-      detailContent: `
-        August 15th, 2025 - you flew all the way to Bangalore, and on the 16th, 
-        we shared our first kiss. That moment when our lips met for the first 
-        time was pure magic - tender, sweet, and filled with all the love 
-        we'd been building.
-        
-        Independence Day weekend became our own celebration of love and 
-        freedom to be together. 🐼💕✨
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     
     {
@@ -348,16 +242,7 @@ const TIMELINE_DATA = {
         day. From girlfriend and boyfriend to fiancé and fiancée - we're one step closer 
         to forever, and I couldn't be happier.</p>
       `,
-      memories: [],
-      detailContent: `
-        September 5th, 2025 - our official engagement day! With rings 
-        exchanged and promises made, we took another beautiful step 
-        towards our forever together.
-        
-        Surrounded by love, blessings, and joy, we celebrated our 
-        commitment to each other. The beginning of our engaged life! 🐼💎
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     
     {
@@ -389,16 +274,7 @@ const TIMELINE_DATA = {
         share when we remember. It's ours alone, a beautiful secret that makes our love 
         even more special and sacred.</p>
       `,
-      memories: [],
-      detailContent: `
-        October 10th, 2025 - some moments are so intimate and precious 
-        that they belong only to us. This was one of those beautiful 
-        days that deepened our connection in ways words cannot capture.
-        
-        A day that exists in our hearts, in our memories, and in the 
-        quiet smiles we share when we remember. 🐼💕
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     },
     
 
@@ -432,17 +308,7 @@ const TIMELINE_DATA = {
         lifetime, to pandas and green themes, to love letters and sweet messages, to a 
         lifetime of loving you more each day. Our forever starts now! 🐼💒✨</p>
       `,
-      memories: [],
-      detailContent: `
-        February 3rd, 2026 - our wedding day! The day we become husband 
-        and wife, the day we officially start our forever together. 
-        All the moments, all the memories, all the love has led us to 
-        this perfect day.
-        
-        From that first conversation to this altar, every step has been 
-        worth it to get to our forever. Here's to our beautiful beginning! 🐼💒✨
-      `,
-      photos: []
+      memories: ["test_pic.png"]
     }
   ]
 };
