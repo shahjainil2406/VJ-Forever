@@ -295,6 +295,17 @@
             font-size: 2rem;
             cursor: pointer;
             padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            color: #e8f0e4;
+            transform: scale(1.1);
+        }
+        
+        .modal-close:active {
+            color: #d0e0d0;
+            transform: scale(1.05);
         }
         
         .modal-caption {
@@ -446,7 +457,7 @@
     <!-- Photo Modal for Enlargement -->
     <div class="photo-modal" id="photo-modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closePhotoModal()">&times;</button>
+            <button class="modal-close" id="modal-close-btn">&times;</button>
             <img class="modal-image" id="modal-image" src="" alt="">
             <div class="modal-caption" id="modal-caption"></div>
         </div>
@@ -455,6 +466,7 @@
     <!-- JavaScript -->
     <script src="data/timeline-data.js"></script>
     <script src="js/image-discovery.js"></script>
+    <script src="verify-touch-implementation.js"></script>
     <script>
         // Get event ID from URL parameters
         function getEventIdFromUrl() {
@@ -508,7 +520,7 @@
                 
                 event.memories.forEach((photo, index) => {
                     const photoItem = document.createElement('div');
-                    photoUrl = event.imagePath + photo;
+                    const photoUrl = event.imagePath + photo;
                     photoItem.className = 'photo-item';
                     photoItem.innerHTML = `
                         <img src="${photoUrl}" alt="${'Memory' + index}" loading="lazy" onerror="this.parentElement.style.display='none'">
@@ -617,6 +629,30 @@
             testDirectImageLoad();
             
             loadEventDetails();
+            
+            // Add event handler to modal close button with touch support
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            if (modalCloseBtn) {
+                // Add click handler
+                modalCloseBtn.addEventListener('click', closePhotoModal);
+                
+                // Add touch support for mobile
+                modalCloseBtn.addEventListener('touchstart', function(e) {
+                    this.style.color = '#e8f0e4';
+                    this.style.transform = 'scale(1.05)';
+                }, { passive: true });
+                
+                modalCloseBtn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.style.color = '';
+                    this.style.transform = '';
+                    closePhotoModal();
+                });
+                
+                console.log('✅ Close button event handler with touch support attached');
+            }
+            
             console.log('✅ Event detail page loaded successfully!');
         });
         
@@ -642,7 +678,5 @@
             });
         }
     </script>
-    <script src="js/mobile-performance.js"></script>
-    <script src="js/animations.js"></script>
 </body>
 </html>
