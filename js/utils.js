@@ -232,7 +232,6 @@ class ValidationManager {
       transition: opacity 0.3s ease;
       pointer-events: none;
     `;
-    successIndicator.innerHTML = '🐼 All systems ready! 💕';
     
     document.body.appendChild(successIndicator);
     
