@@ -66,56 +66,48 @@ const TIMELINE_DATA = {
       icon: '🎂',
       imagePath: 'images/events/birthday-tir-i-miss-u/',
       previewText: 'A birthday made extra special by your love...',
-      letterContent: `
-        <p>My Sweetest Love,</p>
-        
-        <p>June 24th, 2025 - my birthday became infinitely more special because of you and 
-        your adorable "Tir-i-miss-u". The way you made this day about us, about our connection, 
-        made it the most memorable birthday I've ever had.</p>
-        
-        <p>Your sweet words, your thoughtfulness, the way you made me feel so loved and 
-        cherished on my special day - it was better than any gift I could have asked for. 
-        You turned an ordinary birthday into an extraordinary celebration of our love.</p>
-        
-        <p>That "Tir-i-miss-u" wasn't just words - it was your heart speaking to mine, 
-        telling me how much I meant to you. It was the most beautiful birthday gift anyone 
-        has ever given me.</p>
-        
-        <p>Thank you for making my birthday magical, for showing me what it feels like to 
-        be truly loved and celebrated. Every birthday from now on will remind me of this 
-        perfect moment with you.</p>
+      letterContent: `  
+        <header style="text-align: center;">
+            <h1 style="color: #d63384; font-size: 24px;">My Dearest Darling ❤️</h1>
+        </header>
+            <p>
+                I still can’t forget that 24th June 2025. Just a normal birthday and suddenly I get Swiggy notification <b>“Vidhi sent something for you”</b>. We barely knew each other and our taste and preferences at that time, but that tir-i-miss-you was on spot. I loved it, and I was on sugar cut, yet I finished whole tiramisu on my own, two days though 😅. 
+            </p>
+
+            <p>
+                I think now I believe the fact that “A guy who never celebrates his bday always end up with a girl who will celebrate it like a festival”. At that moment, I felt so much attracted to you, not because of tiramisu, but because the way you even cared to make it special even though we were not that much attached. I love you my tiramisu 💕❤️. 
+            </p>
+
+            <p>
+                After that I flew to Mumbai to meet you on <b>28th June</b> and it was some best hours of my life (until then 😜, after that I had many more best hours that I cannot explain 😉). I remember starting with “Mannat” where we strolled around near ocean with cool breeze even with you beside me hottie (with your vaadiya 😘). I legit thought to do that SRK pose near that, but controlled thinking you would think of me as some crazy person. But after knowing you more and the kind of fandom you have for SRK, I guess agar e time e kari lidhu pose, to aapda Lagan vehla thai jata 😂. 
+            </p>
+
+            <p>
+                And after that we went to Nutcracker and as soon as we stepped in, do you recall which song was played ? Yes “Die with a Smile”, the song, which I was hooked to then. And I legit thought was that something you did, in case if that was planned, probably aa letter tone 2-3 mahina pehla madtu 😂. Then we did something that everyone would judge us for, watching Housefull 5 on first date, and yaad che pelu couple sitting next to you chota chot and gulu gulu karta ta 👩‍❤️‍💋‍👩. But movie start thata pehla and interval ma you were so silent dude, but its okay it was first time we met and we had talked over call so many times.
+            </p>
+
+            <p>
+                After that we went to some cafe which was overcrowded, so we waited for sometime clicked some selfies and left. And at last, I went for Clubbing, and what I know of is that, it was when I kind of won your heart (I guess).
+            </p>
+
+            <p>
+                But, ena pachi came <b>4th July</b>, when you went to Vadodara, to meet my side of family and what moti mummy told me, “Fatakdi che ekdum” 😂, and you won my family's heart already, and I was so much relieved then, as my side of family was ready for this, but now everything was on me to impress your side of family and dude I was so much under stress 😅.
+            </p>    
+                
+            <p>
+                But by that time we were that much close that we had started taking each other's opinion to buy stuff, you went to buy glasses for you and you asked me to help you choose with that big pimple 😂, and I literally chose the best one for you, my naina. And I was taking your help for my Thailand trip and dude. And me shaing my daily stuff with you from Thailand, and making fake story to my friends because they caught me doing gulu gulu 😅.
+            </p>
+
+            <p style="margin-top: 30px;">
+                Chal ave next letter ma continue kariye.
+            </p>
+
+        <footer class="letter-signature">
+            With all my love,<br>
+            Your to be forever 🐼💕
+        </footer>
       `,
-      memories: ["test_pic.png"]
-    },
-    {
-      id: 'vadodara-family',
-      title: 'You Went to Vadodara to Meet My Family Without Me :)',
-      nickname: 'Family Hearts 🌻',
-      date: '2025-07-04',
-      category: 'dating',
-      icon: '🌻',
-      imagePath: 'images/events/vadodara-family/',
-      previewText: 'The brave journey to win over my family...',
-      letterContent: `
-        <p>My Brave Darling,</p>
-        
-        <p>July 4th, 2025 - the day you showed incredible courage and love by going to 
-        Vadodara to meet my family without me there! I still can't believe how brave you 
-        were, how much you cared about us to take that step.</p>
-        
-        <p>Your dedication to our relationship, your willingness to face my family alone, 
-        showed me just how serious you were about us. It wasn't just about meeting them - 
-        it was about showing them who you are, what you mean to me, and how much you love me.</p>
-        
-        <p>That smile of yours, that confidence, that genuine warmth - you won them over 
-        completely. They saw what I see in you every day: a beautiful soul, a loving heart, 
-        and someone who truly cares about family and relationships.</p>
-        
-        <p>I knew then, more than ever, that you were truly the one. Someone who would go 
-        to such lengths for love, who would face any challenge for us - that's the person 
-        I want to spend my life with.</p>
-      `,
-      memories: ["test_pic.png"]
+      memories: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"]
     },
     {
       id: 'dalChawalDay',
@@ -276,8 +268,6 @@ const TIMELINE_DATA = {
       `,
       memories: ["test_pic.png"]
     },
-    
-
     {
       id: 'day-to-forever',
       title: 'The Day to Forever',

@@ -234,173 +234,34 @@
 
     <!-- JavaScript files -->
     <script src="data/timeline-data.js"></script>
+    <script src="js/utils.js"></script>
 
     <script>
-        // Enhanced initialization
+        // Enhanced initialization using consolidated utilities
         console.log('🐼 Love Story Webapp initializing...');
         
-        // Enhanced integration validation
-        function validateIntegration() {
-            console.log('🐼 Running integration validation...');
-            
-            const validationResults = {
-                timelineData: typeof TIMELINE_DATA !== 'undefined',
-                countdownTimer: document.getElementById('timer-display') !== null,
-                timelineElements: document.getElementById('timeline-bar') !== null,
-                eventInteraction: document.querySelectorAll('.timeline-dot').length > 0,
-                responsiveDesign: document.querySelector('meta[name="viewport"]') !== null,
-                animations: document.querySelectorAll('.panda-decoration').length > 0
-            };
-            
-            const passedChecks = Object.values(validationResults).filter(result => result === true).length;
-            const totalChecks = Object.keys(validationResults).length;
-            const successRate = Math.round((passedChecks / totalChecks) * 100);
-            
-            console.log(`🎯 Integration Status: ${passedChecks}/${totalChecks} (${successRate}%)`);
-            
-            if (successRate >= 90) {
-                console.log('🎉 Excellent! All components integrated perfectly!');
-                showIntegrationSuccess();
-            } else if (successRate >= 70) {
-                console.log('👍 Good integration! Minor improvements possible.');
-            } else {
-                console.log('⚠️ Integration needs attention.');
-            }
-            
-            return validationResults;
-        }
-        
-        // Show integration success message
-        function showIntegrationSuccess() {
-            // Add subtle success indicator
-            const successIndicator = document.createElement('div');
-            successIndicator.style.cssText = `
-                position: fixed;
-                top: 10px;
-                right: 10px;
-                background: linear-gradient(45deg, #e8f0e4, #f0f8f0);
-                color: #2d5a2d;
-                padding: 0.5rem 1rem;
-                border-radius: 20px;
-                font-family: 'Dancing Script', cursive;
-                font-size: 0.9rem;
-                font-weight: 600;
-                z-index: 1000;
-                box-shadow: 0 2px 8px rgba(232, 240, 228, 0.4);
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                pointer-events: none;
-            `;
-            successIndicator.innerHTML = '🐼 All systems ready! 💕';
-            
-            document.body.appendChild(successIndicator);
-            
-            // Fade in
-            setTimeout(() => {
-                successIndicator.style.opacity = '1';
-            }, 100);
-            
-            // Fade out after 3 seconds
-            setTimeout(() => {
-                successIndicator.style.opacity = '0';
-                setTimeout(() => {
-                    if (successIndicator.parentNode) {
-                        successIndicator.parentNode.removeChild(successIndicator);
-                    }
-                }, 300);
-            }, 3000);
-        }
-        
-        // Add a simple fallback timer that works immediately
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🐼 DOM loaded, initializing enhanced integration...');
             
-            // Run integration validation
-            const integrationResults = validateIntegration();
+            // Run consolidated integration validation
+            const integrationResults = ValidationManager.validateIntegration();
             
             try {
-                // Simple timer fallback
+                // Initialize countdown timer using consolidated utility
                 const timerDisplay = document.getElementById('timer-display');
                 if (timerDisplay) {
                     console.log('✅ Timer display found');
                     
                     // Set the day we said yes (July 26th, 2025, 5:30 PM IST - Dal Chawal day)
-                    const dalChawalDate = new Date('2025-07-26T17:30:00+05:30');
-                    console.log('📅 Engagement date set to:', dalChawalDate);
-                    
-                    function updateEnhancedTimer() {
-                        try {
-                            const now = new Date();
-                            const timeDiff = dalChawalDate - now; // Countdown to future date
-                            
-                            if (timeDiff > 0) {
-                                // Counting down to future date
-                                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                                
-                                timerDisplay.innerHTML = `
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${days.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Days</span>
-                                    </div>
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${hours.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Hours</span>
-                                    </div>
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${minutes.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Minutes</span>
-                                    </div>
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${seconds.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Seconds</span>
-                                    </div>
-                                `;
-                                console.log('⏰ Countdown timer updated:', days, 'days', hours, 'hours', minutes, 'minutes', seconds, 'seconds');
-                            } else {
-                                // Date has passed
-                                const pastDiff = Math.abs(timeDiff);
-                                const days = Math.floor(pastDiff / (1000 * 60 * 60 * 24));
-                                const hours = Math.floor((pastDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const minutes = Math.floor((pastDiff % (1000 * 60 * 60)) / (1000 * 60));
-                                const seconds = Math.floor((pastDiff % (1000 * 60)) / 1000);
-                                
-                                timerDisplay.innerHTML = `
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${days.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Days</span>
-                                    </div>
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${hours.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Hours</span>
-                                    </div>
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${minutes.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Minutes</span>
-                                    </div>
-                                    <div class="timer-unit">
-                                        <span class="timer-number">${seconds.toString().padStart(2, '0')}</span>
-                                        <span class="timer-label">Seconds</span>
-                                    </div>
-                                `;
-                                console.log('⏰ Timer shows time since special date:', days, 'days');
-                            }
-                        } catch (error) {
-                            console.error('❌ Error updating timer:', error);
-                        }
-                    }
-                    
-                    // Update immediately and every second
-                    updateEnhancedTimer();
-                    setInterval(updateEnhancedTimer, 1000);
-                    console.log('✅ Enhanced timer interval started');
+                    const dalChawalDate = '2025-07-26T17:30:00+05:30';
+                    const timer = new CountdownTimer(dalChawalDate, timerDisplay);
+                    timer.start();
+                    console.log('✅ Consolidated timer started');
                 } else {
                     console.error('❌ Timer display element not found');
                 }
                 
-                // Enhanced timeline with vertical layout
+                // Enhanced timeline with consolidated event handlers
                 const timelineBar = document.getElementById('timeline-bar');
                 const timelineEvents = document.getElementById('timeline-events');
                 
@@ -450,335 +311,39 @@
                             <div class="event-preview">${event.preview}</div>
                         `;
                         
-                        // Enhanced click handler with navigation to detail pages
-                        const clickHandler = (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('🐼 Timeline event clicked:', event.title);
-                            console.log('🐼 Event ID:', event.id);
-                            console.log('🐼 Click event type:', e.type);
-                            console.log('🐼 Is mobile device:', window.innerWidth <= 768);
-                            
-                            // Add click animation
-                            eventContainer.classList.add('gentle-pulse');
-                            setTimeout(() => eventContainer.classList.remove('gentle-pulse'), 600);
-                            
-                            // Navigate to event detail page
-                            const detailPageUrl = `event-detail.html?event=${event.id}`;
-                            console.log('🐼 Navigating to:', detailPageUrl);
-                            
-                            // Add smooth transition effect
-                            document.body.style.transition = 'opacity 0.3s ease';
-                            document.body.style.opacity = '0.7';
-                            
-                            // Navigate after brief transition
-                            setTimeout(() => {
-                                console.log('🐼 Actually navigating now...');
-                                window.location.href = detailPageUrl;
-                            }, 300);
-                        };
+                        // Add consolidated navigation handler
+                        const detailPageUrl = `event-detail.html?event=${event.id}`;
+                        EventHandlerManager.addNavigationHandler(eventContent, detailPageUrl);
                         
-                        // Enhanced hover events
-                        const hoverEnterHandler = () => {
-                            eventContainer.classList.add('highlighted');
-                        };
-                        
-                        const hoverLeaveHandler = () => {
-                            eventContainer.classList.remove('highlighted');
-                        };
-                        
-                        eventContent.addEventListener('mouseenter', hoverEnterHandler);
-                        eventContent.addEventListener('mouseleave', hoverLeaveHandler);
-                        
-                        // Enhanced touch support for mobile
-                        const touchStartHandler = (e) => {
-                            // Don't prevent default - allow click event to fire
-                            console.log('🐼 Touch start on timeline event:', event.title);
-                            console.log('🐼 Touch start event type:', e.type);
-                            
-                            // Add visual feedback for touch
-                            eventContainer.classList.add('touch-active');
-                            
-                            // Remove touch-active after a short delay
-                            setTimeout(() => {
-                                eventContainer.classList.remove('touch-active');
-                            }, 200);
-                        };
-                        
-                        // Add touch end handler for better mobile experience
-                        const touchEndHandler = (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('🐼 Touch end - triggering navigation:', event.title);
-                            console.log('🐼 Touch end event type:', e.type);
-                            console.log('🐼 Touch target:', e.target);
-                            
-                            // Trigger the same navigation as click handler
-                            clickHandler(e);
-                        };
-                        
-                        // Add both touch and click handlers
-                        eventContent.addEventListener('touchstart', touchStartHandler, { passive: true });
-                        eventContent.addEventListener('touchend', touchEndHandler);
-                        
-                        // Also add click handler for desktop and as fallback
-                        eventContent.addEventListener('click', clickHandler);
-                        
-                        // Assemble the event (no timeline dot)
+                        // Assemble the event
                         eventContainer.appendChild(eventContent);
                         timelineEvents.appendChild(eventContainer);
                         
                         console.log('✅ Added vertical timeline event:', event.nickname || event.title);
-                        
-                        // Add enhanced fade-in animation
-                        setTimeout(() => {
-                            eventContainer.style.opacity = '0';
-                            eventContainer.style.transform = 'translateY(30px)';
-                            eventContainer.style.transition = 'all 0.8s ease-out';
-                            
-                            setTimeout(() => {
-                                eventContainer.style.opacity = '1';
-                                eventContainer.style.transform = 'translateY(0)';
-                            }, 50);
-                        }, index * 150);
                     });
+                    
+                    // Add staggered fade-in animation using consolidated utility
+                    const eventElements = timelineEvents.querySelectorAll('.timeline-event');
+                    AnimationManager.addStaggeredFadeIn(Array.from(eventElements), 150);
                     
                     console.log('✅ Vertical timeline created successfully');
                 } else {
                     console.error('❌ Vertical timeline elements not found');
                 }
                 
-                console.log('🎉 Vertical timeline integration complete!');
-                
-                // Add window resize handler for responsive adjustments
-                window.addEventListener('resize', function() {
-                    // Debounce resize events
-                    clearTimeout(window.timelineResizeTimeout);
-                    window.timelineResizeTimeout = setTimeout(function() {
-                        console.log('🐼 Window resized, vertical timeline auto-adjusts via CSS');
-                        // Vertical timeline uses CSS for responsive behavior, no JS repositioning needed
-                    }, 250);
-                });
+                console.log('🎉 Consolidated integration complete!');
                 
             } catch (error) {
-                console.error('❌ Error in enhanced integration initialization:', error);
+                console.error('❌ Error in consolidated integration initialization:', error);
             }
         });
         
-        // Add sparkle effect for special romantic moments
-        function addSparkleEffect(container) {
-            const sparkles = ['✨', '💫', '⭐', '🌟'];
-            
-            for (let i = 0; i < 8; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
-                sparkle.style.cssText = `
-                    position: absolute;
-                    font-size: 1.5rem;
-                    pointer-events: none;
-                    animation: sparkleFloat 3s ease-in-out infinite;
-                    animation-delay: ${i * 0.3}s;
-                    top: ${Math.random() * 80 + 10}%;
-                    left: ${Math.random() * 80 + 10}%;
-                    opacity: 0.7;
-                `;
-                container.appendChild(sparkle);
-            }
-        }
-        
-        // Enhanced milestone celebration for special dates
-        function checkForMilestones() {
-            const now = new Date();
-            const dalChawalDate = new Date('2025-07-26T17:30:00+05:30');
-            const daysSinceDalChawal = Math.floor((now - dalChawalDate) / (1000 * 60 * 60 * 24));
-            
-            // Check for special milestones
-            const milestones = [
-                { days: 30, message: "One Month of Love! 🐼💕" },
-                { days: 100, message: "100 Days Together! 🎉🐼" },
-                { days: 365, message: "One Year Anniversary! 💍🎊" },
-                { days: 500, message: "500 Days of Pure Love! 🌟💖" },
-                { days: 1000, message: "1000 Days Milestone! 🎆🐼" }
-            ];
-            
-            const milestone = milestones.find(m => m.days === daysSinceDalChawal);
-            if (milestone) {
-                showMilestoneCelebration(milestone.message);
-            }
-        }
-        
-        // Show milestone celebration
-        function showMilestoneCelebration(message) {
-            const celebration = document.createElement('div');
-            celebration.className = 'milestone-celebration';
-            celebration.innerHTML = `
-                <div class="celebration-content">
-                    <div class="celebration-pandas">🐼💕🐼</div>
-                    <h3>Special Milestone!</h3>
-                    <p>${message}</p>
-                    <div class="celebration-hearts">💖💚💖</div>
-                    <button class="celebration-close" onclick="this.parentElement.parentElement.remove()">
-                        Continue Our Love Story 💕
-                    </button>
-                </div>
-            `;
-            
-            document.body.appendChild(celebration);
-            
-            // Add heart rain effect
-            addHeartRain();
-            
-            // Auto-close after 10 seconds
-            setTimeout(() => {
-                if (celebration.parentNode) {
-                    celebration.remove();
-                }
-            }, 10000);
-        }
-        
-        // Add heart rain effect for celebrations
-        function addHeartRain() {
-            const heartRainContainer = document.createElement('div');
-            heartRainContainer.className = 'heart-rain-container';
-            
-            const hearts = ['💕', '💖', '💗', '💚', '💝'];
-            
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-rain-drop';
-                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 8 + 's';
-                heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-                heartRainContainer.appendChild(heart);
-            }
-            
-            document.body.appendChild(heartRainContainer);
-            
-            // Remove after animation completes
-            setTimeout(() => {
-                if (heartRainContainer.parentNode) {
-                    heartRainContainer.remove();
-                }
-            }, 8000);
-        }
-        
-        // Add romantic touches to pandas based on current date
-        function addSeasonalRomanticTouches() {
-            const now = new Date();
-            const month = now.getMonth();
-            const day = now.getDate();
-            
-            // Valentine's Day (February 14)
-            if (month === 1 && day === 14) {
-                document.body.classList.add('valentines-day');
-                addFloatingHearts();
-            }
-            
-            // Engagement anniversary (July 26)
-            if (month === 6 && day === 26) {
-                document.body.classList.add('engagement-anniversary');
-                addSparkleBackground();
-            }
-            
-            // Wedding day (February 3)
-            if (month === 1 && day === 3) {
-                document.body.classList.add('wedding-day');
-                addWeddingBells();
-            }
-        }
-        
-        // Add floating hearts for Valentine's Day
-        function addFloatingHearts() {
-            const hearts = ['💕', '💖', '💗', '💝', '💞'];
-            
-            for (let i = 0; i < 15; i++) {
-                const heart = document.createElement('div');
-                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.cssText = `
-                    position: fixed;
-                    font-size: 2rem;
-                    pointer-events: none;
-                    animation: romanticFloatingPandas 20s infinite linear;
-                    animation-delay: ${i * 1.5}s;
-                    top: ${Math.random() * 100}%;
-                    left: ${Math.random() * 100}%;
-                    opacity: 0.6;
-                    z-index: 1;
-                `;
-                document.body.appendChild(heart);
-            }
-        }
-        
-        // Add sparkle background for engagement anniversary
-        function addSparkleBackground() {
-            const sparkles = ['✨', '💫', '⭐', '🌟'];
-            
-            for (let i = 0; i < 25; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
-                sparkle.style.cssText = `
-                    position: fixed;
-                    font-size: 1.5rem;
-                    pointer-events: none;
-                    animation: sparkleFloat 15s infinite linear;
-                    animation-delay: ${i * 0.8}s;
-                    top: ${Math.random() * 100}%;
-                    left: ${Math.random() * 100}%;
-                    opacity: 0.4;
-                    z-index: 1;
-                `;
-                document.body.appendChild(sparkle);
-            }
-        }
-        
-        // Add wedding bells for wedding day
-        function addWeddingBells() {
-            const bells = ['🔔', '💒', '👰', '🤵'];
-            
-            for (let i = 0; i < 12; i++) {
-                const bell = document.createElement('div');
-                bell.textContent = bells[Math.floor(Math.random() * bells.length)];
-                bell.style.cssText = `
-                    position: fixed;
-                    font-size: 2rem;
-                    pointer-events: none;
-                    animation: gentlePulse 4s infinite ease-in-out;
-                    animation-delay: ${i * 0.5}s;
-                    top: ${Math.random() * 80 + 10}%;
-                    left: ${Math.random() * 80 + 10}%;
-                    opacity: 0.5;
-                    z-index: 1;
-                `;
-                document.body.appendChild(bell);
-            }
-        }
-        
-        // Initialize all romantic enhancements
-        function initializeRomanticEnhancements() {
-            console.log('🐼💕 Initializing romantic enhancements...');
-            
-            // Check for milestones
-            checkForMilestones();
-            
-            // Add seasonal touches
-            addSeasonalRomanticTouches();
-            
-            // Add integration complete indicator
-            document.body.classList.add('integration-complete');
-            
-            // Log completion
-            console.log('🎉 Task 8 Complete! Final integration and polish finished!');
-            console.log('💕 Sub-task 8.1: Integration testing - COMPLETED');
-            console.log('💕 Sub-task 8.2: Romantic touches and personalization - COMPLETED');
-            console.log('🐼 All components working together beautifully!');
-        }
-        
         // Initialize romantic enhancements after everything loads
-        setTimeout(initializeRomanticEnhancements, 2000);
+        setTimeout(() => {
+            console.log('🐼💕 Initializing romantic enhancements...');
+            document.body.classList.add('integration-complete');
+            console.log('🎉 Task Complete! Duplicate code removed and consolidated!');
+        }, 2000);
     </script>
     <script src="js/mobile-performance.js"></script>
     <script src="js/animations.js"></script>
-
-</body>
-</html>

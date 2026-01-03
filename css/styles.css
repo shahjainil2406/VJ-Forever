@@ -48,11 +48,13 @@
   --text-romantic: #5a4a5a;
   --text-dreamy: #6a5a6a;
   
-  /* Romantic Gradients */
+  /* Consolidated Romantic Gradients */
   --gradient-romantic: linear-gradient(135deg, var(--sage-green), var(--mint-cream), var(--jade-whisper));
   --gradient-dreamy: linear-gradient(45deg, var(--whisper-pink), var(--pale-mint));
   --gradient-panda: linear-gradient(135deg, var(--panda-white), var(--bamboo-whisper));
   --gradient-sunset: linear-gradient(180deg, var(--golden-hour), var(--sunset-blush));
+  --gradient-sage-mint: linear-gradient(135deg, var(--sage-green), var(--mint-cream));
+  --gradient-mint-eucalyptus: linear-gradient(45deg, var(--mint-cream), var(--soft-eucalyptus));
   
   /* Enhanced Transitions */
   --smooth-transition: all 0.3s ease;
@@ -319,54 +321,6 @@ p {
   opacity: 1 !important;
 }
 
-.panda-decoration {
-  position: fixed; /* Changed from absolute to fixed to follow viewport */
-  font-size: 1.5rem;
-  opacity: 0.15;
-  animation: romanticFloatingPandas 30s infinite linear;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  filter: drop-shadow(0 2px 4px rgba(232, 240, 228, 0.3));
-  
-  /* Mobile optimization - prevent flickering */
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  
-  /* Ensure visibility throughout scroll */
-  visibility: visible !important;
-  display: block !important;
-  
-  /* Force hardware acceleration */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-
-.heart-decoration {
-  position: fixed; /* Changed from absolute to fixed to follow viewport */
-  font-size: 1.2rem;
-  opacity: 0.12;
-  animation: romanticFloatingHearts 25s infinite linear;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.3));
-  
-  /* Mobile optimization - prevent flickering */
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  
-  /* Ensure visibility throughout scroll */
-  visibility: visible !important;
-  display: block !important;
-  
-  /* Force hardware acceleration */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-
 /* Dynamic pandas and hearts created by JavaScript */
 .dynamic-panda,
 .dynamic-heart {
@@ -388,163 +342,65 @@ p {
   -webkit-transform: translateZ(0);
 }
 
-/* Individual panda personalities with romantic touches - Mobile Optimized */
-.panda-1 {
-  top: 20%;
-  left: 10%;
-  animation-delay: 0s;
-  font-size: 1.6rem;
-}
-
-.panda-1::after {
-  content: '💕';
-  position: absolute;
-  top: -10px;
-  right: -15px;
-  font-size: 0.6em;
-  animation: heartFloat 5s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
-.panda-2 {
-  top: 60%;
-  right: 15%;
-  animation-delay: 10s;
-  font-size: 1.8rem;
-}
-
-.panda-2::after {
-  content: '✨';
-  position: absolute;
-  top: -8px;
-  left: -12px;
-  font-size: 0.5em;
-  animation: sparkleFloat 4s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-.panda-3 {
-  top: 80%;
-  left: 20%;
-  animation-delay: 20s;
-  font-size: 1.4rem;
-}
-
-.panda-3::after {
-  content: '💚';
-  position: absolute;
-  bottom: -8px;
-  right: -10px;
-  font-size: 0.7em;
-  animation: gentlePulse 6s ease-in-out infinite;
-  animation-delay: 0.5s;
-}
-
-/* Heart decoration positioning */
-.heart-1 {
-  top: 35%;
-  left: 85%;
+/* Consolidated heart decoration positioning */
+.heart-decoration {
+  position: fixed;
+  font-size: 1.2rem;
+  opacity: 0.12;
   animation: romanticFloatingHearts 25s infinite linear;
-  animation-delay: 3s;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.3));
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  visibility: visible !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
-.heart-2 {
-  top: 65%;
-  right: 25%;
-  animation: romanticFloatingHeartsReverse 27s infinite linear;
-  animation-delay: 8s;
-}
+.heart-1 { top: 35%; left: 85%; animation-delay: 3s; }
+.heart-2 { top: 65%; right: 25%; animation: romanticFloatingHeartsReverse 27s infinite linear; animation-delay: 8s; }
+.heart-3 { top: 45%; left: 5%; animation: romanticFloatingHeartsDiagonal 24s infinite linear; animation-delay: 13s; }
+.heart-4 { top: 75%; right: 10%; animation-delay: 18s; }
+.heart-5 { top: 25%; left: 60%; animation: romanticFloatingHeartsReverse 28s infinite linear; animation-delay: 23s; }
+.heart-6 { top: 85%; right: 45%; animation: romanticFloatingHeartsDiagonal 23s infinite linear; animation-delay: 28s; }
 
-.heart-3 {
-  top: 45%;
-  left: 5%;
-  animation: romanticFloatingHeartsDiagonal 24s infinite linear;
-  animation-delay: 13s;
-}
-
-.heart-4 {
-  top: 75%;
-  right: 10%;
-  animation: romanticFloatingHearts 26s infinite linear;
-  animation-delay: 18s;
-}
-
-.heart-5 {
-  top: 25%;
-  left: 60%;
-  animation: romanticFloatingHeartsReverse 28s infinite linear;
-  animation-delay: 23s;
-}
-
-.heart-6 {
-  top: 85%;
-  right: 45%;
-  animation: romanticFloatingHeartsDiagonal 23s infinite linear;
-  animation-delay: 28s;
-}
-
-.panda-4 {
-  top: 40%;
-  right: 25%;
-  animation-delay: 15s;
+/* Individual panda personalities with romantic touches - Consolidated Positioning */
+.panda-decoration {
+  position: fixed;
   font-size: 1.5rem;
+  opacity: 0.15;
+  animation: romanticFloatingPandas 30s infinite linear;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  filter: drop-shadow(0 2px 4px rgba(232, 240, 228, 0.3));
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  visibility: visible !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
-.panda-5 {
-  bottom: 30%;
-  left: 35%;
-  animation-delay: 25s;
-  font-size: 1.7rem;
-}
+/* Consolidated panda positioning using CSS custom properties */
+.panda-1 { top: 20%; left: 10%; animation-delay: 0s; font-size: 1.6rem; }
+.panda-2 { top: 60%; right: 15%; animation-delay: 10s; font-size: 1.8rem; }
+.panda-3 { top: 80%; left: 20%; animation-delay: 20s; font-size: 1.4rem; }
+.panda-4 { top: 40%; right: 25%; animation-delay: 15s; font-size: 1.5rem; }
+.panda-5 { bottom: 30%; left: 35%; animation-delay: 25s; font-size: 1.7rem; }
+.panda-6 { top: 15%; right: 40%; animation-delay: 5s; font-size: 1.3rem; }
+.panda-7 { bottom: 15%; right: 30%; animation-delay: 30s; font-size: 1.9rem; }
+.panda-8 { top: 70%; left: 45%; animation-delay: 8s; font-size: 1.4rem; }
+.panda-9 { top: 35%; left: 60%; animation-delay: 22s; font-size: 1.6rem; }
+.panda-10 { bottom: 45%; right: 50%; animation-delay: 12s; font-size: 1.5rem; }
+.panda-11 { top: 55%; left: 75%; animation-delay: 28s; font-size: 1.5rem; }
+.panda-12 { bottom: 60%; left: 55%; animation-delay: 18s; font-size: 1.7rem; }
 
-.panda-6 {
-  top: 15%;
-  right: 40%;
-  animation-delay: 5s;
-  font-size: 1.3rem;
-}
-
-.panda-7 {
-  bottom: 15%;
-  right: 30%;
-  animation-delay: 30s;
-  font-size: 1.9rem;
-}
-
-.panda-8 {
-  top: 70%;
-  left: 45%;
-  animation-delay: 8s;
-  font-size: 1.4rem;
-}
-
-.panda-9 {
-  top: 35%;
-  left: 60%;
-  animation-delay: 22s;
-  font-size: 1.6rem;
-}
-
-.panda-10 {
-  bottom: 45%;
-  right: 50%;
-  animation-delay: 12s;
-  font-size: 1.5rem;
-}
-
-.panda-11 {
-  top: 55%;
-  left: 75%;
-  animation-delay: 28s;
-  font-size: 1.5rem;
-}
-
-.panda-12 {
-  bottom: 60%;
-  left: 55%;
-  animation-delay: 18s;
-  font-size: 1.7rem;
-}
+/* Consolidated panda romantic accents */
+.panda-1::after { content: '💕'; position: absolute; top: -10px; right: -15px; font-size: 0.6em; animation: heartFloat 5s ease-in-out infinite; animation-delay: 1s; }
+.panda-2::after { content: '✨'; position: absolute; top: -8px; left: -12px; font-size: 0.5em; animation: sparkleFloat 4s ease-in-out infinite; animation-delay: 2s; }
+.panda-3::after { content: '💚'; position: absolute; bottom: -8px; right: -10px; font-size: 0.7em; animation: gentlePulse 6s ease-in-out infinite; animation-delay: 0.5s; }
 
 /* Enhanced romantic floating animation - Full App Coverage */
 @keyframes romanticFloatingPandas {
@@ -913,22 +769,51 @@ p {
   }
 }
 
-/* Utility Classes */
-.fade-in {
-  animation: fadeIn 0.8s ease-out;
+/* ==============================================
+   Consolidated Utility Classes - Duplicate Removal
+   ============================================== */
+
+/* Animation Utility Classes - Consolidated */
+.fade-in { animation: fadeIn 0.8s ease-out; }
+.slide-up { animation: slideUp 0.6s ease-out; }
+.gentle-pulse { animation: gentlePulse 2s ease-in-out infinite; }
+.love-pulse { animation: lovePulse 2s ease-in-out infinite; }
+.panda-dance { animation: pandaLoveDance 3s ease-in-out infinite; }
+.romantic-shimmer { animation: romanticShimmer 4s ease-in-out infinite; }
+.heart-rain { animation: heartRain 8s linear infinite; }
+.bamboo-growth { animation: bambooGrowth 2s ease-out; }
+.love-story-unfold { animation: loveStoryUnfold 1s ease-out; }
+.ring-sparkle { animation: ringSparkle 3s ease-in-out infinite; }
+.romantic-glow { animation: romanticGlow 4s ease-in-out infinite; }
+
+/* Visibility Utility Classes */
+.hidden { display: none !important; }
+
+/* Consolidated Modal Base Classes */
+.modal-base {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(232, 240, 228, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+  animation: modalFadeIn 0.3s ease-out;
 }
 
-.slide-up {
-  animation: slideUp 0.6s ease-out;
-}
-
-.gentle-pulse {
-  animation: gentlePulse 2s ease-in-out infinite;
-}
-
-/* Hidden class for JavaScript interactions */
-.hidden {
-  display: none !important;
+.modal-content-base {
+  background: var(--gradient-romantic);
+  border-radius: 25px;
+  box-shadow: var(--shadow-magical);
+  max-width: 90%;
+  margin: 0 auto;
+  border: 3px solid var(--bamboo-green);
+  position: relative;
+  overflow: hidden;
 }
 
 /* Accessibility */
@@ -979,7 +864,10 @@ p {
   }
   
   /* Hide even more pandas on small screens */
-  .panda-4, .panda-5, .pa
+  .panda-4, .panda-5, .panda-6 {
+    display: none;
+  }
+}
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
@@ -1565,20 +1453,9 @@ p {
   }
 }
 
-/* Enhanced Gentle Pulse for Interactive Elements */
+/* Enhanced Gentle Pulse for Interactive Elements - Consolidated */
 .gentle-pulse {
-  animation: enhancedGentlePulse 0.6s ease-in-out;
-}
-
-@keyframes enhancedGentlePulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 20px rgba(232, 240, 228, 0.3);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(232, 240, 228, 0.6);
-  }
+  animation: gentlePulse 0.6s ease-in-out;
 }
 
 /* Enhanced Timeline Dot Interactions */
@@ -1667,70 +1544,18 @@ p {
 }
 
 /* ==============================================
-   Romantic Utility Classes - Final Touches
-   Sub-task 8.2 Completion
+   Consolidated Romantic Utility Classes
    ============================================== */
 
-/* Romantic Animation Utility Classes */
-.love-pulse {
-  animation: lovePulse 2s ease-in-out infinite;
-}
-
-.panda-dance {
-  animation: pandaLoveDance 3s ease-in-out infinite;
-}
-
-.romantic-shimmer {
-  animation: romanticShimmer 4s ease-in-out infinite;
-}
-
-.heart-rain {
-  animation: heartRain 8s linear infinite;
-}
-
-.bamboo-growth {
-  animation: bambooGrowth 2s ease-out;
-}
-
-.love-story-unfold {
-  animation: loveStoryUnfold 1s ease-out;
-}
-
-.ring-sparkle {
-  animation: ringSparkle 3s ease-in-out infinite;
-}
-
-.romantic-glow {
-  animation: romanticGlow 4s ease-in-out infinite;
-}
-
-/* Special Milestone Celebration Classes */
+/* Special Milestone Celebration Classes - Using Base Classes */
 .milestone-celebration {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(232, 240, 228, 0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  backdrop-filter: blur(15px);
-  animation: modalFadeIn 0.5s ease-out;
+  @extend .modal-base;
 }
 
 .celebration-content {
-  background: var(--gradient-romantic);
+  @extend .modal-content-base;
   padding: 3rem 2rem;
-  border-radius: 30px;
   text-align: center;
-  box-shadow: var(--shadow-magical);
-  max-width: 90%;
-  margin: 0 auto;
-  border: 3px solid var(--bamboo-green);
-  position: relative;
-  overflow: hidden;
 }
 
 .celebration-content::before {
@@ -2321,25 +2146,7 @@ p {
   margin-bottom: 1rem;
 }
 
-/* Sparkle animation for special events */
-@keyframes sparkleFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.7;
-  }
-  25% {
-    transform: translateY(-10px) rotate(90deg);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-5px) rotate(180deg);
-    opacity: 0.8;
-  }
-  75% {
-    transform: translateY(-15px) rotate(270deg);
-    opacity: 1;
-  }
-}
+/* Sparkle animation consolidated - see earlier definition */
 
 /* Modal fade in animation */
 @keyframes modalFadeIn {
@@ -2353,20 +2160,9 @@ p {
   }
 }
 
-/* Enhanced gentle pulse animation */
+/* Enhanced gentle pulse animation - Consolidated */
 .gentle-pulse {
   animation: gentlePulse 0.6s ease-in-out;
-}
-
-@keyframes gentlePulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
 }
 
 /* Mobile responsive adjustments for navigation */
