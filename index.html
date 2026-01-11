@@ -166,7 +166,51 @@
 </head>
 <body>
     <!-- Main Timeline Landing Page -->
-    <main class="timeline-page">
+    <!-- Authentication Overlay -->
+    <div class="auth-overlay" id="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="auth-pandas">🐼❤️🐼</div>
+                <h1 class="auth-title">Welcome to Our Love Story</h1>
+                <p class="auth-subtitle">Prove that you are Vidhi 😅</p>
+            </div>
+            
+            <form class="auth-form" id="auth-form">
+                <div class="auth-input-group">
+                    <input 
+                        type="password" 
+                        id="password-input" 
+                        class="auth-input" 
+                        placeholder="What do I call you with love ? 💭" 
+                        required 
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <button type="submit" class="auth-submit">
+                        <span class="submit-text">Am I allowed ?</span>
+                    </button>
+                </div>
+                
+                <div class="auth-error" id="auth-error">
+                    <p>No you are not Vidhi, that's not right to check our Love story... Try again! 💭</p>
+                </div>
+                
+                <div class="auth-loading" id="auth-loading">
+                    <div class="loading-pandas">🐼💕🐼</div>
+                    <p>Good you are my Boobli... 💕</p>
+                </div>
+            </form>
+            
+            <div class="auth-decorations">
+                <div class="floating-heart heart-1">💕</div>
+                <div class="floating-heart heart-2">💖</div>
+                <div class="floating-heart heart-3">💗</div>
+                <div class="floating-heart heart-4">💚</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="timeline-page" id="timeline-content">
         <!-- Countdown Timer Header -->
         <header class="countdown-header">
             <div class="countdown-timer" id="countdown-timer">
@@ -237,112 +281,247 @@
     <script src="js/utils.js"></script>
 
     <script>
+        // Authentication Configuration
+        const AUTH_CONFIG = {
+            SECRET_WORD: 'boobli',           // The secret password
+            LOADING_DELAY: 3000,             // Delay before content reveal (ms)
+            ERROR_DISPLAY_TIME: 10000,        // How long to show errors (ms)
+        };
+
+        // Authentication System
+        function initializeAuthentication() {
+            const authOverlay = document.getElementById('auth-overlay');
+            const authForm = document.getElementById('auth-form');
+            const passwordInput = document.getElementById('password-input');
+            const authError = document.getElementById('auth-error');
+            const authLoading = document.getElementById('auth-loading');
+            const timelineContent = document.getElementById('timeline-content');
+
+            // Auto-focus password input when page loads
+            if (passwordInput) {
+                passwordInput.focus();
+            }
+
+            // Handle form submission
+            if (authForm) {
+                authForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const userInput = passwordInput.value;
+                    
+                    // Validate password
+                    if (validatePassword(userInput)) {
+                        // Success path
+                        showLoadingMessage();
+                        
+                        setTimeout(() => {
+                            showTimelineContent();
+                        }, AUTH_CONFIG.LOADING_DELAY);
+                    } else {
+                        // Error path
+                        showErrorMessage();
+                        addVisualFeedback();
+                        clearInputField();
+                        
+                        // Auto-hide error after timeout
+                        setTimeout(() => {
+                            hideErrorMessage();
+                        }, AUTH_CONFIG.ERROR_DISPLAY_TIME);
+                    }
+                });
+            }
+
+            // Password validation logic
+            function validatePassword(userInput) {
+                // Normalize input: lowercase and trim whitespace
+                const normalizedInput = userInput.toLowerCase().trim();
+                
+                // Compare with secret word
+                return normalizedInput === AUTH_CONFIG.SECRET_WORD;
+            }
+
+            // Show loading message
+            function showLoadingMessage() {
+                if (authLoading) {
+                    authLoading.classList.add('show');
+                }
+                
+                // Hide error if visible
+                hideErrorMessage();
+            }
+
+            // Show error message
+            function showErrorMessage() {
+                if (authError) {
+                    authError.classList.add('show');
+                }
+                
+                // Hide loading if visible
+                if (authLoading) {
+                    authLoading.classList.remove('show');
+                }
+            }
+
+            // Hide error message
+            function hideErrorMessage() {
+                if (authError) {
+                    authError.classList.remove('show');
+                }
+            }
+
+            // Add visual feedback (shake animation)
+            function addVisualFeedback() {
+                if (passwordInput) {
+                    passwordInput.classList.add('error');
+                    
+                    // Remove error class after animation
+                    setTimeout(() => {
+                        passwordInput.classList.remove('error');
+                    }, 500);
+                }
+            }
+
+            // Clear input field
+            function clearInputField() {
+                if (passwordInput) {
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            // Show timeline content and hide auth overlay
+            function showTimelineContent() {
+                if (authOverlay && timelineContent) {
+                    // Hide auth overlay
+                    authOverlay.classList.add('hidden');
+                    
+                    // Show timeline content
+                    timelineContent.classList.add('authenticated');
+                    timelineContent.style.display = 'block';
+                    
+                    // Initialize timeline after authentication
+                    setTimeout(() => {
+                        initializeTimeline();
+                    }, 500);
+                }
+            }
+        }
+
         // Enhanced initialization using consolidated utilities
         console.log('🐼 Love Story Webapp initializing...');
         
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🐼 DOM loaded, initializing enhanced integration...');
+            console.log('🐼 DOM loaded, initializing authentication and timeline...');
             
-            // Run consolidated integration validation
-            const integrationResults = ValidationManager.validateIntegration();
+            // Initialize authentication system first
+            initializeAuthentication();
             
-            try {
-                // Initialize countdown timer using consolidated utility
-                const timerDisplay = document.getElementById('timer-display');
-                if (timerDisplay) {
-                    console.log('✅ Timer display found');
+            // Timeline initialization function (called after successful auth)
+            function initializeTimeline() {
+                // Run consolidated integration validation
+                const integrationResults = ValidationManager.validateIntegration();
+                
+                try {
+                    // Initialize countdown timer using consolidated utility
+                    const timerDisplay = document.getElementById('timer-display');
+                    if (timerDisplay) {
+                        console.log('✅ Timer display found');
+                        
+                        // Set the day we said yes (July 26th, 2025, 5:30 PM IST - Dal Chawal day)
+                        const dalChawalDate = '2025-07-26T17:30:00+05:30';
+                        const timer = new CountdownTimer(dalChawalDate, timerDisplay);
+                        timer.start();
+                        console.log('✅ Consolidated timer started');
+                    } else {
+                        console.error('❌ Timer display element not found');
+                    }
                     
-                    // Set the day we said yes (July 26th, 2025, 5:30 PM IST - Dal Chawal day)
-                    const dalChawalDate = '2025-07-26T17:30:00+05:30';
-                    const timer = new CountdownTimer(dalChawalDate, timerDisplay);
-                    timer.start();
-                    console.log('✅ Consolidated timer started');
-                } else {
-                    console.error('❌ Timer display element not found');
+                    // Enhanced timeline with consolidated event handlers
+                    const timelineBar = document.getElementById('timeline-bar');
+                    const timelineEvents = document.getElementById('timeline-events');
+                    
+                    if (timelineBar && timelineEvents) {
+                        console.log('✅ Vertical timeline elements found');
+                        
+                        // Use timeline data from external file
+                        const events = TIMELINE_DATA.events.map(event => ({
+                            id: event.id,
+                            title: event.title,
+                            nickname: event.nickname,
+                            date: event.date,
+                            icon: event.icon,
+                            preview: event.previewText,
+                            location: event.location || null
+                        }));
+                        
+                        console.log('📝 Creating vertical timeline with', events.length, 'events');
+                        
+                        // Clear existing content
+                        timelineEvents.innerHTML = '';
+                        
+                        // Create vertical timeline events
+                        events.forEach((event, index) => {
+                            console.log(`🐼 Creating vertical event ${index} (${event.nickname})`);
+                            
+                            // Create timeline event container
+                            const eventContainer = document.createElement('div');
+                            eventContainer.className = 'timeline-event';
+                            eventContainer.setAttribute('data-index', index);
+                            eventContainer.setAttribute('data-event-id', event.id);
+                            
+                            // Create event content
+                            const eventContent = document.createElement('div');
+                            eventContent.className = 'event-content';
+                            
+                            // Format date as dd/mm/yy
+                            const eventDate = new Date(event.date);
+                            const day = eventDate.getDate().toString().padStart(2, '0');
+                            const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
+                            const year = eventDate.getFullYear().toString().slice(-2);
+                            const dateText = `${day}/${month}/${year}`;
+                            
+                            eventContent.innerHTML = `
+                                <div class="event-date">${dateText}</div>
+                                <div class="event-title">${event.nickname || event.title}</div>
+                                <div class="event-preview">${event.preview}</div>
+                            `;
+                            
+                            // Add consolidated navigation handler
+                            const detailPageUrl = `event-detail.html?event=${event.id}`;
+                            EventHandlerManager.addNavigationHandler(eventContent, detailPageUrl);
+                            
+                            // Assemble the event
+                            eventContainer.appendChild(eventContent);
+                            timelineEvents.appendChild(eventContainer);
+                            
+                            console.log('✅ Added vertical timeline event:', event.nickname || event.title);
+                        });
+                        
+                        // Add staggered fade-in animation using consolidated utility
+                        const eventElements = timelineEvents.querySelectorAll('.timeline-event');
+                        AnimationManager.addStaggeredFadeIn(Array.from(eventElements), 150);
+                        
+                        console.log('✅ Vertical timeline created successfully');
+                    } else {
+                        console.error('❌ Vertical timeline elements not found');
+                    }
+                    
+                    console.log('🎉 Consolidated integration complete!');
+                    
+                } catch (error) {
+                    console.error('❌ Error in consolidated integration initialization:', error);
                 }
-                
-                // Enhanced timeline with consolidated event handlers
-                const timelineBar = document.getElementById('timeline-bar');
-                const timelineEvents = document.getElementById('timeline-events');
-                
-                if (timelineBar && timelineEvents) {
-                    console.log('✅ Vertical timeline elements found');
-                    
-                    // Use timeline data from external file
-                    const events = TIMELINE_DATA.events.map(event => ({
-                        id: event.id,
-                        title: event.title,
-                        nickname: event.nickname,
-                        date: event.date,
-                        icon: event.icon,
-                        preview: event.previewText,
-                        location: event.location || null
-                    }));
-                    
-                    console.log('📝 Creating vertical timeline with', events.length, 'events');
-                    
-                    // Clear existing content
-                    timelineEvents.innerHTML = '';
-                    
-                    // Create vertical timeline events
-                    events.forEach((event, index) => {
-                        console.log(`🐼 Creating vertical event ${index} (${event.nickname})`);
-                        
-                        // Create timeline event container
-                        const eventContainer = document.createElement('div');
-                        eventContainer.className = 'timeline-event';
-                        eventContainer.setAttribute('data-index', index);
-                        eventContainer.setAttribute('data-event-id', event.id);
-                        
-                        // Create event content
-                        const eventContent = document.createElement('div');
-                        eventContent.className = 'event-content';
-                        
-                        // Format date as dd/mm/yy
-                        const eventDate = new Date(event.date);
-                        const day = eventDate.getDate().toString().padStart(2, '0');
-                        const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
-                        const year = eventDate.getFullYear().toString().slice(-2);
-                        const dateText = `${day}/${month}/${year}`;
-                        
-                        eventContent.innerHTML = `
-                            <div class="event-date">${dateText}</div>
-                            <div class="event-title">${event.nickname || event.title}</div>
-                            <div class="event-preview">${event.preview}</div>
-                        `;
-                        
-                        // Add consolidated navigation handler
-                        const detailPageUrl = `event-detail.html?event=${event.id}`;
-                        EventHandlerManager.addNavigationHandler(eventContent, detailPageUrl);
-                        
-                        // Assemble the event
-                        eventContainer.appendChild(eventContent);
-                        timelineEvents.appendChild(eventContainer);
-                        
-                        console.log('✅ Added vertical timeline event:', event.nickname || event.title);
-                    });
-                    
-                    // Add staggered fade-in animation using consolidated utility
-                    const eventElements = timelineEvents.querySelectorAll('.timeline-event');
-                    AnimationManager.addStaggeredFadeIn(Array.from(eventElements), 150);
-                    
-                    console.log('✅ Vertical timeline created successfully');
-                } else {
-                    console.error('❌ Vertical timeline elements not found');
-                }
-                
-                console.log('🎉 Consolidated integration complete!');
-                
-            } catch (error) {
-                console.error('❌ Error in consolidated integration initialization:', error);
             }
+            
+            // Make initializeTimeline available globally for auth system
+            window.initializeTimeline = initializeTimeline;
         });
         
         // Initialize romantic enhancements after everything loads
         setTimeout(() => {
             console.log('🐼💕 Initializing romantic enhancements...');
             document.body.classList.add('integration-complete');
-            console.log('🎉 Task Complete! Duplicate code removed and consolidated!');
+            console.log('🎉 Authentication and Timeline Integration Complete!');
         }, 2000);
     </script>
     <script src="js/mobile-performance.js"></script>

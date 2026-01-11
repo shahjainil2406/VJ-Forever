@@ -22,30 +22,41 @@ const TIMELINE_DATA = {
       previewText: 'The day our beautiful conversation began...',
       letterContent: `  
         <header style="text-align: center;">
-            <h1 style="color: #d63384; font-size: 24px;">My Dearest Darling ❤️</h1>
+            <h1 style="color: #d63384; font-size: 24px;">My Dearest Best Friend ❤️</h1>
         </header>
             <p>
-                I still remember that day 📅 when my Mom called and asked me to see a couple of biodatas. It was a regular day, ekdum simple divas hato, and I was just casually scrolling through each of them... and then, suddenly, my eyes fell on <b>your</b> biodata. ✨
+                I still remember that day 📅 when my Mom called and asked me to see a couple of
+                biodatas. It was a regular day, ekdum simple divas hato, and I was just casually 
+                scrolling through each of them... and then, suddenly, my eyes fell on <b>your</b>
+                biodata. ✨
             </p>
 
             <p>
-                Architect! 🏗️ Kaafi padhi-likhi aur sundar... <i>nai nai</i>, sundar nai, <b>haseen ladki!</b> 😍 Mane thayu ke "Vaah, aa to bahu j jordar chhe!" 
+                Architect! 🏗️ wo bhi CEPT se, matlab, Kaafi padhi-likhi aur sundar... <i>nai nai</i>,
+                sundar nai, <b>haseen ladki!</b> 😍 Mane thayu ke "Vaah, aa to bahu j jordar chhe!" 
             </p>
 
             <p>
-                But I pulled myself back and said to myself, "Chalo, let's not hype it up too much, pehla baat karke dekhte hai." 😊 Then I remember that first <b>"Heyy"</b> of <b>18th May 2025</b>. 
+                But I pulled myself back and said to myself, "Chalo, let's not hype it up too 
+                much, pehla baat karke dekhte hai." 😊 Then I remember that first <b>"Heyy"</b>
+                of <b>18th May 2025</b>. 
             </p>
 
             <p>
-                And oh god, you were taking forever to reply! 😂 <i>Ketli raah jovdaavi ti tame!</i> But who knew at that time that I was actually talking to the love of my life? ❤️
+                And oh god, you were taking forever to reply! 😂 <i>Ketli raah jovdaavi ti 
+                tame madamji!</i> But who knew at that time that I was actually talking to the
+                love of my life? ❤️
             </p>
 
             <p>
-                But but... the real highlight is <b>20th May</b>. That day when you scolded me 😏... I don't want to say more about it here (just check the screenshots of that chat in the following memory section below! 📸). 
+                But but... the real highlight is <b>20th May</b>. That day when you scolded me
+                😏... I don't want to say more about it here (just check the screenshots of 
+                that chat in the following memory section below! 📸). 
             </p>
 
             <p style="margin-top: 30px;">
-                Looking back, I am so glad I swiped right on your life. You are the best thing that ever happened to me. 💍✨
+                Looking back, I am so glad I swiped right on your life. You are the best thing
+                that ever happened to me. 💍✨
             </p>
 
         <footer class="letter-signature">
@@ -55,8 +66,6 @@ const TIMELINE_DATA = {
       `,
       memories: ["IMG_0779.PNG", "IMG_0780.PNG"],
     },
-    
-
     {
       id: 'birthday-tir-i-miss-u',
       title: 'My Birthday and Your Tir-i-miss-u',
@@ -68,34 +77,54 @@ const TIMELINE_DATA = {
       previewText: 'A birthday made extra special by your love...',
       letterContent: `  
         <header style="text-align: center;">
-            <h1 style="color: #d63384; font-size: 24px;">My Dearest Darling ❤️</h1>
+            <h1 style="color: #d63384; font-size: 24px;">Dear Monica to my Chandler ❤️</h1>
         </header>
             <p>
-                I still can’t forget that 24th June 2025. Just a normal birthday and suddenly I get Swiggy notification <b>“Vidhi sent something for you”</b>. We barely knew each other and our taste and preferences at that time, but that tir-i-miss-you was on spot. I loved it, and I was on sugar cut, yet I finished whole tiramisu on my own, two days though 😅. 
+                I still can’t forget that 24th June 2025. Just a normal birthday and suddenly I get Swiggy notification <b>“Vidhi sent something for you”</b>. We barely knew each other and our taste and preferences at that time, but that tir-i-miss-you was on spot. I loved it, and I 
+                was on sugar cut, yet I finished whole tiramisu on my own, two days though 😅. 
             </p>
 
             <p>
-                I think now I believe the fact that “A guy who never celebrates his bday always end up with a girl who will celebrate it like a festival”. At that moment, I felt so much attracted to you, not because of tiramisu, but because the way you even cared to make it special even though we were not that much attached. I love you my tiramisu 💕❤️. 
+                I think now I believe the fact that “A guy who never celebrates his bday always end up with
+                a girl who will celebrate it like a festival”. At that moment, I felt so much attracted to you, not because of tiramisu, but because the way you even cared to make it special even though we were not that much attached. I love you my tiramisu 💕❤️. 
             </p>
 
             <p>
-                After that I flew to Mumbai to meet you on <b>28th June</b> and it was some best hours of my life (until then 😜, after that I had many more best hours that I cannot explain 😉). I remember starting with “Mannat” where we strolled around near ocean with cool breeze even with you beside me hottie (with your vaadiya 😘). I legit thought to do that SRK pose near that, but controlled thinking you would think of me as some crazy person. But after knowing you more and the kind of fandom you have for SRK, I guess agar e time e kari lidhu pose, to aapda Lagan vehla thai jata 😂. 
+                After that I flew to Mumbai to meet you on <b>28th June</b> and it was some best hours of 
+                my life (until then 😜, after that I had many more best hours that I cannot explain 😉). I remember starting with “Mannat” where we strolled around near ocean with cool breeze even with you beside me hottie (with your vaadiya 😘). I legit thought to do that SRK pose near that, but controlled thinking you would think of me as some crazy person. But after knowing you more and the kind of fandom you have for SRK, I guess agar e time e kari lidhu pose, to aapda Lagan vehla thai jata 😂. 
             </p>
 
             <p>
-                And after that we went to Nutcracker and as soon as we stepped in, do you recall which song was played ? Yes “Die with a Smile”, the song, which I was hooked to then. And I legit thought was that something you did, in case if that was planned, probably aa letter tone 2-3 mahina pehla madtu 😂. Then we did something that everyone would judge us for, watching Housefull 5 on first date, and yaad che pelu couple sitting next to you chota chot and gulu gulu karta ta 👩‍❤️‍💋‍👩. But movie start thata pehla and interval ma you were so silent dude, but its okay it was first time we met and we had talked over call so many times.
+                And after that we went to Nutcracker and as soon as we stepped in, do you recall which 
+                song was played ? Yes “Die with a Smile”, the song, which I was hooked to then. And I 
+                thought that was something you did, in case if that was planned, probably aa letter tane 
+                2-3 mahina pehla madtu 😂. Then we did something that everyone would judge us for, 
+                watching Housefull 5 on first date, and yaad che pelu couple sitting next to you 
+                chota chot and gulu gulu karta ta 👩‍❤️‍💋‍👩. But movie start thata pehla and interval ma you were
+                 so silent dude, but its okay it was first time we met and we had talked over call so many times.
             </p>
 
             <p>
-                After that we went to some cafe which was overcrowded, so we waited for sometime clicked some selfies and left. And at last, I went for Clubbing, and what I know of is that, it was when I kind of won your heart (I guess).
+                After that we went to some cafe which was overcrowded, so we waited for sometime clicked 
+                some selfies and left. And at last, I went for Clubbing, and what I know of is that, it was
+                when I kind of won your heart (I guess).
             </p>
 
             <p>
-                But, ena pachi came <b>4th July</b>, when you went to Vadodara, to meet my side of family and what moti mummy told me, “Fatakdi che ekdum” 😂, and you won my family's heart already, and I was so much relieved then, as my side of family was ready for this, but now everything was on me to impress your side of family and dude I was so much under stress 😅.
+                But, ena pachi came <b>4th July</b>, when you went to Vadodara, to meet my side
+                of family and what moti mummy told me, “Fatakdi che ekdum” 😂, and you won my
+                family's heart already, and I was so much relieved then, as my side of family
+                was ready for this, but now everything was on me to impress your side of family
+                and dude I was so much under stress 😅.
             </p>    
                 
             <p>
-                But by that time we were that much close that we had started taking each other's opinion to buy stuff, you went to buy glasses for you and you asked me to help you choose with that big pimple 😂, and I literally chose the best one for you, my naina. And I was taking your help for my Thailand trip and dude. And me shaing my daily stuff with you from Thailand, and making fake story to my friends because they caught me doing gulu gulu 😅.
+                But by that time we were that much close that we had started taking each other's
+                opinion to buy stuff, you went to buy glasses for you and you asked me to help 
+                you choose with that big pimple 😂, and I literally chose the best one for you, 
+                my naina. And I was taking your help for my Thailand trip and dude. And me sharing
+                my daily stuff with you from Thailand, and making fake story to my friends because they
+                caught me doing gulu gulu 😅 on phone.
             </p>
 
             <p style="margin-top: 30px;">
@@ -104,7 +133,7 @@ const TIMELINE_DATA = {
 
         <footer class="letter-signature">
             With all my love,<br>
-            Your to be forever 🐼💕
+            Your Chandler 🐼💕
         </footer>
       `,
       memories: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"]
@@ -113,65 +142,66 @@ const TIMELINE_DATA = {
       id: 'dalChawalDay',
       title: 'The day we said yes to Forever',
       nickname: 'Dal Chawal for Lifetime 💓',
-      date: '2025-07-26',
+      date: '2025-07-27',
       category: 'dating',
       icon: '💓',
       imagePath: 'images/events/dalChawalDay/',
-      previewText: 'The day we said yes after taking blessings from Ganeshji',
-      letterContent: `
-        <p>My Forever Love,</p>
-        
-        <p>July 26th, 2025 - the day we said yes to forever, the day we promised each other 
-        "Dal Chawal for Lifetime"! After taking blessings from Ganeshji, we made the most 
-        beautiful commitment to each other.</p>
-        
-        <p>Dal Chawal - such simple words, but they represent everything about us. Simple, 
-        pure, nourishing love that will sustain us through every day of our lives together. 
-        Not fancy, not complicated, just real, honest, everyday love that fills the heart 
-        and soul.</p>
-        
-        <p>When we said yes to each other that day, we weren't just saying yes to marriage - 
-        we were saying yes to a lifetime of simple joys, shared meals, quiet moments, and 
-        unconditional love. We were saying yes to being each other's home.</p>
-        
-        <p>With Ganeshji's blessings and our hearts full of love, we took the first step 
-        towards our forever. Dal Chawal for lifetime - the most beautiful promise we could 
-        make to each other.</p>
-      `,
-      memories: ["test_pic.png"]
-    },
-    {
-      id: 'roka-day',
-      title: 'The Roka Day - Start of Official Courtship',
-      nickname: 'Official Love 🤝',
-      date: '2025-07-27',
-      category: 'proposal',
-      icon: '🤝',
-      imagePath: 'images/events/roka-day/',
       previewText: 'The official beginning of our courtship period...',
       letterContent: `
-        <p>My Official Love,</p>
-        
-        <p>July 27th, 2025 - our Roka ceremony! The traditional and official start of our 
-        courtship period. Surrounded by family, blessings, and so much love, we took the 
-        formal step towards our forever together.</p>
-        
-        <p>This beautiful ceremony wasn't just a ritual - it was a celebration of our love, 
-        a recognition of our commitment, and the official blessing from both our families. 
-        It was the moment when our love story became everyone's love story.</p>
-        
-        <p>Seeing the joy in our families' eyes, feeling their blessings and support, 
-        knowing that everyone was celebrating us - it made everything feel so real, so 
-        official, so blessed. We weren't just two people in love anymore; we were a 
-        couple with a future, with support, with tradition behind us.</p>
-        
-        <p>The Roka marked the beginning of our official journey as a couple, with the 
-        love and support of both our families guiding us towards our wedding day. It was 
-        the perfect start to our formal courtship.</p>
+        <header style="text-align: center;">
+            <h1 style="color: #d63384; font-size: 24px;">My forever love ❤️</h1>
+        </header>
+            <p>
+                Aa letter kaya divas maate che e to tane khbr padi gai, but lets go some days back, when I just returned from 
+                Thailand and thoughout the trip I was wondering k "aisa to kya puchna hai mujhe, papa e badhu to kai didhu, hu
+                pan to same j kais to vaat karvi su che ?". Then after returning, I asked you and they way you prepared me for 
+                <b>the exam 😂</b>, that is when I realised that sirf mujhe hi nai pasand tu, tu bhi mujhe utna hi pasand karti
+                hai.
+            </p>
+
+            <p>
+                Then the day came, <b>26th July, 2026</b>, I was on call, and And I remember to tell your parents same, so that
+                they don't think k "hoshiyaari maare che, aavo jamai na joie" 😅. But at end aapda ne Pune farvani permission aapi.
+                And we selected dagdusheth mandir, I guess if start is such spiritual, to apna milna to hona hi tha. Then we had tea, and I
+                still remeber your face when you tried that sugarless tea ☕️. Then we were heading to Poetry and we were getting calls
+                for congratulations 😂.
+            </p>
+
+            <p>
+                On the way we discussing that we will not have blue drum at home, and you know what now I don't mind having blue drum or 
+                garbage bag at home, because the amount of love we have for each other, I guess blue drum will be helpful to store stuff 😜.
+            </p>
+
+            <p>
+                Then comes that cheesecake time, no actually the Dal Chawal time, and finally when we both decided to take the leap of faith 
+                and commit to each other. And I think that was the best decision of my life.
+            </p>
+
+            <p>
+                And later that night, aapda gharwala e decide karyu k kale ne kalej god-dhana, for a sec mari faati gai k badhu bau fast thaay che,
+                pan sahi tha, naito pacha lagan garmi ma shift thai jata 😜. E divase you me Manasi and Aanchal ran to get clothes for me because 
+                unlike you I had planned for just meet 😆. Yet on the next day I was shopping my shoes just an hour before the ritual 😂.
+            </p>
+
+            <p style="margin-top: 30px;">
+                Ahh <b>27th July</b> was the official start of our courtship period, and I couldn't be more happy. But that awkward photoshoot, that 
+                awkward dance and just talking with someone over call without even knowing them 😂. Cwaazzzyyy thing, but I am glad to have you in my life.
+                I love you beblu 🥰.
+            </p>
+
+            <p>
+                Then on 28th July, we went out roaming in mall and played, and you showed your power by punching the bag so hard that score was still in 
+                triple digits only 😂. But later that night, when I had to leave for Bangalore and that quick forehead kiss (quick because I was feeling shy), 
+                and after that was the first time I said <b>I love you</b> becuase I was already missing you and really didn't want to go back to Bangalore.
+            </p>
+
+        <footer class="letter-signature">
+            With all my love,<br>
+            Your dal chawal partner 🐼💕
+        </footer>
       `,
-      memories: ["test_pic.png"]
+      memories: ["0.PNG", "1.HEIC", "2.HEIC", "3.HEIC", "4.HEIC", "5.png"]
     },
-    
     {
       id: 'bangalore-first-kiss',
       title: 'You Flew to Bangalore and First Kiss',
@@ -202,8 +232,7 @@ const TIMELINE_DATA = {
         to be truly together in every way.</p>
       `,
       memories: ["test_pic.png"]
-    },
-    
+    },  
     {
       id: 'our-engagement',
       title: 'Our Engagement',
@@ -236,7 +265,6 @@ const TIMELINE_DATA = {
       `,
       memories: ["test_pic.png"]
     },
-    
     {
       id: 'the-day-we',
       title: 'The Day We....',

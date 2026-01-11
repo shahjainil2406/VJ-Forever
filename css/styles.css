@@ -1,4 +1,501 @@
 /* ==============================================
+   Authentication Overlay - Simple Auth System
+   Mobile-First Responsive Design with Panda Theme
+   ============================================== */
+
+/* Authentication Overlay Container */
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--sage-green), var(--mint-cream), var(--jade-whisper));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  /* Initially visible, will be hidden after successful auth */
+  opacity: 1;
+  visibility: visible;
+  transition: var(--gentle-transition);
+}
+
+/* Hide overlay after successful authentication */
+.auth-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Authentication Container */
+.auth-container {
+  background: var(--gradient-romantic);
+  border-radius: 25px;
+  box-shadow: var(--shadow-magical);
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  margin: 0 auto;
+  border: 3px solid var(--bamboo-green);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Subtle bamboo pattern background */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 40%, rgba(135, 169, 107, 0.03) 50%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Authentication Header */
+.auth-header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 2rem;
+}
+
+.auth-pandas {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+  display: block;
+}
+
+.auth-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: var(--forest-green);
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+  line-height: 1.2;
+}
+
+.auth-subtitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-accent);
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Authentication Form */
+.auth-form {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-input-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Password Input Field */
+.auth-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid var(--sage-green);
+  border-radius: 25px;
+  background: var(--gradient-panda);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-accent);
+  text-align: center;
+  transition: var(--romantic-transition);
+  margin-bottom: 1rem;
+  
+  /* Mobile-friendly touch target */
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--bamboo-green);
+  box-shadow: 0 0 20px rgba(232, 240, 228, 0.6);
+  transform: scale(1.02);
+}
+
+.auth-input::placeholder {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Error state styling */
+.auth-input.error {
+  border-color: #d63384;
+  background: linear-gradient(135deg, #ffeaea, #fff0f0);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Submit Button */
+.auth-submit {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid var(--bamboo-green);
+  border-radius: 25px;
+  background: var(--gradient-dreamy);
+  color: var(--text-accent);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--romantic-transition);
+  
+  /* Mobile-friendly touch target */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  /* Enhanced romantic styling */
+  box-shadow: var(--shadow-soft);
+  text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Romantic button hover effect */
+.auth-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.auth-submit:hover {
+  background: var(--gradient-panda);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-romantic);
+  border-color: var(--spring-green);
+  color: var(--deep-forest);
+}
+
+.auth-submit:hover::before {
+  left: 100%;
+}
+
+.auth-submit:active {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.submit-text {
+  flex: 1;
+}
+
+.submit-icon {
+  font-size: 1.2rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+/* Password Hint */
+.auth-hint {
+  margin-bottom: 1rem;
+}
+
+.auth-hint p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: var(--text-light);
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Error Message */
+.auth-error {
+  background: linear-gradient(135deg, #ffeaea, #fff0f0);
+  border: 2px solid #ffb3ba;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  
+  /* Initially hidden */
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: var(--smooth-transition);
+}
+
+.auth-error.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.auth-error p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: #d63384;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Loading State */
+.auth-loading {
+  background: var(--gradient-sage-mint);
+  border: 2px solid var(--bamboo-green);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  
+  /* Initially hidden */
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: var(--smooth-transition);
+}
+
+.auth-loading.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.loading-pandas {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  animation: gentlePulse 2s ease-in-out infinite;
+  display: block;
+}
+
+.auth-loading p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: var(--text-accent);
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Floating Heart Decorations */
+.auth-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 1rem;
+  opacity: 0.2;
+  animation: authHeartFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.heart-1 {
+  top: 15%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.heart-2 {
+  top: 25%;
+  right: 15%;
+  animation-delay: 2s;
+}
+
+.heart-3 {
+  bottom: 30%;
+  left: 20%;
+  animation-delay: 4s;
+}
+
+.heart-4 {
+  bottom: 20%;
+  right: 10%;
+  animation-delay: 6s;
+}
+
+/* Shake Animation for Error State */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Floating Hearts Animation */
+@keyframes authHeartFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translateY(-10px) rotate(90deg) scale(1.1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(-5px) rotate(180deg) scale(1.05);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translateY(-15px) rotate(270deg) scale(1.15);
+    opacity: 0.3;
+  }
+}
+
+/* Hide timeline content initially */
+.timeline-page {
+  display: none;
+  opacity: 0;
+  transition: var(--gentle-transition);
+}
+
+/* Show timeline content after authentication */
+.timeline-page.authenticated {
+  display: block;
+  opacity: 1;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+  
+  .auth-pandas {
+    font-size: 2rem;
+  }
+  
+  .auth-title {
+    font-size: 1.6rem;
+  }
+  
+  .auth-subtitle {
+    font-size: 1rem;
+  }
+  
+  .auth-input {
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
+  
+  .auth-submit {
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
+  
+  .loading-pandas {
+    font-size: 1.5rem;
+  }
+  
+  .floating-heart {
+    font-size: 0.8rem;
+  }
+}
+
+/* Landscape Mobile Orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  .auth-container {
+    padding: 1rem;
+    max-width: 80%;
+  }
+  
+  .auth-pandas {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .auth-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .auth-header {
+    margin-bottom: 1rem;
+  }
+  
+  .auth-input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .auth-input {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .auth-submit {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Accessibility Enhancements */
+.auth-input:focus-visible,
+.auth-submit:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .auth-pandas,
+  .submit-icon,
+  .loading-pandas,
+  .floating-heart {
+    animation: none !important;
+  }
+  
+  .auth-input.error {
+    animation: none !important;
+  }
+  
+  .auth-submit::before {
+    transition: none !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .auth-container {
+    background: white !important;
+    border: 3px solid black !important;
+  }
+  
+  .auth-input {
+    background: white !important;
+    border: 2px solid black !important;
+    color: black !important;
+  }
+  
+  .auth-submit {
+    background: white !important;
+    border: 2px solid black !important;
+    color: black !important;
+  }
+  
+  .auth-title,
+  .auth-subtitle,
+  .auth-hint p {
+    color: black !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ==============================================
    Romantic Love Story Webapp - Main Styles
    Mobile-First Responsive Design with Enhanced Panda Theme
    Final Romantic Touches & Personalization - Sub-task 8.2
@@ -1549,11 +2046,29 @@ p {
 
 /* Special Milestone Celebration Classes - Using Base Classes */
 .milestone-celebration {
-  @extend .modal-base;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(232, 240, 228, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+  animation: modalFadeIn 0.3s ease-out;
 }
 
 .celebration-content {
-  @extend .modal-content-base;
+  background: var(--gradient-romantic);
+  border-radius: 25px;
+  box-shadow: var(--shadow-magical);
+  max-width: 90%;
+  margin: 0 auto;
+  border: 3px solid var(--bamboo-green);
+  position: relative;
+  overflow: hidden;
   padding: 3rem 2rem;
   text-align: center;
 }
