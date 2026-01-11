@@ -284,9 +284,17 @@
         // Authentication Configuration
         const AUTH_CONFIG = {
             SECRET_WORD: 'boobli',           // The secret password
-            LOADING_DELAY: 3000,             // Delay before content reveal (ms)
-            ERROR_DISPLAY_TIME: 10000,        // How long to show errors (ms)
+            LOADING_DELAY: 1000,             // Delay before content reveal (ms)
+            ERROR_DISPLAY_TIME: 2000,        // How long to show errors (ms)
+            HINT_TEXT: 'What do I call you ?', // Password hint
+            SESSION_KEY: 'love_story_authenticated', // localStorage key for session
+            NAVIGATION_KEY: 'love_story_navigation', // sessionStorage key for navigation tracking
+            SESSION_DURATION: 60 * 60 * 1000 // 30 minutes in milliseconds (shorter for security)
         };
+
+        // Global variables for navigation control
+        let backNavigationHandler = null;
+        let pageUnloadHandler = null;
 
         // Authentication System
         function initializeAuthentication() {
@@ -297,7 +305,22 @@
             const authLoading = document.getElementById('auth-loading');
             const timelineContent = document.getElementById('timeline-content');
 
-            // Auto-focus password input when page loads
+            // Check if user is already authenticated
+            if (isAlreadyAuthenticated()) {
+                console.log('🔓 User already authenticated via navigation, skipping auth overlay');
+                // Hide auth overlay immediately
+                if (authOverlay) {
+                    authOverlay.style.display = 'none';
+                }
+                showTimelineContent();
+                return;
+            } else {
+                console.log('🔒 User not authenticated or page refreshed, showing auth overlay');
+                // Prevent back navigation during authentication
+                preventBackNavigation();
+            }
+
+            // Auto-focus password input when page loads (only if auth overlay is shown)
             if (passwordInput) {
                 passwordInput.focus();
             }
@@ -314,8 +337,13 @@
                         // Success path
                         showLoadingMessage();
                         
+                        // Store authentication in session
+                        storeAuthenticationSession();
+                        
                         setTimeout(() => {
                             showTimelineContent();
+                            // Re-enable back navigation after successful authentication
+                            enableBackNavigation();
                         }, AUTH_CONFIG.LOADING_DELAY);
                     } else {
                         // Error path
@@ -329,6 +357,133 @@
                         }, AUTH_CONFIG.ERROR_DISPLAY_TIME);
                     }
                 });
+            }
+
+            // Prevent back navigation during authentication
+            function preventBackNavigation() {
+                // Add a dummy history entry
+                history.pushState(null, null, window.location.href);
+                
+                // Create handler functions
+                backNavigationHandler = function(event) {
+                    // Push the current state back to prevent navigation
+                    history.pushState(null, null, window.location.href);
+                    
+                    // Show a message to the user
+                    showBackButtonWarning();
+                    
+                    console.log('🚫 Back navigation attempt blocked');
+                };
+
+                pageUnloadHandler = function(event) {
+                    // This will show a browser confirmation dialog
+                    const message = 'Are you sure you want to leave? You will need to enter the secret word again.';
+                    event.returnValue = message;
+                    return message;
+                };
+                
+                // Listen for popstate events (back button)
+                window.addEventListener('popstate', backNavigationHandler);
+                
+                // Also prevent page unload during authentication (optional)
+                window.addEventListener('beforeunload', pageUnloadHandler);
+                
+                console.log('🚫 Back navigation disabled during authentication');
+            }
+
+            // Show warning when user tries to go back during authentication
+            function showBackButtonWarning() {
+                // Create a temporary warning message using CSS classes
+                const warning = document.createElement('div');
+                warning.className = 'back-nav-warning';
+                warning.innerHTML = '🔒 Please enter the secret word to continue 💭';
+                
+                document.body.appendChild(warning);
+                
+                // Fade in using CSS class
+                setTimeout(() => warning.classList.add('show'), 100);
+                
+                // Fade out and remove after 3 seconds
+                setTimeout(() => {
+                    warning.classList.remove('show');
+                    setTimeout(() => {
+                        if (warning.parentNode) {
+                            warning.parentNode.removeChild(warning);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+
+            // Re-enable back navigation after successful authentication
+            function enableBackNavigation() {
+                if (backNavigationHandler) {
+                    window.removeEventListener('popstate', backNavigationHandler);
+                    backNavigationHandler = null;
+                }
+                if (pageUnloadHandler) {
+                    window.removeEventListener('beforeunload', pageUnloadHandler);
+                    pageUnloadHandler = null;
+                }
+                console.log('✅ Back navigation re-enabled after authentication');
+            }
+
+            // Check if user is already authenticated
+            function isAlreadyAuthenticated() {
+                try {
+                    // Check if this is a page refresh vs navigation
+                    const isNavigation = sessionStorage.getItem(AUTH_CONFIG.NAVIGATION_KEY);
+                    
+                    // If no navigation flag, this is likely a refresh or direct access
+                    if (!isNavigation) {
+                        console.log('🔄 Page refresh or direct access detected, requiring authentication');
+                        // Clear any existing auth session on refresh
+                        localStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
+                        return false;
+                    }
+                    
+                    // Clear the navigation flag after checking
+                    sessionStorage.removeItem(AUTH_CONFIG.NAVIGATION_KEY);
+                    
+                    // Check localStorage for authentication
+                    const authData = localStorage.getItem(AUTH_CONFIG.SESSION_KEY);
+                    if (!authData) {
+                        return false;
+                    }
+
+                    const { timestamp, authenticated } = JSON.parse(authData);
+                    const now = Date.now();
+                    
+                    // Check if session is still valid (within 30 minutes)
+                    if (authenticated && (now - timestamp) < AUTH_CONFIG.SESSION_DURATION) {
+                        console.log('🔓 Valid navigation session found');
+                        return true;
+                    } else {
+                        // Session expired, clear it
+                        console.log('⏰ Session expired, clearing authentication');
+                        localStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Error checking authentication session:', error);
+                    // Clear corrupted session data
+                    localStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
+                    sessionStorage.removeItem(AUTH_CONFIG.NAVIGATION_KEY);
+                    return false;
+                }
+            }
+
+            // Store authentication session
+            function storeAuthenticationSession() {
+                try {
+                    const authData = {
+                        authenticated: true,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem(AUTH_CONFIG.SESSION_KEY, JSON.stringify(authData));
+                    console.log('🔐 Authentication session stored');
+                } catch (error) {
+                    console.error('Error storing authentication session:', error);
+                }
             }
 
             // Password validation logic
@@ -406,6 +561,29 @@
                 }
             }
         }
+
+        // Function to clear authentication (for testing or logout)
+        function clearAuthentication() {
+            localStorage.removeItem(AUTH_CONFIG.SESSION_KEY);
+            sessionStorage.removeItem(AUTH_CONFIG.NAVIGATION_KEY);
+            console.log('🔓 Authentication session and navigation flag cleared');
+            
+            // Remove any navigation prevention listeners before reload
+            if (backNavigationHandler) {
+                window.removeEventListener('popstate', backNavigationHandler);
+                backNavigationHandler = null;
+            }
+            if (pageUnloadHandler) {
+                window.removeEventListener('beforeunload', pageUnloadHandler);
+                pageUnloadHandler = null;
+            }
+            
+            // Reload page to show auth overlay again
+            window.location.reload();
+        }
+
+        // Make clearAuthentication available globally for debugging
+        window.clearAuthentication = clearAuthentication;
 
         // Enhanced initialization using consolidated utilities
         console.log('🐼 Love Story Webapp initializing...');

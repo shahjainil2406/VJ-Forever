@@ -495,6 +495,45 @@
   }
 }
 
+/* Back Navigation Warning */
+.back-nav-warning {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffeaea, #fff0f0);
+  border: 2px solid #ffb3ba;
+  color: #d63384;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  font-weight: 600;
+  z-index: 10001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.back-nav-warning.show {
+  opacity: 1;
+}
+
+/* Mobile responsive adjustments for back navigation warning */
+@media (max-width: 768px) {
+  .back-nav-warning {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    transform: none;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
 /* ==============================================
    Romantic Love Story Webapp - Main Styles
    Mobile-First Responsive Design with Enhanced Panda Theme

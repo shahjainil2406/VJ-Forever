@@ -438,7 +438,7 @@
 
         <!-- Bottom Navigation -->
         <nav class="bottom-navigation">
-            <a href="index.html" class="back-to-timeline">
+            <a href="index.html" class="back-to-timeline" onclick="setNavigationFlag()">
                 Phir, phir kya hua ?
             </a>
         </nav>
@@ -676,6 +676,16 @@
                 };
                 img.src = imageUrl;
             });
+        }
+
+        // Set navigation flag for authenticated navigation back to index.html
+        function setNavigationFlag() {
+            try {
+                sessionStorage.setItem('love_story_navigation', 'true');
+                console.log('🧭 Navigation flag set for authenticated return to timeline');
+            } catch (error) {
+                console.error('Error setting navigation flag:', error);
+            }
         }
     </script>
 </body>

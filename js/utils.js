@@ -114,6 +114,14 @@ class EventHandlerManager {
       element.classList.add('gentle-pulse');
       setTimeout(() => element.classList.remove('gentle-pulse'), 600);
       
+      // Set navigation flag for authenticated navigation
+      try {
+        sessionStorage.setItem('love_story_navigation', 'true');
+        console.log('🧭 Navigation flag set for authenticated navigation');
+      } catch (error) {
+        console.error('Error setting navigation flag:', error);
+      }
+      
       if (transition) {
         // Add smooth transition effect
         document.body.style.transition = 'opacity 0.3s ease';
