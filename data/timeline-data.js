@@ -204,32 +204,60 @@ const TIMELINE_DATA = {
     },
     {
       id: 'bangalore-first-kiss',
-      title: 'You Flew to Bangalore and First Kiss',
-      nickname: 'First Kiss 💋',
+      title: 'You Flew to Bangalore, First Kiss and Proposal',
+      nickname: 'The Proposal 💋',
       date: '2025-08-15',
       category: 'dating',
       icon: '💋',
       imagePath: 'images/events/bangalore-first-kiss/',
       previewText: 'A flight to Bangalore and our first magical kiss...',
       letterContent: `
-        <p>My Sweet Darling,</p>
-        
-        <p>August 15th, 2025 - you flew all the way to Bangalore, and on the 16th, we shared 
-        our first kiss. That moment when our lips met for the first time was pure magic - 
-        tender, sweet, and filled with all the love we'd been building between us.</p>
-        
-        <p>I remember the butterflies, the anticipation, the way time seemed to stop when 
-        we finally kissed. It wasn't just our first kiss - it was the physical expression 
-        of everything we felt for each other, all the love and longing and connection we'd 
-        been sharing through words and looks and touches.</p>
-        
-        <p>That kiss sealed something between us, made our love feel more real, more 
-        tangible. It was soft and sweet and perfect, just like you. It was worth waiting 
-        for, worth all the distance and time that led us to that moment.</p>
-        
-        <p>Independence Day weekend became our own celebration of love and freedom - the 
-        freedom to love each other completely, to express our feelings without holding back, 
-        to be truly together in every way.</p>
+        <header style="text-align: center;">
+            <h1 style="color: #d63384; font-size: 24px;">My Sweet Rasmalai ❤️</h1>
+        </header>
+            <p>
+                Ahh 15th August, when I got Azadi from my childhood, the day when "hua 
+                chokra javan re" 😆. Uss din apne mohalle me Shona aai. When I came to 
+                pick you up we were a little bit closer then before, we hugged properly.
+            </p>
+
+            <p>
+                Then I guess you were staying at Bansi's 😆. We did start a movie at night
+                but I was super sleepy, even though there was girl in my room for first time
+                Idiot me 😂. Aapde decide to karyu k lets sleep, but light band karta j you
+                initiated the kiss 💋. And I was like "this is how it feels like to be kissed 
+                by you", and I was so happy that you were the one who kissed me first.
+
+                And really really thanks to initiate that, because I would have just kept 
+                thinking k kharab laagse, tharki laagse etc and we would never have the kind of 
+                bond we have now, and aapde pan eva boring arrange marriage type couple thai jata.
+            </p>
+
+            <p>
+                Then next day was the day of your dreams probably. You in that red dress uff 🥵, 
+                you were looking so beautiful hot and sexy. I can still see you in that red dress 
+                when I close my eyes. I am so happy that you were not expecting the proposal and 
+                I did, and yeah thanks for saying <b>yes</b> 😆. Even I wasn't sure that this would 
+                turn out such well. But that was the best night we had. And then, the night of 
+                <b>16th Aug</b>, the day when I met two of my best friends, Champa
+                and Chameli. Well I did take permission before entering Vadiya 😆.
+            </p>
+
+            <p>
+                But then came the day when you had to return and I was so sad dropping you off. I seriously
+                didn't want you to go, I hope you enjoyed Bangalore trip and thanks for makeing it sucha 
+                memorable days.
+            </p>
+
+            <p style="margin-top: 30px;">
+                And I promise that I will try to make every day of our life together just
+                like this. I love you my boobli ❤️.
+            </p>
+
+        <footer class="letter-signature">
+            With all my love,<br>
+            Your Rasgulla 🐼💕
+        </footer>
       `,
       memories: ["test_pic.png"]
     },  
@@ -243,25 +271,63 @@ const TIMELINE_DATA = {
       imagePath: 'images/events/our-engagement/',
       previewText: 'The day we officially got engaged...',
       letterContent: `
-        <p>My Fiancé, My Love,</p>
-        
-        <p>September 5th, 2025 - our official engagement day! With rings exchanged and 
-        promises made, we took another beautiful step towards our forever together. The 
-        moment you put that ring on my finger, everything felt so real, so official, so 
-        perfectly right.</p>
-        
-        <p>That ring isn't just jewelry - it's a symbol of our commitment, our promise to 
-        each other, our future together. Every time I look at it, I'm reminded of this 
-        perfect day, of the love in your eyes when you put it on my finger, of the promises 
-        we made to each other.</p>
-        
-        <p>Surrounded by love, blessings, and joy, we celebrated our commitment to each 
-        other. Everyone could see how much we love each other, how right we are together, 
-        how excited we are for our future as husband and wife.</p>
-        
-        <p>This was the beginning of our engaged life, the official countdown to our wedding 
-        day. From girlfriend and boyfriend to fiancé and fiancée - we're one step closer 
-        to forever, and I couldn't be happier.</p>
+        <header style="text-align: center;">
+            <h1 style="color: #d63384; font-size: 24px;">My Fiancé My love ❤️</h1>
+        </header>
+            <p>
+                I hope by now you should have got some neembu paani, na aayu hoy to laav chal.
+            </p>
+
+            <p>
+                <b>5th September, 2026<b>, the day after which you became left for few days,
+                after which I can officially say "I am your idiot, forever", the day I propsed again, 
+                the day Anjana got engaged to anjani. The day I guess even God wanted perfect engagement 
+                And he stopped rain for almost 1.5 days, the day I said "Suno Sasurji" 😆. 
+            </p>
+
+            <p>
+                Our first official prepared dance, unlike God Dhana 😂. But the Dance, oh my God, with such a
+                small anount of practice, I guess we did pretty well, all Thanks to you for setting such
+                amazing songs and such a beautiful choreography.
+            </p>
+
+            <p>
+                Aama ek aju even cover karvu che because I don't want anyone to see that event, so can't have separate
+                letter for that, "bilkul riks nai lene ka" 😂. Did you guess it uh? Remeber October, Naughty naughty. Not
+                9th Oct, I am talking about 3rd October 😂.
+            </p>
+
+            <p>
+                I found a hack in Ammajaan, that I can work from Mumbai office also, so decided lets go to Mumbai.
+                Pretty hectic days as with lot of travelling, thaaki javatu tu, pan sanje tane madi ne badhu bhuli jau.
+                Felt so good that we spent so much time together and that Pav bhaji was so amazing.
+                And remeber we almost missed the train, because of your havas 😂. But beblu, proud of you, with this much
+                saaman, you boarded that bheed vali train with me.
+            </p>
+
+            <p>
+                Ena pachi, your bday, Achha tell me how many presents I gave and which one was best ?
+                But best part was family trip and I am so glad that happened, it was such a good bonding sessions for all.
+                And you getting horny when I was teaching pool huh 😂😂.
+            </p>
+
+            <p> 
+                Then came the most wanted day, the 9th October, jab chokra javan to ho gaya tha par ab chokra Virgin nai raha tha
+                😂. Me running to get raincoat, because mujhe nai pata tha madamji mann banake bethe the. And after successfully trying
+                couple of times, Aladin gufa me finally ghus gaya 😂. Thanks for such awesome moments, I love you bae ❤️❤️.
+                And I am sorry that because of all this we did not reach on time for sunset dinner that you planned, 
+                but that was again such an awesome place for dinner.
+            </p>
+
+            <p style="margin-top: 30px;">
+                And I promise that I will try to make every day of our life together just
+                like this. I love you my boobli ❤️.
+            </p>
+
+        <footer class="letter-signature">
+            With all my love,<br>
+            Your Fiancé 🐼💕
+        </footer>
       `,
       memories: ["test_pic.png"]
     },
