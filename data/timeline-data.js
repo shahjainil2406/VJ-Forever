@@ -281,14 +281,15 @@ const TIMELINE_DATA = {
             <p>
                 <b>5th September, 2026<b>, the day after which you became left for few days,
                 after which I can officially say "I am your idiot, forever", the day I propsed again, 
-                the day Anjana got engaged to anjani. The day I guess even God wanted perfect engagement 
+                the day Anjana got engaged to his Anjani. The day I guess even God wanted perfect engagement 
                 And he stopped rain for almost 1.5 days, the day I said "Suno Sasurji" 😆. 
             </p>
 
             <p>
                 Our first official prepared dance, unlike God Dhana 😂. But the Dance, oh my God, with such a
                 small anount of practice, I guess we did pretty well, all Thanks to you for setting such
-                amazing songs and such a beautiful choreography.
+                amazing songs and such a beautiful choreography. And that gift you gave the previous night, 
+                Oh my God, such a thoughtful gift and such an elegant watch, I have never owned a better watch than this.
             </p>
 
             <p>
@@ -316,12 +317,7 @@ const TIMELINE_DATA = {
                 😂. Me running to get raincoat, because mujhe nai pata tha madamji mann banake bethe the. And after successfully trying
                 couple of times, Aladin gufa me finally ghus gaya 😂. Thanks for such awesome moments, I love you bae ❤️❤️.
                 And I am sorry that because of all this we did not reach on time for sunset dinner that you planned, 
-                but that was again such an awesome place for dinner.
-            </p>
-
-            <p style="margin-top: 30px;">
-                And I promise that I will try to make every day of our life together just
-                like this. I love you my boobli ❤️.
+                but that was again such an awesome place for dinner. Thank you beblu for making Mumbai days such memorable.
             </p>
 
         <footer class="letter-signature">
@@ -341,25 +337,63 @@ const TIMELINE_DATA = {
       imagePath: 'images/events/day-to-forever/',
       previewText: 'Our wedding day - the beginning of forever...',
       letterContent: `
-        <p>My Husband, My Forever,</p>
-        
-        <p>February 3rd, 2026 - our wedding day! The day we become husband and wife, the 
-        day we officially start our forever together. All the moments, all the memories, 
-        all the love has led us to this perfect day.</p>
-        
-        <p>From that first conversation to this altar, every step has been worth it to get 
-        to our forever. Every challenge we faced, every mile between us, every moment of 
-        waiting - it all brought us here, to this perfect moment when we say "I do" and 
-        mean it with every fiber of our being.</p>
-        
-        <p>Today, I'm not just marrying the man I love - I'm marrying my best friend, my 
-        partner, my home, my future. I'm promising to love you through every season of 
-        life, through every joy and challenge, through every ordinary Tuesday and every 
-        special celebration.</p>
-        
-        <p>Here's to our beautiful beginning as husband and wife! Here's to dal chawal for 
-        lifetime, to pandas and green themes, to love letters and sweet messages, to a 
-        lifetime of loving you more each day. Our forever starts now! 🐼💒✨</p>
+        <header style="text-align: center;">
+            <h1 style="color: #d63384; font-size: 24px;">My Wife My love ❤️</h1>
+        </header>
+
+            <p> 
+                So eagerly are you waiting for "The Day", when I will come with all my Baaratis and sab se churake le
+                jaunga. Before that I want to promise you something:
+            </p>
+
+            <p> 
+                <b>I promise to choose you every single day</b> In happiness in sadness in calm or stormy moments, always you
+                without any doubts or hesitation.
+            </p>
+
+            <p> 
+                <b>I promise to listen to you with patience and respect</b> even when we disagree, because your feelinfs will 
+                always matter to me.
+            </p>
+
+            <p> 
+                <b>I promise to support your dreams</b> as much as mine and to support them as they are mine. You leaving you old
+                life to make my and my family's life better doesn't mean you to kill your dream. Just tell me and I will try my best
+                to help you in all ways I can
+            </p>
+
+            <p> 
+                <b>I promise to protect our love with honesty and trust</b> keeping no secrets that can hurt you in any way
+                or distance out hearts
+            </p>
+
+            <p> 
+                <b>I promise to make you feel loved, values and safe</b> with my words and actions every day.
+            </p>
+
+            <p> 
+                <b>I promise to grow with you</b> learning from our mistakes and becoming a better partner, a better person 
+                for you and for us
+            </p>
+
+            <p> 
+                <b>I promise to love you forever</b> and ever, just a quote for this "If the world was ending, 
+                I'd wanna be next to you"
+            </p>
+
+            <p>
+                I know I am not perfect and I mess up sometimes, but I make one more promise to always improve and be the best you
+                can ever have. Sorry for all the times you have cried because of me.
+            </p>
+
+            <p> 
+                So Ms. Doshi, are you sure you wanna be Mrs. Shah ? Will you marry me ?
+            </p>
+
+        <footer class="letter-signature">
+            With all my love,<br>
+            Your Hupsand 🐼💕
+        </footer>
       `,
       memories: ["test_pic.png"]
     }
