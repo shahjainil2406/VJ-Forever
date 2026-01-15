@@ -332,37 +332,6 @@ const TIMELINE_DATA = {
       memories: ["test_pic.png"]
     },
     {
-      id: 'the-day-we',
-      title: 'The Day We....',
-      nickname: 'Secret Moments ❤️',
-      date: '2025-10-10',
-      category: 'dating',
-      icon: '❤️',
-      imagePath: 'images/events/the-day-we/',
-      previewText: 'A special day that needs no explanation...',
-      letterContent: `
-        <p>My Most Intimate Love,</p>
-        
-        <p>October 10th, 2025 - some moments are so intimate and precious that they belong 
-        only to us. This was one of those beautiful days that deepened our connection in 
-        ways words cannot fully capture.</p>
-        
-        <p>What we shared that day was more than physical - it was emotional, spiritual, 
-        a complete joining of hearts and souls. It was trust in its purest form, love in 
-        its most vulnerable expression, intimacy that goes beyond anything I'd ever 
-        experienced before.</p>
-        
-        <p>In your arms, I found home. In your touch, I found peace. In your love, I found 
-        myself. That day showed me what it means to be completely loved and completely 
-        accepted, exactly as I am.</p>
-        
-        <p>This day exists in our hearts, in our memories, and in the quiet smiles we 
-        share when we remember. It's ours alone, a beautiful secret that makes our love 
-        even more special and sacred.</p>
-      `,
-      memories: ["test_pic.png"]
-    },
-    {
       id: 'day-to-forever',
       title: 'The Day to Forever',
       nickname: 'Wedding Bliss 🤵👰',
